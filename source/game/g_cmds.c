@@ -1186,7 +1186,7 @@ static void Cmd_Whois_f( edict_t *ent )
 
 	login = Info_ValueForKey( cl->userinfo, "cl_mm_login" );
 
-	G_PrintMsg( ent, "%s is %s\n", cl->netname, login );
+	G_PrintMsg( ent, "%s%s is %s\n", cl->netname, S_COLOR_WHITE, login );
 }
 
 //===========================================================

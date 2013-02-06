@@ -1584,7 +1584,7 @@ static void CG_FirePlayerStateEvents( void )
 					if( random() <= 0.5f )
 						CG_CenterPrint( "Don't shoot at members of your team!" );
 					else
-						CG_CenterPrint( "You are shooting at your team-mates!" );
+						CG_CenterPrint( "You are shooting at your teammates!" );
 				}
 			}
 			break;

@@ -243,8 +243,6 @@ void CG_RegisterMediaModels( void )
 	for( i = 0; i < MAX_TECHY_GIBS; i++ )
 		cgs.media.modTechyGibs[i] = CG_RegisterMediaModel( va( "models/objects/gibs/gib%i/gib%i.md3", i+1, i+1 ), qtrue );
 
-	for( i = 0; i < MAX_MEATY_GIBS; i++ )
-		cgs.media.modMeatyGibs[i] = CG_RegisterMediaModel( va( "models/objects/oldgibs/gib%i/gib%i.md3", i+1, i+1 ), qtrue );
 }
 
 //======================================================================

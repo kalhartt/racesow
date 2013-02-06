@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 45;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -45,7 +45,6 @@
 		6E8B1CF8123AB0CC00C451C8 /* XMLNodeHandlerTextArea.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C70123AB0CC00C451C8 /* XMLNodeHandlerTextArea.cpp */; };
 		6E8B1DC3123AB7A500C451C8 /* libfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8B1DC2123AB7A500C451C8 /* libfreetype.a */; };
 		6E8B1DE1123ABCA200C451C8 /* libfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8B1DC2123AB7A500C451C8 /* libfreetype.a */; };
-		6E8B1DE2123ABCA200C451C8 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8B1DD1123ABA3A00C451C8 /* libz.dylib */; };
 		6E8B1DE3123ABCC200C451C8 /* BaseXMLParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E9D09261209823B00099E1A /* BaseXMLParser.cpp */; };
 		6E8B1DE4123ABCC200C451C8 /* Box.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28B78120580DA000FAF17 /* Box.cpp */; };
 		6E8B1DE5123ABCC200C451C8 /* Clock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D0312058A45000FAF17 /* Clock.cpp */; };
@@ -463,6 +462,437 @@
 		6EF3BCFE12481DD40014316D /* WString.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBFF12481DD40014316D /* WString.h */; };
 		6EF3BCFF12481DD40014316D /* XMLNodeHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BC0012481DD40014316D /* XMLNodeHandler.h */; };
 		6EF3BD0012481DD40014316D /* XMLParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BC0112481DD40014316D /* XMLParser.h */; };
+		9D031D3B16BEABD300BB4578 /* libbz2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D031D3A16BEABD300BB4578 /* libbz2.dylib */; };
+		9D031D3D16BEACD000BB4578 /* ElementStyleCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9D031D3C16BEACD000BB4578 /* ElementStyleCache.cpp */; };
+		9D031D3E16BEACDA00BB4578 /* ElementStyleCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9D031D3C16BEACD000BB4578 /* ElementStyleCache.cpp */; };
+		9D031D3F16BEAD1900BB4578 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D031D3816BEABA200BB4578 /* libz.dylib */; };
+		9D031D5C16BEAF1D00BB4578 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D031D3816BEABA200BB4578 /* libz.dylib */; };
+		9D031D5D16BEAF1F00BB4578 /* libbz2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D031D3A16BEABD300BB4578 /* libbz2.dylib */; };
+		9D031D5E16BEAF2700BB4578 /* libfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8B1DC2123AB7A500C451C8 /* libfreetype.a */; };
+		9D031D5F16BEAF7500BB4578 /* Clipboard.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BB5A12481D140014316D /* Clipboard.h */; };
+		9D031D6016BEAF7500BB4578 /* Controls.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BB5B12481D140014316D /* Controls.h */; };
+		9D031D6116BEAF7500BB4578 /* DataFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BB5C12481D140014316D /* DataFormatter.h */; };
+		9D031D6216BEAF7500BB4578 /* DataQuery.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BB5D12481D140014316D /* DataQuery.h */; };
+		9D031D6316BEAF7500BB4578 /* DataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BB5E12481D140014316D /* DataSource.h */; };
+		9D031D6416BEAF7500BB4578 /* DataSourceListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BB5F12481D140014316D /* DataSourceListener.h */; };
+		9D031D6516BEAF7500BB4578 /* ElementDataGrid.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BB6012481D140014316D /* ElementDataGrid.h */; };
+		9D031D6616BEAF7500BB4578 /* ElementDataGridCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BB6112481D140014316D /* ElementDataGridCell.h */; };
+		9D031D6716BEAF7500BB4578 /* ElementDataGridExpandButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BB6212481D140014316D /* ElementDataGridExpandButton.h */; };
+		9D031D6816BEAF7500BB4578 /* ElementDataGridRow.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BB6312481D140014316D /* ElementDataGridRow.h */; };
+		9D031D6916BEAF7500BB4578 /* ElementForm.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BB6412481D140014316D /* ElementForm.h */; };
+		9D031D6A16BEAF7500BB4578 /* ElementFormControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BB6512481D140014316D /* ElementFormControl.h */; };
+		9D031D7216BEAF9300BB4578 /* ElementFormControlDataSelect.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BB6612481D140014316D /* ElementFormControlDataSelect.h */; };
+		9D031D7316BEAF9300BB4578 /* ElementFormControlInput.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BB6712481D140014316D /* ElementFormControlInput.h */; };
+		9D031D7416BEAF9300BB4578 /* ElementFormControlSelect.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BB6812481D140014316D /* ElementFormControlSelect.h */; };
+		9D031D7516BEAF9300BB4578 /* ElementFormControlTextArea.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BB6912481D140014316D /* ElementFormControlTextArea.h */; };
+		9D031D7616BEAF9300BB4578 /* ElementTabSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BB6A12481D140014316D /* ElementTabSet.h */; };
+		9D031D7716BEAF9300BB4578 /* Header.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BB6B12481D140014316D /* Header.h */; };
+		9D031D7816BEAF9300BB4578 /* SelectOption.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BB6C12481D140014316D /* SelectOption.h */; };
+		9D031D7916BEAF9E00BB4578 /* Clipboard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C2D123AB0CC00C451C8 /* Clipboard.cpp */; };
+		9D031D7A16BEAF9E00BB4578 /* Controls.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C2E123AB0CC00C451C8 /* Controls.cpp */; };
+		9D031D7B16BEAF9E00BB4578 /* DataFormatter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C2F123AB0CC00C451C8 /* DataFormatter.cpp */; };
+		9D031D7C16BEAF9E00BB4578 /* DataQuery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C30123AB0CC00C451C8 /* DataQuery.cpp */; };
+		9D031D7D16BEAF9E00BB4578 /* DataSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C31123AB0CC00C451C8 /* DataSource.cpp */; };
+		9D031D7E16BEAF9E00BB4578 /* DataSourceListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C32123AB0CC00C451C8 /* DataSourceListener.cpp */; };
+		9D031D7F16BEAF9E00BB4578 /* ElementDataGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C33123AB0CC00C451C8 /* ElementDataGrid.cpp */; };
+		9D031D8016BEAF9E00BB4578 /* ElementDataGridCell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C34123AB0CC00C451C8 /* ElementDataGridCell.cpp */; };
+		9D031D8116BEAF9E00BB4578 /* ElementDataGridExpandButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C35123AB0CC00C451C8 /* ElementDataGridExpandButton.cpp */; };
+		9D031D8216BEAF9E00BB4578 /* ElementDataGridRow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C36123AB0CC00C451C8 /* ElementDataGridRow.cpp */; };
+		9D031D8316BEAF9E00BB4578 /* ElementForm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C37123AB0CC00C451C8 /* ElementForm.cpp */; };
+		9D031D8416BEAF9E00BB4578 /* ElementFormControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C38123AB0CC00C451C8 /* ElementFormControl.cpp */; };
+		9D031D8516BEAF9E00BB4578 /* ElementFormControlDataSelect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C39123AB0CC00C451C8 /* ElementFormControlDataSelect.cpp */; };
+		9D031D8616BEAF9E00BB4578 /* ElementFormControlInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C3A123AB0CC00C451C8 /* ElementFormControlInput.cpp */; };
+		9D031D8716BEAF9E00BB4578 /* ElementFormControlSelect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C3B123AB0CC00C451C8 /* ElementFormControlSelect.cpp */; };
+		9D031D8816BEAF9E00BB4578 /* ElementFormControlTextArea.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C3C123AB0CC00C451C8 /* ElementFormControlTextArea.cpp */; };
+		9D031D8916BEAF9E00BB4578 /* ElementTabSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C3D123AB0CC00C451C8 /* ElementTabSet.cpp */; };
+		9D031D8A16BEAF9E00BB4578 /* ElementTextSelection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C3E123AB0CC00C451C8 /* ElementTextSelection.cpp */; };
+		9D031D8B16BEAFA900BB4578 /* InputType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C40123AB0CC00C451C8 /* InputType.cpp */; };
+		9D031D8C16BEAFC400BB4578 /* InputTypeButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C42123AB0CC00C451C8 /* InputTypeButton.cpp */; };
+		9D031D8D16BEAFC400BB4578 /* InputTypeCheckbox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C44123AB0CC00C451C8 /* InputTypeCheckbox.cpp */; };
+		9D031D8E16BEAFC400BB4578 /* InputTypeRadio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C46123AB0CC00C451C8 /* InputTypeRadio.cpp */; };
+		9D031D8F16BEAFC400BB4578 /* InputTypeRange.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C48123AB0CC00C451C8 /* InputTypeRange.cpp */; };
+		9D031D9016BEAFC400BB4578 /* InputTypeSubmit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C4A123AB0CC00C451C8 /* InputTypeSubmit.cpp */; };
+		9D031D9116BEAFC400BB4578 /* InputTypeText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C4C123AB0CC00C451C8 /* InputTypeText.cpp */; };
+		9D031D9216BEAFC400BB4578 /* SelectOption.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C5D123AB0CC00C451C8 /* SelectOption.cpp */; };
+		9D031D9316BEAFC400BB4578 /* WidgetDropDown.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C5E123AB0CC00C451C8 /* WidgetDropDown.cpp */; };
+		9D031D9416BEAFC400BB4578 /* WidgetSlider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C60123AB0CC00C451C8 /* WidgetSlider.cpp */; };
+		9D031D9516BEAFC400BB4578 /* WidgetSliderInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C62123AB0CC00C451C8 /* WidgetSliderInput.cpp */; };
+		9D031D9616BEAFC400BB4578 /* WidgetTextInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C64123AB0CC00C451C8 /* WidgetTextInput.cpp */; };
+		9D031D9716BEAFC400BB4578 /* WidgetTextInputMultiLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C66123AB0CC00C451C8 /* WidgetTextInputMultiLine.cpp */; };
+		9D031D9816BEAFC400BB4578 /* WidgetTextInputSingleLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C68123AB0CC00C451C8 /* WidgetTextInputSingleLine.cpp */; };
+		9D031D9916BEAFC400BB4578 /* WidgetTextInputSingleLinePassword.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C6A123AB0CC00C451C8 /* WidgetTextInputSingleLinePassword.cpp */; };
+		9D031D9A16BEAFC400BB4578 /* XMLNodeHandlerDataGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C6C123AB0CC00C451C8 /* XMLNodeHandlerDataGrid.cpp */; };
+		9D031D9B16BEAFC400BB4578 /* XMLNodeHandlerTabSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C6E123AB0CC00C451C8 /* XMLNodeHandlerTabSet.cpp */; };
+		9D031D9C16BEAFC400BB4578 /* XMLNodeHandlerTextArea.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C70123AB0CC00C451C8 /* XMLNodeHandlerTextArea.cpp */; };
+		9D031D9D16BEAFE100BB4578 /* BaseXMLParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBA912481DD40014316D /* BaseXMLParser.h */; };
+		9D031D9E16BEAFE100BB4578 /* Box.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBAA12481DD40014316D /* Box.h */; };
+		9D031D9F16BEAFE100BB4578 /* Colour.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBAB12481DD40014316D /* Colour.h */; };
+		9D031DA116BEAFE100BB4578 /* Context.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBAD12481DD40014316D /* Context.h */; };
+		9D031DA216BEAFE100BB4578 /* ContextInstancer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBAE12481DD40014316D /* ContextInstancer.h */; };
+		9D031DA316BEAFE100BB4578 /* ConvolutionFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBAF12481DD40014316D /* ConvolutionFilter.h */; };
+		9D031DA416BEAFE100BB4578 /* Core.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBB012481DD40014316D /* Core.h */; };
+		9D031DA516BEAFE100BB4578 /* Debug.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBB112481DD40014316D /* Debug.h */; };
+		9D031DA616BEAFE100BB4578 /* Decorator.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBB212481DD40014316D /* Decorator.h */; };
+		9D031DA716BEAFE100BB4578 /* DecoratorInstancer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBB312481DD40014316D /* DecoratorInstancer.h */; };
+		9D031DA816BEAFE100BB4578 /* Dictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBB412481DD40014316D /* Dictionary.h */; };
+		9D031DAA16BEAFE100BB4578 /* Element.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBB612481DD40014316D /* Element.h */; };
+		9D031DAC16BEAFE100BB4578 /* ElementDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBB812481DD40014316D /* ElementDocument.h */; };
+		9D031DAD16BEAFE100BB4578 /* ElementInstancer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBB912481DD40014316D /* ElementInstancer.h */; };
+		9D031DAE16BEAFE100BB4578 /* ElementInstancerGeneric.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBBA12481DD40014316D /* ElementInstancerGeneric.h */; };
+		9D031DB016BEAFE100BB4578 /* ElementReference.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBBC12481DD40014316D /* ElementReference.h */; };
+		9D031DB116BEAFE100BB4578 /* ElementScroll.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBBD12481DD40014316D /* ElementScroll.h */; };
+		9D031DB216BEAFE100BB4578 /* ElementText.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBBE12481DD40014316D /* ElementText.h */; };
+		9D031DB316BEAFE100BB4578 /* ElementUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBBF12481DD40014316D /* ElementUtilities.h */; };
+		9D031DB416BEAFE100BB4578 /* Event.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBC012481DD40014316D /* Event.h */; };
+		9D031DB516BEAFE100BB4578 /* EventInstancer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBC112481DD40014316D /* EventInstancer.h */; };
+		9D031DB616BEAFE100BB4578 /* EventListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBC212481DD40014316D /* EventListener.h */; };
+		9D031DB716BEAFE100BB4578 /* EventListenerInstancer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBC312481DD40014316D /* EventListenerInstancer.h */; };
+		9D031DB816BEAFE100BB4578 /* Factory.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBC412481DD40014316D /* Factory.h */; };
+		9D031DB916BEAFE100BB4578 /* FileInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBC512481DD40014316D /* FileInterface.h */; };
+		9D031DBA16BEAFE100BB4578 /* Font.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBC612481DD40014316D /* Font.h */; };
+		9D031DBB16BEAFE100BB4578 /* FontDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBC712481DD40014316D /* FontDatabase.h */; };
+		9D031DBC16BEAFE100BB4578 /* FontEffect.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBC812481DD40014316D /* FontEffect.h */; };
+		9D031DBD16BEAFE100BB4578 /* FontEffectInstancer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBC912481DD40014316D /* FontEffectInstancer.h */; };
+		9D031DBE16BEAFE100BB4578 /* FontGlyph.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBCA12481DD40014316D /* FontGlyph.h */; };
+		9D031DBF16BEAFE100BB4578 /* Geometry.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBCB12481DD40014316D /* Geometry.h */; };
+		9D031DC016BEAFE100BB4578 /* GeometryUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBCC12481DD40014316D /* GeometryUtilities.h */; };
+		9D031DC116BEAFE100BB4578 /* Header.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBCD12481DD40014316D /* Header.h */; };
+		9D031DC216BEAFE100BB4578 /* Input.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBCE12481DD40014316D /* Input.h */; };
+		9D031DC316BEAFE100BB4578 /* Log.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBCF12481DD40014316D /* Log.h */; };
+		9D031DC416BEAFE100BB4578 /* Math.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBD012481DD40014316D /* Math.h */; };
+		9D031DC516BEAFE100BB4578 /* MathTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBD112481DD40014316D /* MathTypes.h */; };
+		9D031DC616BEAFE100BB4578 /* Platform.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBD212481DD40014316D /* Platform.h */; };
+		9D031DC716BEAFE100BB4578 /* Plugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBD312481DD40014316D /* Plugin.h */; };
+		9D031DC916BEAFE100BB4578 /* Property.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBD612481DD40014316D /* Property.h */; };
+		9D031DCA16BEAFE100BB4578 /* PropertyDefinition.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBD712481DD40014316D /* PropertyDefinition.h */; };
+		9D031DCB16BEAFE100BB4578 /* PropertyDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBD812481DD40014316D /* PropertyDictionary.h */; };
+		9D031DCC16BEAFE100BB4578 /* PropertyParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBD912481DD40014316D /* PropertyParser.h */; };
+		9D031DCD16BEAFE100BB4578 /* PropertySpecification.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBDA12481DD40014316D /* PropertySpecification.h */; };
+		9D031DCE16BEAFE100BB4578 /* ReferenceCountable.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBE712481DD40014316D /* ReferenceCountable.h */; };
+		9D031DCF16BEAFE100BB4578 /* RenderInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBE812481DD40014316D /* RenderInterface.h */; };
+		9D031DD016BEAFE100BB4578 /* ScriptInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBE912481DD40014316D /* ScriptInterface.h */; };
+		9D031DD116BEAFE100BB4578 /* Stream.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBEA12481DD40014316D /* Stream.h */; };
+		9D031DD216BEAFE100BB4578 /* StreamMemory.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBEB12481DD40014316D /* StreamMemory.h */; };
+		9D031DD316BEAFE100BB4578 /* String.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBEC12481DD40014316D /* String.h */; };
+		9D031DD416BEAFE100BB4578 /* StringBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBED12481DD40014316D /* StringBase.h */; };
+		9D031DD616BEAFE100BB4578 /* StringUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBF012481DD40014316D /* StringUtilities.h */; };
+		9D031DD716BEAFE100BB4578 /* StyleSheet.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBF112481DD40014316D /* StyleSheet.h */; };
+		9D031DD816BEAFE100BB4578 /* StyleSheetKeywords.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBF212481DD40014316D /* StyleSheetKeywords.h */; };
+		9D031DD916BEAFE100BB4578 /* StyleSheetSpecification.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBF312481DD40014316D /* StyleSheetSpecification.h */; };
+		9D031DDA16BEAFE100BB4578 /* SystemInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBF412481DD40014316D /* SystemInterface.h */; };
+		9D031DDB16BEAFE100BB4578 /* Texture.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBF512481DD40014316D /* Texture.h */; };
+		9D031DDC16BEAFE100BB4578 /* TypeConverter.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBF612481DD40014316D /* TypeConverter.h */; };
+		9D031DDE16BEAFE100BB4578 /* Types.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBF812481DD40014316D /* Types.h */; };
+		9D031DDF16BEAFE100BB4578 /* URL.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBF912481DD40014316D /* URL.h */; };
+		9D031DE016BEAFE100BB4578 /* Variant.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBFA12481DD40014316D /* Variant.h */; };
+		9D031DE216BEAFE100BB4578 /* Vector2.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBFC12481DD40014316D /* Vector2.h */; };
+		9D031DE416BEAFE100BB4578 /* Vertex.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBFE12481DD40014316D /* Vertex.h */; };
+		9D031DE516BEAFE100BB4578 /* WString.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BBFF12481DD40014316D /* WString.h */; };
+		9D031DE616BEAFE100BB4578 /* XMLNodeHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BC0012481DD40014316D /* XMLNodeHandler.h */; };
+		9D031DE716BEAFE100BB4578 /* XMLParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF3BC0112481DD40014316D /* XMLParser.h */; };
+		9D031DE816BEAFF500BB4578 /* BaseXMLParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E9D09261209823B00099E1A /* BaseXMLParser.cpp */; };
+		9D031DE916BEAFF500BB4578 /* Box.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28B78120580DA000FAF17 /* Box.cpp */; };
+		9D031DEA16BEAFF500BB4578 /* Clock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D0312058A45000FAF17 /* Clock.cpp */; };
+		9D031DEB16BEAFF500BB4578 /* Context.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D0512058A45000FAF17 /* Context.cpp */; };
+		9D031DEC16BEAFF500BB4578 /* ContextInstancer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D0612058A45000FAF17 /* ContextInstancer.cpp */; };
+		9D031DED16BEAFF500BB4578 /* ContextInstancerDefault.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D0712058A45000FAF17 /* ContextInstancerDefault.cpp */; };
+		9D031DEE16BEAFF500BB4578 /* ConvolutionFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D0912058A45000FAF17 /* ConvolutionFilter.cpp */; };
+		9D031DEF16BEAFF500BB4578 /* Core.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D0A12058A45000FAF17 /* Core.cpp */; };
+		9D031DF016BEAFF500BB4578 /* Decorator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D0C12058A45000FAF17 /* Decorator.cpp */; };
+		9D031DF116BEAFF500BB4578 /* DecoratorInstancer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D0D12058A45000FAF17 /* DecoratorInstancer.cpp */; };
+		9D031DF216BEAFF500BB4578 /* DecoratorNone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D0E12058A45000FAF17 /* DecoratorNone.cpp */; };
+		9D031DF316BEAFF500BB4578 /* DecoratorNoneInstancer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D1012058A45000FAF17 /* DecoratorNoneInstancer.cpp */; };
+		9D031DF416BEAFF500BB4578 /* DecoratorTiled.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D1212058A45000FAF17 /* DecoratorTiled.cpp */; };
+		9D031DF516BEAFF500BB4578 /* DecoratorTiledBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D1412058A45000FAF17 /* DecoratorTiledBox.cpp */; };
+		9D031DF616BEAFF500BB4578 /* DecoratorTiledBoxInstancer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D1612058A45000FAF17 /* DecoratorTiledBoxInstancer.cpp */; };
+		9D031DF716BEAFF500BB4578 /* DecoratorTiledHorizontal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D1812058A45000FAF17 /* DecoratorTiledHorizontal.cpp */; };
+		9D031DF816BEAFF500BB4578 /* DecoratorTiledHorizontalInstancer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D1A12058A45000FAF17 /* DecoratorTiledHorizontalInstancer.cpp */; };
+		9D031DF916BEAFF500BB4578 /* DecoratorTiledImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D1C12058A45000FAF17 /* DecoratorTiledImage.cpp */; };
+		9D031DFA16BEAFF500BB4578 /* DecoratorTiledImageInstancer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D1E12058A45000FAF17 /* DecoratorTiledImageInstancer.cpp */; };
+		9D031DFB16BEAFF500BB4578 /* DecoratorTiledInstancer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D2012058A45000FAF17 /* DecoratorTiledInstancer.cpp */; };
+		9D031DFC16BEAFF500BB4578 /* DecoratorTiledVertical.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D2212058A45000FAF17 /* DecoratorTiledVertical.cpp */; };
+		9D031DFD16BEAFF500BB4578 /* DecoratorTiledVerticalInstancer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D2412058A45000FAF17 /* DecoratorTiledVerticalInstancer.cpp */; };
+		9D031DFE16BEAFF500BB4578 /* Dictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E9D09271209823B00099E1A /* Dictionary.cpp */; };
+		9D031DFF16BEAFF500BB4578 /* DocumentHeader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D2612058A45000FAF17 /* DocumentHeader.cpp */; };
+		9D031E0016BEAFF500BB4578 /* Element.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D2812058A45000FAF17 /* Element.cpp */; };
+		9D031E0116BEAFF500BB4578 /* ElementBackground.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D2912058A45000FAF17 /* ElementBackground.cpp */; };
+		9D031E0216BEAFF500BB4578 /* ElementBorder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D2B12058A45000FAF17 /* ElementBorder.cpp */; };
+		9D031E0316BEAFF500BB4578 /* ElementDecoration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D2D12058A45000FAF17 /* ElementDecoration.cpp */; };
+		9D031E0416BEAFF500BB4578 /* ElementDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D2F12058A45000FAF17 /* ElementDefinition.cpp */; };
+		9D031E0516BEAFF500BB4578 /* ElementDocument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D3112058A45000FAF17 /* ElementDocument.cpp */; };
+		9D031E0616BEAFF500BB4578 /* ElementHandle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D3212058A45000FAF17 /* ElementHandle.cpp */; };
+		9D031E0716BEAFF500BB4578 /* ElementImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D3412058A45000FAF17 /* ElementImage.cpp */; };
+		9D031E0816BEAFF500BB4578 /* ElementInstancer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D3612058A45000FAF17 /* ElementInstancer.cpp */; };
+		9D031E0916BEAFF500BB4578 /* ElementReference.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D3712058A45000FAF17 /* ElementReference.cpp */; };
+		9D031E0A16BEAFF500BB4578 /* ElementScroll.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D3812058A45000FAF17 /* ElementScroll.cpp */; };
+		9D031E0B16BEAFF500BB4578 /* ElementStyle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D3912058A45000FAF17 /* ElementStyle.cpp */; };
+		9D031E0C16BEAFF500BB4578 /* ElementStyleCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9D031D3C16BEACD000BB4578 /* ElementStyleCache.cpp */; };
+		9D031E0D16BEAFF500BB4578 /* ElementText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D3B12058A45000FAF17 /* ElementText.cpp */; };
+		9D031E0E16BEAFF500BB4578 /* ElementTextDefault.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D3C12058A45000FAF17 /* ElementTextDefault.cpp */; };
+		9D031E0F16BEAFF500BB4578 /* ElementUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D3E12058A45000FAF17 /* ElementUtilities.cpp */; };
+		9D031E1016BEAFF500BB4578 /* Event.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D3F12058A45000FAF17 /* Event.cpp */; };
+		9D031E1116BEAFF500BB4578 /* EventDispatcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D4012058A45000FAF17 /* EventDispatcher.cpp */; };
+		9D031E1216BEAFF500BB4578 /* EventInstancer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D4212058A45000FAF17 /* EventInstancer.cpp */; };
+		9D031E1316BEAFF500BB4578 /* EventInstancerDefault.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D4312058A45000FAF17 /* EventInstancerDefault.cpp */; };
+		9D031E1416BEAFF500BB4578 /* EventListenerInstancer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D4612058A45000FAF17 /* EventListenerInstancer.cpp */; };
+		9D031E1516BEAFF500BB4578 /* Factory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D4712058A45000FAF17 /* Factory.cpp */; };
+		9D031E1616BEAFF500BB4578 /* FileInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D4812058A45000FAF17 /* FileInterface.cpp */; };
+		9D031E1716BEAFF500BB4578 /* FileInterfaceDefault.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D4912058A45000FAF17 /* FileInterfaceDefault.cpp */; };
+		9D031E1816BEAFF500BB4578 /* FontDatabase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D4B12058A45000FAF17 /* FontDatabase.cpp */; };
+		9D031E1916BEAFF500BB4578 /* FontEffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D4C12058A45000FAF17 /* FontEffect.cpp */; };
+		9D031E1A16BEAFF500BB4578 /* FontEffectInstancer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D4D12058A45000FAF17 /* FontEffectInstancer.cpp */; };
+		9D031E1B16BEAFF500BB4578 /* FontEffectNone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D4E12058A45000FAF17 /* FontEffectNone.cpp */; };
+		9D031E1C16BEAFF500BB4578 /* FontEffectNoneInstancer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D5012058A45000FAF17 /* FontEffectNoneInstancer.cpp */; };
+		9D031E1D16BEAFF500BB4578 /* FontEffectOutline.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D5212058A45000FAF17 /* FontEffectOutline.cpp */; };
+		9D031E1E16BEAFF500BB4578 /* FontEffectOutlineInstancer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D5412058A45000FAF17 /* FontEffectOutlineInstancer.cpp */; };
+		9D031E1F16BEAFF500BB4578 /* FontEffectShadow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D5612058A45000FAF17 /* FontEffectShadow.cpp */; };
+		9D031E2016BEAFF500BB4578 /* FontEffectShadowInstancer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D5812058A45000FAF17 /* FontEffectShadowInstancer.cpp */; };
+		9D031E2116BEAFF500BB4578 /* FontFace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D5A12058A45000FAF17 /* FontFace.cpp */; };
+		9D031E2216BEAFF500BB4578 /* FontFaceHandle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D5C12058A45000FAF17 /* FontFaceHandle.cpp */; };
+		9D031E2316BEAFF500BB4578 /* FontFaceLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D5E12058A45000FAF17 /* FontFaceLayer.cpp */; };
+		9D031E2416BEAFF500BB4578 /* FontFamily.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D6012058A45000FAF17 /* FontFamily.cpp */; };
+		9D031E2516BEAFF500BB4578 /* Geometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D6212058A45000FAF17 /* Geometry.cpp */; };
+		9D031E2616BEAFF500BB4578 /* GeometryDatabase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D6312058A45000FAF17 /* GeometryDatabase.cpp */; };
+		9D031E2716BEAFF500BB4578 /* GeometryUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D6512058A45000FAF17 /* GeometryUtilities.cpp */; };
+		9D031E2816BEAFF500BB4578 /* LayoutBlockBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D6612058A45000FAF17 /* LayoutBlockBox.cpp */; };
+		9D031E2916BEAFF500BB4578 /* LayoutBlockBoxSpace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D6812058A45000FAF17 /* LayoutBlockBoxSpace.cpp */; };
+		9D031E2A16BEAFF500BB4578 /* LayoutEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D6A12058A45000FAF17 /* LayoutEngine.cpp */; };
+		9D031E2B16BEAFF500BB4578 /* LayoutInlineBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D6C12058A45000FAF17 /* LayoutInlineBox.cpp */; };
+		9D031E2C16BEAFF500BB4578 /* LayoutInlineBoxText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D6E12058A45000FAF17 /* LayoutInlineBoxText.cpp */; };
+		9D031E2D16BEAFF500BB4578 /* LayoutLineBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D7012058A45000FAF17 /* LayoutLineBox.cpp */; };
+		9D031E2E16BEAFF500BB4578 /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D7212058A45000FAF17 /* Log.cpp */; };
+		9D031E2F16BEAFF500BB4578 /* Math.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E9D09771209858B00099E1A /* Math.cpp */; };
+		9D031E3016BEAFF500BB4578 /* Plugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D7312058A45000FAF17 /* Plugin.cpp */; };
+		9D031E3116BEAFF500BB4578 /* PluginRegistry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D7412058A45000FAF17 /* PluginRegistry.cpp */; };
+		9D031E3216BEAFF500BB4578 /* Property.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D7812058A45000FAF17 /* Property.cpp */; };
+		9D031E3316BEAFF500BB4578 /* PropertyDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D7912058A45000FAF17 /* PropertyDefinition.cpp */; };
+		9D031E3416BEAFF500BB4578 /* PropertyDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D7A12058A45000FAF17 /* PropertyDictionary.cpp */; };
+		9D031E3516BEAFF500BB4578 /* PropertyParserColour.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D7B12058A45000FAF17 /* PropertyParserColour.cpp */; };
+		9D031E3616BEAFF500BB4578 /* PropertyParserKeyword.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D7D12058A45000FAF17 /* PropertyParserKeyword.cpp */; };
+		9D031E3716BEAFF500BB4578 /* PropertyParserNumber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D7F12058A45000FAF17 /* PropertyParserNumber.cpp */; };
+		9D031E3816BEAFF500BB4578 /* PropertyParserString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D8112058A45000FAF17 /* PropertyParserString.cpp */; };
+		9D031E3916BEAFF500BB4578 /* PropertySpecification.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D8412058A45000FAF17 /* PropertySpecification.cpp */; };
+		9D031E3A16BEAFF500BB4578 /* ReferenceCountable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E9D0987120986B600099E1A /* ReferenceCountable.cpp */; };
+		9D031E3B16BEAFF500BB4578 /* RenderInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28DE212058A45000FAF17 /* RenderInterface.cpp */; };
+		9D031E3C16BEAFF500BB4578 /* Stream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E9D09281209823B00099E1A /* Stream.cpp */; };
+		9D031E3D16BEAFF500BB4578 /* StreamFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28DE312058A45000FAF17 /* StreamFile.cpp */; };
+		9D031E3E16BEAFF500BB4578 /* StreamMemory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E9D09291209823B00099E1A /* StreamMemory.cpp */; };
+		9D031E3F16BEAFF500BB4578 /* String.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E9D099B1209878A00099E1A /* String.cpp */; };
+		9D031E4016BEAFF500BB4578 /* StringCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28DE612058A45000FAF17 /* StringCache.cpp */; };
+		9D031E4116BEAFF500BB4578 /* StringUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E9D092A1209823B00099E1A /* StringUtilities.cpp */; };
+		9D031E4216BEAFF500BB4578 /* StyleSheet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28DE812058A45000FAF17 /* StyleSheet.cpp */; };
+		9D031E4316BEAFF500BB4578 /* StyleSheetFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28DE912058A45000FAF17 /* StyleSheetFactory.cpp */; };
+		9D031E4416BEAFF500BB4578 /* StyleSheetNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28DEB12058A45000FAF17 /* StyleSheetNode.cpp */; };
+		9D031E4516BEAFF500BB4578 /* StyleSheetNodeSelector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28DED12058A45000FAF17 /* StyleSheetNodeSelector.cpp */; };
+		9D031E4616BEAFF500BB4578 /* StyleSheetNodeSelectorEmpty.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28DEF12058A45000FAF17 /* StyleSheetNodeSelectorEmpty.cpp */; };
+		9D031E4716BEAFF500BB4578 /* StyleSheetNodeSelectorFirstChild.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28DF112058A45000FAF17 /* StyleSheetNodeSelectorFirstChild.cpp */; };
+		9D031E4816BEAFF500BB4578 /* StyleSheetNodeSelectorFirstOfType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28DF312058A45000FAF17 /* StyleSheetNodeSelectorFirstOfType.cpp */; };
+		9D031E4916BEAFF500BB4578 /* StyleSheetNodeSelectorLastChild.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28DF512058A45000FAF17 /* StyleSheetNodeSelectorLastChild.cpp */; };
+		9D031E4A16BEAFF500BB4578 /* StyleSheetNodeSelectorLastOfType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28DF712058A45000FAF17 /* StyleSheetNodeSelectorLastOfType.cpp */; };
+		9D031E4B16BEAFF500BB4578 /* StyleSheetNodeSelectorNthChild.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28DF912058A45000FAF17 /* StyleSheetNodeSelectorNthChild.cpp */; };
+		9D031E4C16BEAFF500BB4578 /* StyleSheetNodeSelectorNthLastChild.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28DFB12058A45000FAF17 /* StyleSheetNodeSelectorNthLastChild.cpp */; };
+		9D031E4D16BEAFF500BB4578 /* StyleSheetNodeSelectorNthLastOfType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28DFD12058A45000FAF17 /* StyleSheetNodeSelectorNthLastOfType.cpp */; };
+		9D031E4E16BEAFF500BB4578 /* StyleSheetNodeSelectorNthOfType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28DFF12058A45000FAF17 /* StyleSheetNodeSelectorNthOfType.cpp */; };
+		9D031E4F16BEAFF500BB4578 /* StyleSheetNodeSelectorOnlyChild.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E0112058A45000FAF17 /* StyleSheetNodeSelectorOnlyChild.cpp */; };
+		9D031E5016BEAFF500BB4578 /* StyleSheetNodeSelectorOnlyOfType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E0312058A45000FAF17 /* StyleSheetNodeSelectorOnlyOfType.cpp */; };
+		9D031E5116BEAFF500BB4578 /* StyleSheetParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E0512058A45000FAF17 /* StyleSheetParser.cpp */; };
+		9D031E5216BEAFF500BB4578 /* StyleSheetSpecification.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E0712058A45000FAF17 /* StyleSheetSpecification.cpp */; };
+		9D031E5316BEAFF500BB4578 /* SystemInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E0812058A45000FAF17 /* SystemInterface.cpp */; };
+		9D031E5416BEAFF500BB4578 /* Template.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E0912058A45000FAF17 /* Template.cpp */; };
+		9D031E5516BEAFF500BB4578 /* TemplateCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E0B12058A45000FAF17 /* TemplateCache.cpp */; };
+		9D031E5616BEAFF500BB4578 /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E0D12058A45000FAF17 /* Texture.cpp */; };
+		9D031E5716BEAFF500BB4578 /* TextureDatabase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E0E12058A45000FAF17 /* TextureDatabase.cpp */; };
+		9D031E5816BEAFF500BB4578 /* TextureLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E1012058A45000FAF17 /* TextureLayout.cpp */; };
+		9D031E5916BEAFF500BB4578 /* TextureLayoutRectangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E1212058A45000FAF17 /* TextureLayoutRectangle.cpp */; };
+		9D031E5A16BEAFF500BB4578 /* TextureLayoutRow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E1412058A45000FAF17 /* TextureLayoutRow.cpp */; };
+		9D031E5B16BEAFF500BB4578 /* TextureLayoutTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E1612058A45000FAF17 /* TextureLayoutTexture.cpp */; };
+		9D031E5C16BEAFF500BB4578 /* TextureResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E1812058A45000FAF17 /* TextureResource.cpp */; };
+		9D031E5D16BEAFF500BB4578 /* UnicodeRange.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E1D12058A45000FAF17 /* UnicodeRange.cpp */; };
+		9D031E5E16BEAFF500BB4578 /* URL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E9D092B1209823B00099E1A /* URL.cpp */; };
+		9D031E5F16BEAFF500BB4578 /* Variant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E9D092C1209823B00099E1A /* Variant.cpp */; };
+		9D031E6016BEAFF500BB4578 /* WidgetSlider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E1F12058A45000FAF17 /* WidgetSlider.cpp */; };
+		9D031E6116BEAFF500BB4578 /* WidgetSliderScroll.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E2112058A45000FAF17 /* WidgetSliderScroll.cpp */; };
+		9D031E6216BEAFF500BB4578 /* WString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28DE512058A45000FAF17 /* WString.cpp */; };
+		9D031E6316BEAFF500BB4578 /* XMLNodeHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E2312058A45000FAF17 /* XMLNodeHandler.cpp */; };
+		9D031E6416BEAFF500BB4578 /* XMLNodeHandlerBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E2412058A45000FAF17 /* XMLNodeHandlerBody.cpp */; };
+		9D031E6516BEAFF500BB4578 /* XMLNodeHandlerDefault.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E2612058A45000FAF17 /* XMLNodeHandlerDefault.cpp */; };
+		9D031E6616BEAFF500BB4578 /* XMLNodeHandlerHead.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E2812058A45000FAF17 /* XMLNodeHandlerHead.cpp */; };
+		9D031E6716BEAFF500BB4578 /* XMLNodeHandlerTemplate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E2A12058A45000FAF17 /* XMLNodeHandlerTemplate.cpp */; };
+		9D031E6816BEAFF500BB4578 /* XMLParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E2C12058A45000FAF17 /* XMLParser.cpp */; };
+		9D031E6916BEAFF500BB4578 /* XMLParseTools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E2D12058A45000FAF17 /* XMLParseTools.cpp */; };
+		9D031E7816BEB37A00BB4578 /* Controls in Headers */ = {isa = PBXBuildFile; fileRef = 9D031E7416BEB37A00BB4578 /* Controls */; settings = {ATTRIBUTES = (Public, ); }; };
+		9D031E7916BEB37A00BB4578 /* Core in Headers */ = {isa = PBXBuildFile; fileRef = 9D031E7516BEB37A00BB4578 /* Core */; settings = {ATTRIBUTES = (Public, ); }; };
+		9D031E7A16BEB37A00BB4578 /* Controls.h in Headers */ = {isa = PBXBuildFile; fileRef = 9D031E7616BEB37A00BB4578 /* Controls.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9D031E7B16BEB37A00BB4578 /* Core.h in Headers */ = {isa = PBXBuildFile; fileRef = 9D031E7716BEB37A00BB4578 /* Core.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9D8AC75B16BEF5570025C2F4 /* Clipboard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C2D123AB0CC00C451C8 /* Clipboard.cpp */; };
+		9D8AC75C16BEF5570025C2F4 /* Controls.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C2E123AB0CC00C451C8 /* Controls.cpp */; };
+		9D8AC75D16BEF5570025C2F4 /* DataFormatter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C2F123AB0CC00C451C8 /* DataFormatter.cpp */; };
+		9D8AC75E16BEF5570025C2F4 /* DataQuery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C30123AB0CC00C451C8 /* DataQuery.cpp */; };
+		9D8AC75F16BEF5570025C2F4 /* DataSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C31123AB0CC00C451C8 /* DataSource.cpp */; };
+		9D8AC76016BEF5570025C2F4 /* DataSourceListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C32123AB0CC00C451C8 /* DataSourceListener.cpp */; };
+		9D8AC76116BEF5570025C2F4 /* ElementDataGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C33123AB0CC00C451C8 /* ElementDataGrid.cpp */; };
+		9D8AC76216BEF5570025C2F4 /* ElementDataGridCell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C34123AB0CC00C451C8 /* ElementDataGridCell.cpp */; };
+		9D8AC76316BEF5570025C2F4 /* ElementDataGridExpandButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C35123AB0CC00C451C8 /* ElementDataGridExpandButton.cpp */; };
+		9D8AC76416BEF5570025C2F4 /* ElementDataGridRow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C36123AB0CC00C451C8 /* ElementDataGridRow.cpp */; };
+		9D8AC76516BEF5570025C2F4 /* ElementForm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C37123AB0CC00C451C8 /* ElementForm.cpp */; };
+		9D8AC76616BEF5570025C2F4 /* ElementFormControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C38123AB0CC00C451C8 /* ElementFormControl.cpp */; };
+		9D8AC76716BEF5570025C2F4 /* ElementFormControlDataSelect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C39123AB0CC00C451C8 /* ElementFormControlDataSelect.cpp */; };
+		9D8AC76816BEF5570025C2F4 /* ElementFormControlInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C3A123AB0CC00C451C8 /* ElementFormControlInput.cpp */; };
+		9D8AC76916BEF5570025C2F4 /* ElementFormControlSelect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C3B123AB0CC00C451C8 /* ElementFormControlSelect.cpp */; };
+		9D8AC76A16BEF5570025C2F4 /* ElementFormControlTextArea.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C3C123AB0CC00C451C8 /* ElementFormControlTextArea.cpp */; };
+		9D8AC76B16BEF5570025C2F4 /* ElementTabSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C3D123AB0CC00C451C8 /* ElementTabSet.cpp */; };
+		9D8AC76C16BEF5570025C2F4 /* ElementTextSelection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C3E123AB0CC00C451C8 /* ElementTextSelection.cpp */; };
+		9D8AC76D16BEF5570025C2F4 /* InputType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C40123AB0CC00C451C8 /* InputType.cpp */; };
+		9D8AC76E16BEF5570025C2F4 /* InputTypeButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C42123AB0CC00C451C8 /* InputTypeButton.cpp */; };
+		9D8AC76F16BEF5570025C2F4 /* InputTypeCheckbox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C44123AB0CC00C451C8 /* InputTypeCheckbox.cpp */; };
+		9D8AC77016BEF5570025C2F4 /* InputTypeRadio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C46123AB0CC00C451C8 /* InputTypeRadio.cpp */; };
+		9D8AC77116BEF5570025C2F4 /* InputTypeRange.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C48123AB0CC00C451C8 /* InputTypeRange.cpp */; };
+		9D8AC77216BEF5570025C2F4 /* InputTypeSubmit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C4A123AB0CC00C451C8 /* InputTypeSubmit.cpp */; };
+		9D8AC77316BEF5570025C2F4 /* InputTypeText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C4C123AB0CC00C451C8 /* InputTypeText.cpp */; };
+		9D8AC77416BEF5570025C2F4 /* SelectOption.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C5D123AB0CC00C451C8 /* SelectOption.cpp */; };
+		9D8AC77516BEF5570025C2F4 /* WidgetDropDown.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C5E123AB0CC00C451C8 /* WidgetDropDown.cpp */; };
+		9D8AC77616BEF5570025C2F4 /* WidgetSlider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C60123AB0CC00C451C8 /* WidgetSlider.cpp */; };
+		9D8AC77716BEF5570025C2F4 /* WidgetSliderInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C62123AB0CC00C451C8 /* WidgetSliderInput.cpp */; };
+		9D8AC77816BEF5570025C2F4 /* WidgetTextInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C64123AB0CC00C451C8 /* WidgetTextInput.cpp */; };
+		9D8AC77916BEF5570025C2F4 /* WidgetTextInputMultiLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C66123AB0CC00C451C8 /* WidgetTextInputMultiLine.cpp */; };
+		9D8AC77A16BEF5570025C2F4 /* WidgetTextInputSingleLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C68123AB0CC00C451C8 /* WidgetTextInputSingleLine.cpp */; };
+		9D8AC77B16BEF5570025C2F4 /* WidgetTextInputSingleLinePassword.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C6A123AB0CC00C451C8 /* WidgetTextInputSingleLinePassword.cpp */; };
+		9D8AC77C16BEF5570025C2F4 /* XMLNodeHandlerDataGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C6C123AB0CC00C451C8 /* XMLNodeHandlerDataGrid.cpp */; };
+		9D8AC77D16BEF5570025C2F4 /* XMLNodeHandlerTabSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C6E123AB0CC00C451C8 /* XMLNodeHandlerTabSet.cpp */; };
+		9D8AC77E16BEF5570025C2F4 /* XMLNodeHandlerTextArea.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E8B1C70123AB0CC00C451C8 /* XMLNodeHandlerTextArea.cpp */; };
+		9D8AC77F16BEF5700025C2F4 /* BaseXMLParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E9D09261209823B00099E1A /* BaseXMLParser.cpp */; };
+		9D8AC78016BEF5700025C2F4 /* Box.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28B78120580DA000FAF17 /* Box.cpp */; };
+		9D8AC78116BEF5700025C2F4 /* Clock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D0312058A45000FAF17 /* Clock.cpp */; };
+		9D8AC78216BEF5700025C2F4 /* Context.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D0512058A45000FAF17 /* Context.cpp */; };
+		9D8AC78316BEF5700025C2F4 /* ContextInstancer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D0612058A45000FAF17 /* ContextInstancer.cpp */; };
+		9D8AC78416BEF5700025C2F4 /* ContextInstancerDefault.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D0712058A45000FAF17 /* ContextInstancerDefault.cpp */; };
+		9D8AC78516BEF5700025C2F4 /* ConvolutionFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D0912058A45000FAF17 /* ConvolutionFilter.cpp */; };
+		9D8AC78616BEF5700025C2F4 /* Core.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D0A12058A45000FAF17 /* Core.cpp */; };
+		9D8AC78716BEF5700025C2F4 /* Decorator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D0C12058A45000FAF17 /* Decorator.cpp */; };
+		9D8AC78816BEF5700025C2F4 /* DecoratorInstancer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D0D12058A45000FAF17 /* DecoratorInstancer.cpp */; };
+		9D8AC78916BEF5700025C2F4 /* DecoratorNone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D0E12058A45000FAF17 /* DecoratorNone.cpp */; };
+		9D8AC78A16BEF5700025C2F4 /* DecoratorNoneInstancer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D1012058A45000FAF17 /* DecoratorNoneInstancer.cpp */; };
+		9D8AC78B16BEF5700025C2F4 /* DecoratorTiled.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D1212058A45000FAF17 /* DecoratorTiled.cpp */; };
+		9D8AC78C16BEF5700025C2F4 /* DecoratorTiledBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D1412058A45000FAF17 /* DecoratorTiledBox.cpp */; };
+		9D8AC78D16BEF5700025C2F4 /* DecoratorTiledBoxInstancer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D1612058A45000FAF17 /* DecoratorTiledBoxInstancer.cpp */; };
+		9D8AC78E16BEF5700025C2F4 /* DecoratorTiledHorizontal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D1812058A45000FAF17 /* DecoratorTiledHorizontal.cpp */; };
+		9D8AC78F16BEF5700025C2F4 /* DecoratorTiledHorizontalInstancer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D1A12058A45000FAF17 /* DecoratorTiledHorizontalInstancer.cpp */; };
+		9D8AC79016BEF5700025C2F4 /* DecoratorTiledImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D1C12058A45000FAF17 /* DecoratorTiledImage.cpp */; };
+		9D8AC79116BEF5700025C2F4 /* DecoratorTiledImageInstancer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D1E12058A45000FAF17 /* DecoratorTiledImageInstancer.cpp */; };
+		9D8AC79216BEF5700025C2F4 /* DecoratorTiledInstancer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D2012058A45000FAF17 /* DecoratorTiledInstancer.cpp */; };
+		9D8AC79316BEF5700025C2F4 /* DecoratorTiledVertical.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D2212058A45000FAF17 /* DecoratorTiledVertical.cpp */; };
+		9D8AC79416BEF5700025C2F4 /* DecoratorTiledVerticalInstancer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D2412058A45000FAF17 /* DecoratorTiledVerticalInstancer.cpp */; };
+		9D8AC79516BEF5700025C2F4 /* Dictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E9D09271209823B00099E1A /* Dictionary.cpp */; };
+		9D8AC79616BEF5700025C2F4 /* DocumentHeader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D2612058A45000FAF17 /* DocumentHeader.cpp */; };
+		9D8AC79716BEF5700025C2F4 /* Element.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D2812058A45000FAF17 /* Element.cpp */; };
+		9D8AC79816BEF5700025C2F4 /* ElementBackground.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D2912058A45000FAF17 /* ElementBackground.cpp */; };
+		9D8AC79916BEF5700025C2F4 /* ElementBorder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D2B12058A45000FAF17 /* ElementBorder.cpp */; };
+		9D8AC79A16BEF5700025C2F4 /* ElementDecoration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D2D12058A45000FAF17 /* ElementDecoration.cpp */; };
+		9D8AC79B16BEF5700025C2F4 /* ElementDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D2F12058A45000FAF17 /* ElementDefinition.cpp */; };
+		9D8AC79C16BEF5700025C2F4 /* ElementDocument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D3112058A45000FAF17 /* ElementDocument.cpp */; };
+		9D8AC79D16BEF5700025C2F4 /* ElementHandle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D3212058A45000FAF17 /* ElementHandle.cpp */; };
+		9D8AC79E16BEF5700025C2F4 /* ElementImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D3412058A45000FAF17 /* ElementImage.cpp */; };
+		9D8AC79F16BEF5700025C2F4 /* ElementInstancer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D3612058A45000FAF17 /* ElementInstancer.cpp */; };
+		9D8AC7A016BEF5700025C2F4 /* ElementReference.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D3712058A45000FAF17 /* ElementReference.cpp */; };
+		9D8AC7A116BEF5700025C2F4 /* ElementScroll.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D3812058A45000FAF17 /* ElementScroll.cpp */; };
+		9D8AC7A216BEF5700025C2F4 /* ElementStyle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D3912058A45000FAF17 /* ElementStyle.cpp */; };
+		9D8AC7A316BEF5700025C2F4 /* ElementStyleCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9D031D3C16BEACD000BB4578 /* ElementStyleCache.cpp */; };
+		9D8AC7A416BEF5700025C2F4 /* ElementText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D3B12058A45000FAF17 /* ElementText.cpp */; };
+		9D8AC7A516BEF5700025C2F4 /* ElementTextDefault.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D3C12058A45000FAF17 /* ElementTextDefault.cpp */; };
+		9D8AC7A616BEF5700025C2F4 /* ElementUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D3E12058A45000FAF17 /* ElementUtilities.cpp */; };
+		9D8AC7A716BEF5700025C2F4 /* Event.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D3F12058A45000FAF17 /* Event.cpp */; };
+		9D8AC7A816BEF5700025C2F4 /* EventDispatcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D4012058A45000FAF17 /* EventDispatcher.cpp */; };
+		9D8AC7A916BEF5700025C2F4 /* EventInstancer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D4212058A45000FAF17 /* EventInstancer.cpp */; };
+		9D8AC7AA16BEF5700025C2F4 /* EventInstancerDefault.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D4312058A45000FAF17 /* EventInstancerDefault.cpp */; };
+		9D8AC7AB16BEF5700025C2F4 /* EventListenerInstancer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D4612058A45000FAF17 /* EventListenerInstancer.cpp */; };
+		9D8AC7AC16BEF5700025C2F4 /* Factory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D4712058A45000FAF17 /* Factory.cpp */; };
+		9D8AC7AD16BEF5700025C2F4 /* FileInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D4812058A45000FAF17 /* FileInterface.cpp */; };
+		9D8AC7AE16BEF5700025C2F4 /* FileInterfaceDefault.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D4912058A45000FAF17 /* FileInterfaceDefault.cpp */; };
+		9D8AC7AF16BEF5700025C2F4 /* FontDatabase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D4B12058A45000FAF17 /* FontDatabase.cpp */; };
+		9D8AC7B016BEF5700025C2F4 /* FontEffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D4C12058A45000FAF17 /* FontEffect.cpp */; };
+		9D8AC7B116BEF5700025C2F4 /* FontEffectInstancer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D4D12058A45000FAF17 /* FontEffectInstancer.cpp */; };
+		9D8AC7B216BEF5700025C2F4 /* FontEffectNone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D4E12058A45000FAF17 /* FontEffectNone.cpp */; };
+		9D8AC7B316BEF5700025C2F4 /* FontEffectNoneInstancer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D5012058A45000FAF17 /* FontEffectNoneInstancer.cpp */; };
+		9D8AC7B416BEF5700025C2F4 /* FontEffectOutline.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D5212058A45000FAF17 /* FontEffectOutline.cpp */; };
+		9D8AC7B516BEF5700025C2F4 /* FontEffectOutlineInstancer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D5412058A45000FAF17 /* FontEffectOutlineInstancer.cpp */; };
+		9D8AC7B616BEF5700025C2F4 /* FontEffectShadow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D5612058A45000FAF17 /* FontEffectShadow.cpp */; };
+		9D8AC7B716BEF5700025C2F4 /* FontEffectShadowInstancer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D5812058A45000FAF17 /* FontEffectShadowInstancer.cpp */; };
+		9D8AC7B816BEF5700025C2F4 /* FontFace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D5A12058A45000FAF17 /* FontFace.cpp */; };
+		9D8AC7B916BEF5700025C2F4 /* FontFaceHandle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D5C12058A45000FAF17 /* FontFaceHandle.cpp */; };
+		9D8AC7BA16BEF5700025C2F4 /* FontFaceLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D5E12058A45000FAF17 /* FontFaceLayer.cpp */; };
+		9D8AC7BB16BEF5700025C2F4 /* FontFamily.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D6012058A45000FAF17 /* FontFamily.cpp */; };
+		9D8AC7BC16BEF5700025C2F4 /* Geometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D6212058A45000FAF17 /* Geometry.cpp */; };
+		9D8AC7BD16BEF5700025C2F4 /* GeometryDatabase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D6312058A45000FAF17 /* GeometryDatabase.cpp */; };
+		9D8AC7BE16BEF5700025C2F4 /* GeometryUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D6512058A45000FAF17 /* GeometryUtilities.cpp */; };
+		9D8AC7BF16BEF5700025C2F4 /* LayoutBlockBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D6612058A45000FAF17 /* LayoutBlockBox.cpp */; };
+		9D8AC7C016BEF5700025C2F4 /* LayoutBlockBoxSpace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D6812058A45000FAF17 /* LayoutBlockBoxSpace.cpp */; };
+		9D8AC7C116BEF5700025C2F4 /* LayoutEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D6A12058A45000FAF17 /* LayoutEngine.cpp */; };
+		9D8AC7C216BEF5700025C2F4 /* LayoutInlineBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D6C12058A45000FAF17 /* LayoutInlineBox.cpp */; };
+		9D8AC7C316BEF5700025C2F4 /* LayoutInlineBoxText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D6E12058A45000FAF17 /* LayoutInlineBoxText.cpp */; };
+		9D8AC7C416BEF5700025C2F4 /* LayoutLineBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D7012058A45000FAF17 /* LayoutLineBox.cpp */; };
+		9D8AC7C516BEF5700025C2F4 /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D7212058A45000FAF17 /* Log.cpp */; };
+		9D8AC7C616BEF5700025C2F4 /* Math.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E9D09771209858B00099E1A /* Math.cpp */; };
+		9D8AC7C716BEF5700025C2F4 /* Plugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D7312058A45000FAF17 /* Plugin.cpp */; };
+		9D8AC7C816BEF5700025C2F4 /* PluginRegistry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D7412058A45000FAF17 /* PluginRegistry.cpp */; };
+		9D8AC7C916BEF5700025C2F4 /* Property.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D7812058A45000FAF17 /* Property.cpp */; };
+		9D8AC7CA16BEF5700025C2F4 /* PropertyDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D7912058A45000FAF17 /* PropertyDefinition.cpp */; };
+		9D8AC7CB16BEF5700025C2F4 /* PropertyDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D7A12058A45000FAF17 /* PropertyDictionary.cpp */; };
+		9D8AC7CC16BEF5700025C2F4 /* PropertyParserColour.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D7B12058A45000FAF17 /* PropertyParserColour.cpp */; };
+		9D8AC7CD16BEF5700025C2F4 /* PropertyParserKeyword.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D7D12058A45000FAF17 /* PropertyParserKeyword.cpp */; };
+		9D8AC7CE16BEF5700025C2F4 /* PropertyParserNumber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D7F12058A45000FAF17 /* PropertyParserNumber.cpp */; };
+		9D8AC7CF16BEF5700025C2F4 /* PropertyParserString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D8112058A45000FAF17 /* PropertyParserString.cpp */; };
+		9D8AC7D016BEF5700025C2F4 /* PropertySpecification.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28D8412058A45000FAF17 /* PropertySpecification.cpp */; };
+		9D8AC7D116BEF5700025C2F4 /* ReferenceCountable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E9D0987120986B600099E1A /* ReferenceCountable.cpp */; };
+		9D8AC7D216BEF5700025C2F4 /* RenderInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28DE212058A45000FAF17 /* RenderInterface.cpp */; };
+		9D8AC7D316BEF5700025C2F4 /* Stream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E9D09281209823B00099E1A /* Stream.cpp */; };
+		9D8AC7D416BEF5700025C2F4 /* StreamFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28DE312058A45000FAF17 /* StreamFile.cpp */; };
+		9D8AC7D516BEF5700025C2F4 /* StreamMemory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E9D09291209823B00099E1A /* StreamMemory.cpp */; };
+		9D8AC7D616BEF5700025C2F4 /* String.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E9D099B1209878A00099E1A /* String.cpp */; };
+		9D8AC7D716BEF5700025C2F4 /* StringCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28DE612058A45000FAF17 /* StringCache.cpp */; };
+		9D8AC7D816BEF5700025C2F4 /* StringUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E9D092A1209823B00099E1A /* StringUtilities.cpp */; };
+		9D8AC7D916BEF5700025C2F4 /* StyleSheet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28DE812058A45000FAF17 /* StyleSheet.cpp */; };
+		9D8AC7DA16BEF5700025C2F4 /* StyleSheetFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28DE912058A45000FAF17 /* StyleSheetFactory.cpp */; };
+		9D8AC7DB16BEF5700025C2F4 /* StyleSheetNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28DEB12058A45000FAF17 /* StyleSheetNode.cpp */; };
+		9D8AC7DC16BEF5700025C2F4 /* StyleSheetNodeSelector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28DED12058A45000FAF17 /* StyleSheetNodeSelector.cpp */; };
+		9D8AC7DD16BEF5700025C2F4 /* StyleSheetNodeSelectorEmpty.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28DEF12058A45000FAF17 /* StyleSheetNodeSelectorEmpty.cpp */; };
+		9D8AC7DE16BEF5700025C2F4 /* StyleSheetNodeSelectorFirstChild.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28DF112058A45000FAF17 /* StyleSheetNodeSelectorFirstChild.cpp */; };
+		9D8AC7DF16BEF5700025C2F4 /* StyleSheetNodeSelectorFirstOfType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28DF312058A45000FAF17 /* StyleSheetNodeSelectorFirstOfType.cpp */; };
+		9D8AC7E016BEF5700025C2F4 /* StyleSheetNodeSelectorLastChild.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28DF512058A45000FAF17 /* StyleSheetNodeSelectorLastChild.cpp */; };
+		9D8AC7E116BEF5700025C2F4 /* StyleSheetNodeSelectorLastOfType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28DF712058A45000FAF17 /* StyleSheetNodeSelectorLastOfType.cpp */; };
+		9D8AC7E216BEF5700025C2F4 /* StyleSheetNodeSelectorNthChild.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28DF912058A45000FAF17 /* StyleSheetNodeSelectorNthChild.cpp */; };
+		9D8AC7E316BEF5700025C2F4 /* StyleSheetNodeSelectorNthLastChild.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28DFB12058A45000FAF17 /* StyleSheetNodeSelectorNthLastChild.cpp */; };
+		9D8AC7E416BEF5700025C2F4 /* StyleSheetNodeSelectorNthLastOfType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28DFD12058A45000FAF17 /* StyleSheetNodeSelectorNthLastOfType.cpp */; };
+		9D8AC7E516BEF5700025C2F4 /* StyleSheetNodeSelectorNthOfType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28DFF12058A45000FAF17 /* StyleSheetNodeSelectorNthOfType.cpp */; };
+		9D8AC7E616BEF5700025C2F4 /* StyleSheetNodeSelectorOnlyChild.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E0112058A45000FAF17 /* StyleSheetNodeSelectorOnlyChild.cpp */; };
+		9D8AC7E716BEF5700025C2F4 /* StyleSheetNodeSelectorOnlyOfType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E0312058A45000FAF17 /* StyleSheetNodeSelectorOnlyOfType.cpp */; };
+		9D8AC7E816BEF5700025C2F4 /* StyleSheetParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E0512058A45000FAF17 /* StyleSheetParser.cpp */; };
+		9D8AC7E916BEF5700025C2F4 /* StyleSheetSpecification.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E0712058A45000FAF17 /* StyleSheetSpecification.cpp */; };
+		9D8AC7EA16BEF5700025C2F4 /* SystemInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E0812058A45000FAF17 /* SystemInterface.cpp */; };
+		9D8AC7EB16BEF5700025C2F4 /* Template.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E0912058A45000FAF17 /* Template.cpp */; };
+		9D8AC7EC16BEF5710025C2F4 /* TemplateCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E0B12058A45000FAF17 /* TemplateCache.cpp */; };
+		9D8AC7ED16BEF5710025C2F4 /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E0D12058A45000FAF17 /* Texture.cpp */; };
+		9D8AC7EE16BEF5710025C2F4 /* TextureDatabase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E0E12058A45000FAF17 /* TextureDatabase.cpp */; };
+		9D8AC7EF16BEF5710025C2F4 /* TextureLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E1012058A45000FAF17 /* TextureLayout.cpp */; };
+		9D8AC7F016BEF5710025C2F4 /* TextureLayoutRectangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E1212058A45000FAF17 /* TextureLayoutRectangle.cpp */; };
+		9D8AC7F116BEF5710025C2F4 /* TextureLayoutRow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E1412058A45000FAF17 /* TextureLayoutRow.cpp */; };
+		9D8AC7F216BEF5710025C2F4 /* TextureLayoutTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E1612058A45000FAF17 /* TextureLayoutTexture.cpp */; };
+		9D8AC7F316BEF5710025C2F4 /* TextureResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E1812058A45000FAF17 /* TextureResource.cpp */; };
+		9D8AC7F416BEF5710025C2F4 /* UnicodeRange.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E1D12058A45000FAF17 /* UnicodeRange.cpp */; };
+		9D8AC7F516BEF5710025C2F4 /* URL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E9D092B1209823B00099E1A /* URL.cpp */; };
+		9D8AC7F616BEF5710025C2F4 /* Variant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6E9D092C1209823B00099E1A /* Variant.cpp */; };
+		9D8AC7F716BEF5710025C2F4 /* WidgetSlider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E1F12058A45000FAF17 /* WidgetSlider.cpp */; };
+		9D8AC7F816BEF5710025C2F4 /* WidgetSliderScroll.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E2112058A45000FAF17 /* WidgetSliderScroll.cpp */; };
+		9D8AC7F916BEF5710025C2F4 /* WString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28DE512058A45000FAF17 /* WString.cpp */; };
+		9D8AC7FA16BEF5710025C2F4 /* XMLNodeHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E2312058A45000FAF17 /* XMLNodeHandler.cpp */; };
+		9D8AC7FB16BEF5710025C2F4 /* XMLNodeHandlerBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E2412058A45000FAF17 /* XMLNodeHandlerBody.cpp */; };
+		9D8AC7FC16BEF5710025C2F4 /* XMLNodeHandlerDefault.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E2612058A45000FAF17 /* XMLNodeHandlerDefault.cpp */; };
+		9D8AC7FD16BEF5710025C2F4 /* XMLNodeHandlerHead.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E2812058A45000FAF17 /* XMLNodeHandlerHead.cpp */; };
+		9D8AC7FE16BEF5710025C2F4 /* XMLNodeHandlerTemplate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E2A12058A45000FAF17 /* XMLNodeHandlerTemplate.cpp */; };
+		9D8AC7FF16BEF5710025C2F4 /* XMLParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E2C12058A45000FAF17 /* XMLParser.cpp */; };
+		9D8AC80016BEF5710025C2F4 /* XMLParseTools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EF28E2D12058A45000FAF17 /* XMLParseTools.cpp */; };
+		9D8AC80116BEF5A40025C2F4 /* libbz2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D031D3A16BEABD300BB4578 /* libbz2.dylib */; };
+		9D8AC80216BEF5A40025C2F4 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D031D3816BEABA200BB4578 /* libz.dylib */; };
+		9D8AC80316BEF5A40025C2F4 /* libfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8B1DC2123AB7A500C451C8 /* libfreetype.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -555,7 +985,6 @@
 		6E8B1C71123AB0CC00C451C8 /* XMLNodeHandlerTextArea.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XMLNodeHandlerTextArea.h; path = ../Source/Controls/XMLNodeHandlerTextArea.h; sourceTree = SOURCE_ROOT; };
 		6E8B1DC2123AB7A500C451C8 /* libfreetype.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfreetype.a; path = ../../support/lib/libfreetype.a; sourceTree = SOURCE_ROOT; };
 		6E8B1DCF123ABA2200C451C8 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		6E8B1DD1123ABA3A00C451C8 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		6E8B1DDC123ABC7800C451C8 /* RocketCoreOSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RocketCoreOSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E8B1DDD123ABC7800C451C8 /* RocketCoreOSX-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RocketCoreOSX-Info.plist"; sourceTree = "<group>"; };
 		6E8B1E6B123ABCEF00C451C8 /* RocketControlsOSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RocketControlsOSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -807,6 +1236,16 @@
 		6EF3BBFF12481DD40014316D /* WString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WString.h; path = ../Include/Rocket/Core/WString.h; sourceTree = SOURCE_ROOT; };
 		6EF3BC0012481DD40014316D /* XMLNodeHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XMLNodeHandler.h; path = ../Include/Rocket/Core/XMLNodeHandler.h; sourceTree = SOURCE_ROOT; };
 		6EF3BC0112481DD40014316D /* XMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XMLParser.h; path = ../Include/Rocket/Core/XMLParser.h; sourceTree = SOURCE_ROOT; };
+		9D031D3816BEABA200BB4578 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/usr/lib/libz.dylib; sourceTree = DEVELOPER_DIR; };
+		9D031D3A16BEABD300BB4578 /* libbz2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libbz2.dylib; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/usr/lib/libbz2.dylib; sourceTree = DEVELOPER_DIR; };
+		9D031D3C16BEACD000BB4578 /* ElementStyleCache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ElementStyleCache.cpp; path = ../Source/Core/ElementStyleCache.cpp; sourceTree = "<group>"; };
+		9D031D4516BEAE5E00BB4578 /* Rocket.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Rocket.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D031D5A16BEAEF300BB4578 /* Rocket-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Rocket-Info.plist"; path = "plist/Rocket-Info.plist"; sourceTree = "<group>"; };
+		9D031E7416BEB37A00BB4578 /* Controls */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Controls; path = ../Include/Rocket/Controls; sourceTree = "<group>"; };
+		9D031E7516BEB37A00BB4578 /* Core */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Core; path = ../Include/Rocket/Core; sourceTree = "<group>"; };
+		9D031E7616BEB37A00BB4578 /* Controls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Controls.h; path = ../Include/Rocket/Controls.h; sourceTree = "<group>"; };
+		9D031E7716BEB37A00BB4578 /* Core.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Core.h; path = ../Include/Rocket/Core.h; sourceTree = "<group>"; };
+		9D8AC75716BEF4B90025C2F4 /* libRocket.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRocket.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -821,8 +1260,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D031D3B16BEABD300BB4578 /* libbz2.dylib in Frameworks */,
+				9D031D3F16BEAD1900BB4578 /* libz.dylib in Frameworks */,
 				6E8B1DE1123ABCA200C451C8 /* libfreetype.a in Frameworks */,
-				6E8B1DE2123ABCA200C451C8 /* libz.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -849,6 +1289,26 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9D031D4116BEAE5E00BB4578 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9D031D5C16BEAF1D00BB4578 /* libz.dylib in Frameworks */,
+				9D031D5D16BEAF1F00BB4578 /* libbz2.dylib in Frameworks */,
+				9D031D5E16BEAF2700BB4578 /* libfreetype.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9D8AC75416BEF4B90025C2F4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9D8AC80116BEF5A40025C2F4 /* libbz2.dylib in Frameworks */,
+				9D8AC80216BEF5A40025C2F4 /* libz.dylib in Frameworks */,
+				9D8AC80316BEF5A40025C2F4 /* libfreetype.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D2AAC07C0554694100DB518D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -863,10 +1323,12 @@
 		0867D691FE84028FC02AAC07 /* test */ = {
 			isa = PBXGroup;
 			children = (
+				9D031E7316BEB32E00BB4578 /* Header */,
 				6E8B1EB6123AC78300C451C8 /* Debugger */,
 				6E8B1BE2123AADEB00C451C8 /* Controls */,
 				6E8B1BD8123AABCD00C451C8 /* Core */,
 				6E9D09201209807A00099E1A /* Libraries */,
+				9D8AC75716BEF4B90025C2F4 /* libRocket.a */,
 			);
 			name = test;
 			sourceTree = "<group>";
@@ -985,6 +1447,7 @@
 				6EF28D3712058A45000FAF17 /* ElementReference.cpp */,
 				6EF28D3812058A45000FAF17 /* ElementScroll.cpp */,
 				6EF28D3912058A45000FAF17 /* ElementStyle.cpp */,
+				9D031D3C16BEACD000BB4578 /* ElementStyleCache.cpp */,
 				6EF28D3B12058A45000FAF17 /* ElementText.cpp */,
 				6EF28D3C12058A45000FAF17 /* ElementTextDefault.cpp */,
 				6EF28D3E12058A45000FAF17 /* ElementUtilities.cpp */,
@@ -1200,13 +1663,27 @@
 				6E8B1DDD123ABC7800C451C8 /* RocketCoreOSX-Info.plist */,
 				6E8B1E6B123ABCEF00C451C8 /* RocketControlsOSX.framework */,
 				6E8B1E6C123ABCEF00C451C8 /* RocketControlsOSX-Info.plist */,
+				9D031D5A16BEAEF300BB4578 /* Rocket-Info.plist */,
+				9D031D4516BEAE5E00BB4578 /* Rocket.framework */,
+				9D031D3A16BEABD300BB4578 /* libbz2.dylib */,
+				9D031D3816BEABA200BB4578 /* libz.dylib */,
 				6E8B1DCF123ABA2200C451C8 /* libz.dylib */,
-				6E8B1DD1123ABA3A00C451C8 /* libz.dylib */,
 				6E8B1DC2123AB7A500C451C8 /* libfreetype.a */,
 				6E8B1BF0123AAEE200C451C8 /* libRocketControlsiOS.a */,
 				6E8B1B0C123A0E2A00C451C8 /* libRocketCoreiOS.a */,
 			);
 			name = Libraries;
+			sourceTree = "<group>";
+		};
+		9D031E7316BEB32E00BB4578 /* Header */ = {
+			isa = PBXGroup;
+			children = (
+				9D031E7416BEB37A00BB4578 /* Controls */,
+				9D031E7516BEB37A00BB4578 /* Core */,
+				9D031E7616BEB37A00BB4578 /* Controls.h */,
+				9D031E7716BEB37A00BB4578 /* Core.h */,
+			);
+			name = Header;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1336,6 +1813,109 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9D031D4216BEAE5E00BB4578 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9D031E7816BEB37A00BB4578 /* Controls in Headers */,
+				9D031E7916BEB37A00BB4578 /* Core in Headers */,
+				9D031E7A16BEB37A00BB4578 /* Controls.h in Headers */,
+				9D031E7B16BEB37A00BB4578 /* Core.h in Headers */,
+				9D031D5F16BEAF7500BB4578 /* Clipboard.h in Headers */,
+				9D031D6016BEAF7500BB4578 /* Controls.h in Headers */,
+				9D031D6116BEAF7500BB4578 /* DataFormatter.h in Headers */,
+				9D031D6216BEAF7500BB4578 /* DataQuery.h in Headers */,
+				9D031D6316BEAF7500BB4578 /* DataSource.h in Headers */,
+				9D031D6416BEAF7500BB4578 /* DataSourceListener.h in Headers */,
+				9D031D6516BEAF7500BB4578 /* ElementDataGrid.h in Headers */,
+				9D031D6616BEAF7500BB4578 /* ElementDataGridCell.h in Headers */,
+				9D031D6716BEAF7500BB4578 /* ElementDataGridExpandButton.h in Headers */,
+				9D031D6816BEAF7500BB4578 /* ElementDataGridRow.h in Headers */,
+				9D031D6916BEAF7500BB4578 /* ElementForm.h in Headers */,
+				9D031D6A16BEAF7500BB4578 /* ElementFormControl.h in Headers */,
+				9D031D7216BEAF9300BB4578 /* ElementFormControlDataSelect.h in Headers */,
+				9D031D7316BEAF9300BB4578 /* ElementFormControlInput.h in Headers */,
+				9D031D7416BEAF9300BB4578 /* ElementFormControlSelect.h in Headers */,
+				9D031D7516BEAF9300BB4578 /* ElementFormControlTextArea.h in Headers */,
+				9D031D7616BEAF9300BB4578 /* ElementTabSet.h in Headers */,
+				9D031D7716BEAF9300BB4578 /* Header.h in Headers */,
+				9D031D7816BEAF9300BB4578 /* SelectOption.h in Headers */,
+				9D031D9D16BEAFE100BB4578 /* BaseXMLParser.h in Headers */,
+				9D031D9E16BEAFE100BB4578 /* Box.h in Headers */,
+				9D031D9F16BEAFE100BB4578 /* Colour.h in Headers */,
+				9D031DA116BEAFE100BB4578 /* Context.h in Headers */,
+				9D031DA216BEAFE100BB4578 /* ContextInstancer.h in Headers */,
+				9D031DA316BEAFE100BB4578 /* ConvolutionFilter.h in Headers */,
+				9D031DA416BEAFE100BB4578 /* Core.h in Headers */,
+				9D031DA516BEAFE100BB4578 /* Debug.h in Headers */,
+				9D031DA616BEAFE100BB4578 /* Decorator.h in Headers */,
+				9D031DA716BEAFE100BB4578 /* DecoratorInstancer.h in Headers */,
+				9D031DA816BEAFE100BB4578 /* Dictionary.h in Headers */,
+				9D031DAA16BEAFE100BB4578 /* Element.h in Headers */,
+				9D031DAC16BEAFE100BB4578 /* ElementDocument.h in Headers */,
+				9D031DAD16BEAFE100BB4578 /* ElementInstancer.h in Headers */,
+				9D031DAE16BEAFE100BB4578 /* ElementInstancerGeneric.h in Headers */,
+				9D031DB016BEAFE100BB4578 /* ElementReference.h in Headers */,
+				9D031DB116BEAFE100BB4578 /* ElementScroll.h in Headers */,
+				9D031DB216BEAFE100BB4578 /* ElementText.h in Headers */,
+				9D031DB316BEAFE100BB4578 /* ElementUtilities.h in Headers */,
+				9D031DB416BEAFE100BB4578 /* Event.h in Headers */,
+				9D031DB516BEAFE100BB4578 /* EventInstancer.h in Headers */,
+				9D031DB616BEAFE100BB4578 /* EventListener.h in Headers */,
+				9D031DB716BEAFE100BB4578 /* EventListenerInstancer.h in Headers */,
+				9D031DB816BEAFE100BB4578 /* Factory.h in Headers */,
+				9D031DB916BEAFE100BB4578 /* FileInterface.h in Headers */,
+				9D031DBA16BEAFE100BB4578 /* Font.h in Headers */,
+				9D031DBB16BEAFE100BB4578 /* FontDatabase.h in Headers */,
+				9D031DBC16BEAFE100BB4578 /* FontEffect.h in Headers */,
+				9D031DBD16BEAFE100BB4578 /* FontEffectInstancer.h in Headers */,
+				9D031DBE16BEAFE100BB4578 /* FontGlyph.h in Headers */,
+				9D031DBF16BEAFE100BB4578 /* Geometry.h in Headers */,
+				9D031DC016BEAFE100BB4578 /* GeometryUtilities.h in Headers */,
+				9D031DC116BEAFE100BB4578 /* Header.h in Headers */,
+				9D031DC216BEAFE100BB4578 /* Input.h in Headers */,
+				9D031DC316BEAFE100BB4578 /* Log.h in Headers */,
+				9D031DC416BEAFE100BB4578 /* Math.h in Headers */,
+				9D031DC516BEAFE100BB4578 /* MathTypes.h in Headers */,
+				9D031DC616BEAFE100BB4578 /* Platform.h in Headers */,
+				9D031DC716BEAFE100BB4578 /* Plugin.h in Headers */,
+				9D031DC916BEAFE100BB4578 /* Property.h in Headers */,
+				9D031DCA16BEAFE100BB4578 /* PropertyDefinition.h in Headers */,
+				9D031DCB16BEAFE100BB4578 /* PropertyDictionary.h in Headers */,
+				9D031DCC16BEAFE100BB4578 /* PropertyParser.h in Headers */,
+				9D031DCD16BEAFE100BB4578 /* PropertySpecification.h in Headers */,
+				9D031DCE16BEAFE100BB4578 /* ReferenceCountable.h in Headers */,
+				9D031DCF16BEAFE100BB4578 /* RenderInterface.h in Headers */,
+				9D031DD016BEAFE100BB4578 /* ScriptInterface.h in Headers */,
+				9D031DD116BEAFE100BB4578 /* Stream.h in Headers */,
+				9D031DD216BEAFE100BB4578 /* StreamMemory.h in Headers */,
+				9D031DD316BEAFE100BB4578 /* String.h in Headers */,
+				9D031DD416BEAFE100BB4578 /* StringBase.h in Headers */,
+				9D031DD616BEAFE100BB4578 /* StringUtilities.h in Headers */,
+				9D031DD716BEAFE100BB4578 /* StyleSheet.h in Headers */,
+				9D031DD816BEAFE100BB4578 /* StyleSheetKeywords.h in Headers */,
+				9D031DD916BEAFE100BB4578 /* StyleSheetSpecification.h in Headers */,
+				9D031DDA16BEAFE100BB4578 /* SystemInterface.h in Headers */,
+				9D031DDB16BEAFE100BB4578 /* Texture.h in Headers */,
+				9D031DDC16BEAFE100BB4578 /* TypeConverter.h in Headers */,
+				9D031DDE16BEAFE100BB4578 /* Types.h in Headers */,
+				9D031DDF16BEAFE100BB4578 /* URL.h in Headers */,
+				9D031DE016BEAFE100BB4578 /* Variant.h in Headers */,
+				9D031DE216BEAFE100BB4578 /* Vector2.h in Headers */,
+				9D031DE416BEAFE100BB4578 /* Vertex.h in Headers */,
+				9D031DE516BEAFE100BB4578 /* WString.h in Headers */,
+				9D031DE616BEAFE100BB4578 /* XMLNodeHandler.h in Headers */,
+				9D031DE716BEAFE100BB4578 /* XMLParser.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9D8AC75516BEF4B90025C2F4 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D2AAC07A0554694100DB518D /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -1438,6 +2018,41 @@
 			productReference = 6E8B1EC6123AC80700C451C8 /* RocketDebuggerOSX.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		9D031D4416BEAE5E00BB4578 /* Rocket */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9D031D5716BEAE5E00BB4578 /* Build configuration list for PBXNativeTarget "Rocket" */;
+			buildPhases = (
+				9D031D4016BEAE5E00BB4578 /* Sources */,
+				9D031D4116BEAE5E00BB4578 /* Frameworks */,
+				9D031D4216BEAE5E00BB4578 /* Headers */,
+				9D031D4316BEAE5E00BB4578 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Rocket;
+			productName = Rocket;
+			productReference = 9D031D4516BEAE5E00BB4578 /* Rocket.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		9D8AC75616BEF4B90025C2F4 /* libRocket */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9D8AC75816BEF4BA0025C2F4 /* Build configuration list for PBXNativeTarget "libRocket" */;
+			buildPhases = (
+				9D8AC75316BEF4B90025C2F4 /* Sources */,
+				9D8AC75416BEF4B90025C2F4 /* Frameworks */,
+				9D8AC75516BEF4B90025C2F4 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = libRocket;
+			productName = libRocket;
+			productReference = 9D8AC75716BEF4B90025C2F4 /* libRocket.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		D2AAC07D0554694100DB518D /* RocketCoreiOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1DEB921E08733DC00010E9CD /* Build configuration list for PBXNativeTarget "RocketCoreiOS" */;
@@ -1461,7 +2076,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "Rocket" */;
-			compatibilityVersion = "Xcode 3.1";
+			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
@@ -1478,6 +2093,8 @@
 				6E8B1DDB123ABC7800C451C8 /* RocketCoreOSX */,
 				6E8B1EBB123AC7A200C451C8 /* RocketDebuggeriOS */,
 				6E8B1EC5123AC80700C451C8 /* RocketDebuggerOSX */,
+				9D031D4416BEAE5E00BB4578 /* Rocket */,
+				9D8AC75616BEF4B90025C2F4 /* libRocket */,
 			);
 		};
 /* End PBXProject section */
@@ -1519,6 +2136,13 @@
 				6EF3BC4F12481DD40014316D /* TypeConverter.inl in Resources */,
 				6EF3BC5312481DD40014316D /* Variant.inl in Resources */,
 				6EF3BC5512481DD40014316D /* Vector2.inl in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9D031D4316BEAE5E00BB4578 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1701,6 +2325,7 @@
 				6E8B1E63123ABCC200C451C8 /* XMLNodeHandlerTemplate.cpp in Sources */,
 				6E8B1E64123ABCC200C451C8 /* XMLParser.cpp in Sources */,
 				6E8B1E65123ABCC200C451C8 /* XMLParseTools.cpp in Sources */,
+				9D031D3D16BEACD000BB4578 /* ElementStyleCache.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1772,6 +2397,352 @@
 				6E8B1EFE123AC85100C451C8 /* Geometry.cpp in Sources */,
 				6E8B1F03123AC85100C451C8 /* Plugin.cpp in Sources */,
 				6E8B1F05123AC85100C451C8 /* SystemInterface.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9D031D4016BEAE5E00BB4578 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9D031D7916BEAF9E00BB4578 /* Clipboard.cpp in Sources */,
+				9D031D7A16BEAF9E00BB4578 /* Controls.cpp in Sources */,
+				9D031D7B16BEAF9E00BB4578 /* DataFormatter.cpp in Sources */,
+				9D031D7C16BEAF9E00BB4578 /* DataQuery.cpp in Sources */,
+				9D031D7D16BEAF9E00BB4578 /* DataSource.cpp in Sources */,
+				9D031D7E16BEAF9E00BB4578 /* DataSourceListener.cpp in Sources */,
+				9D031D7F16BEAF9E00BB4578 /* ElementDataGrid.cpp in Sources */,
+				9D031D8016BEAF9E00BB4578 /* ElementDataGridCell.cpp in Sources */,
+				9D031D8116BEAF9E00BB4578 /* ElementDataGridExpandButton.cpp in Sources */,
+				9D031D8216BEAF9E00BB4578 /* ElementDataGridRow.cpp in Sources */,
+				9D031D8316BEAF9E00BB4578 /* ElementForm.cpp in Sources */,
+				9D031D8416BEAF9E00BB4578 /* ElementFormControl.cpp in Sources */,
+				9D031D8516BEAF9E00BB4578 /* ElementFormControlDataSelect.cpp in Sources */,
+				9D031D8616BEAF9E00BB4578 /* ElementFormControlInput.cpp in Sources */,
+				9D031D8716BEAF9E00BB4578 /* ElementFormControlSelect.cpp in Sources */,
+				9D031D8816BEAF9E00BB4578 /* ElementFormControlTextArea.cpp in Sources */,
+				9D031D8916BEAF9E00BB4578 /* ElementTabSet.cpp in Sources */,
+				9D031D8A16BEAF9E00BB4578 /* ElementTextSelection.cpp in Sources */,
+				9D031D8B16BEAFA900BB4578 /* InputType.cpp in Sources */,
+				9D031D8C16BEAFC400BB4578 /* InputTypeButton.cpp in Sources */,
+				9D031D8D16BEAFC400BB4578 /* InputTypeCheckbox.cpp in Sources */,
+				9D031D8E16BEAFC400BB4578 /* InputTypeRadio.cpp in Sources */,
+				9D031D8F16BEAFC400BB4578 /* InputTypeRange.cpp in Sources */,
+				9D031D9016BEAFC400BB4578 /* InputTypeSubmit.cpp in Sources */,
+				9D031D9116BEAFC400BB4578 /* InputTypeText.cpp in Sources */,
+				9D031D9216BEAFC400BB4578 /* SelectOption.cpp in Sources */,
+				9D031D9316BEAFC400BB4578 /* WidgetDropDown.cpp in Sources */,
+				9D031D9416BEAFC400BB4578 /* WidgetSlider.cpp in Sources */,
+				9D031D9516BEAFC400BB4578 /* WidgetSliderInput.cpp in Sources */,
+				9D031D9616BEAFC400BB4578 /* WidgetTextInput.cpp in Sources */,
+				9D031D9716BEAFC400BB4578 /* WidgetTextInputMultiLine.cpp in Sources */,
+				9D031D9816BEAFC400BB4578 /* WidgetTextInputSingleLine.cpp in Sources */,
+				9D031D9916BEAFC400BB4578 /* WidgetTextInputSingleLinePassword.cpp in Sources */,
+				9D031D9A16BEAFC400BB4578 /* XMLNodeHandlerDataGrid.cpp in Sources */,
+				9D031D9B16BEAFC400BB4578 /* XMLNodeHandlerTabSet.cpp in Sources */,
+				9D031D9C16BEAFC400BB4578 /* XMLNodeHandlerTextArea.cpp in Sources */,
+				9D031DE816BEAFF500BB4578 /* BaseXMLParser.cpp in Sources */,
+				9D031DE916BEAFF500BB4578 /* Box.cpp in Sources */,
+				9D031DEA16BEAFF500BB4578 /* Clock.cpp in Sources */,
+				9D031DEB16BEAFF500BB4578 /* Context.cpp in Sources */,
+				9D031DEC16BEAFF500BB4578 /* ContextInstancer.cpp in Sources */,
+				9D031DED16BEAFF500BB4578 /* ContextInstancerDefault.cpp in Sources */,
+				9D031DEE16BEAFF500BB4578 /* ConvolutionFilter.cpp in Sources */,
+				9D031DEF16BEAFF500BB4578 /* Core.cpp in Sources */,
+				9D031DF016BEAFF500BB4578 /* Decorator.cpp in Sources */,
+				9D031DF116BEAFF500BB4578 /* DecoratorInstancer.cpp in Sources */,
+				9D031DF216BEAFF500BB4578 /* DecoratorNone.cpp in Sources */,
+				9D031DF316BEAFF500BB4578 /* DecoratorNoneInstancer.cpp in Sources */,
+				9D031DF416BEAFF500BB4578 /* DecoratorTiled.cpp in Sources */,
+				9D031DF516BEAFF500BB4578 /* DecoratorTiledBox.cpp in Sources */,
+				9D031DF616BEAFF500BB4578 /* DecoratorTiledBoxInstancer.cpp in Sources */,
+				9D031DF716BEAFF500BB4578 /* DecoratorTiledHorizontal.cpp in Sources */,
+				9D031DF816BEAFF500BB4578 /* DecoratorTiledHorizontalInstancer.cpp in Sources */,
+				9D031DF916BEAFF500BB4578 /* DecoratorTiledImage.cpp in Sources */,
+				9D031DFA16BEAFF500BB4578 /* DecoratorTiledImageInstancer.cpp in Sources */,
+				9D031DFB16BEAFF500BB4578 /* DecoratorTiledInstancer.cpp in Sources */,
+				9D031DFC16BEAFF500BB4578 /* DecoratorTiledVertical.cpp in Sources */,
+				9D031DFD16BEAFF500BB4578 /* DecoratorTiledVerticalInstancer.cpp in Sources */,
+				9D031DFE16BEAFF500BB4578 /* Dictionary.cpp in Sources */,
+				9D031DFF16BEAFF500BB4578 /* DocumentHeader.cpp in Sources */,
+				9D031E0016BEAFF500BB4578 /* Element.cpp in Sources */,
+				9D031E0116BEAFF500BB4578 /* ElementBackground.cpp in Sources */,
+				9D031E0216BEAFF500BB4578 /* ElementBorder.cpp in Sources */,
+				9D031E0316BEAFF500BB4578 /* ElementDecoration.cpp in Sources */,
+				9D031E0416BEAFF500BB4578 /* ElementDefinition.cpp in Sources */,
+				9D031E0516BEAFF500BB4578 /* ElementDocument.cpp in Sources */,
+				9D031E0616BEAFF500BB4578 /* ElementHandle.cpp in Sources */,
+				9D031E0716BEAFF500BB4578 /* ElementImage.cpp in Sources */,
+				9D031E0816BEAFF500BB4578 /* ElementInstancer.cpp in Sources */,
+				9D031E0916BEAFF500BB4578 /* ElementReference.cpp in Sources */,
+				9D031E0A16BEAFF500BB4578 /* ElementScroll.cpp in Sources */,
+				9D031E0B16BEAFF500BB4578 /* ElementStyle.cpp in Sources */,
+				9D031E0C16BEAFF500BB4578 /* ElementStyleCache.cpp in Sources */,
+				9D031E0D16BEAFF500BB4578 /* ElementText.cpp in Sources */,
+				9D031E0E16BEAFF500BB4578 /* ElementTextDefault.cpp in Sources */,
+				9D031E0F16BEAFF500BB4578 /* ElementUtilities.cpp in Sources */,
+				9D031E1016BEAFF500BB4578 /* Event.cpp in Sources */,
+				9D031E1116BEAFF500BB4578 /* EventDispatcher.cpp in Sources */,
+				9D031E1216BEAFF500BB4578 /* EventInstancer.cpp in Sources */,
+				9D031E1316BEAFF500BB4578 /* EventInstancerDefault.cpp in Sources */,
+				9D031E1416BEAFF500BB4578 /* EventListenerInstancer.cpp in Sources */,
+				9D031E1516BEAFF500BB4578 /* Factory.cpp in Sources */,
+				9D031E1616BEAFF500BB4578 /* FileInterface.cpp in Sources */,
+				9D031E1716BEAFF500BB4578 /* FileInterfaceDefault.cpp in Sources */,
+				9D031E1816BEAFF500BB4578 /* FontDatabase.cpp in Sources */,
+				9D031E1916BEAFF500BB4578 /* FontEffect.cpp in Sources */,
+				9D031E1A16BEAFF500BB4578 /* FontEffectInstancer.cpp in Sources */,
+				9D031E1B16BEAFF500BB4578 /* FontEffectNone.cpp in Sources */,
+				9D031E1C16BEAFF500BB4578 /* FontEffectNoneInstancer.cpp in Sources */,
+				9D031E1D16BEAFF500BB4578 /* FontEffectOutline.cpp in Sources */,
+				9D031E1E16BEAFF500BB4578 /* FontEffectOutlineInstancer.cpp in Sources */,
+				9D031E1F16BEAFF500BB4578 /* FontEffectShadow.cpp in Sources */,
+				9D031E2016BEAFF500BB4578 /* FontEffectShadowInstancer.cpp in Sources */,
+				9D031E2116BEAFF500BB4578 /* FontFace.cpp in Sources */,
+				9D031E2216BEAFF500BB4578 /* FontFaceHandle.cpp in Sources */,
+				9D031E2316BEAFF500BB4578 /* FontFaceLayer.cpp in Sources */,
+				9D031E2416BEAFF500BB4578 /* FontFamily.cpp in Sources */,
+				9D031E2516BEAFF500BB4578 /* Geometry.cpp in Sources */,
+				9D031E2616BEAFF500BB4578 /* GeometryDatabase.cpp in Sources */,
+				9D031E2716BEAFF500BB4578 /* GeometryUtilities.cpp in Sources */,
+				9D031E2816BEAFF500BB4578 /* LayoutBlockBox.cpp in Sources */,
+				9D031E2916BEAFF500BB4578 /* LayoutBlockBoxSpace.cpp in Sources */,
+				9D031E2A16BEAFF500BB4578 /* LayoutEngine.cpp in Sources */,
+				9D031E2B16BEAFF500BB4578 /* LayoutInlineBox.cpp in Sources */,
+				9D031E2C16BEAFF500BB4578 /* LayoutInlineBoxText.cpp in Sources */,
+				9D031E2D16BEAFF500BB4578 /* LayoutLineBox.cpp in Sources */,
+				9D031E2E16BEAFF500BB4578 /* Log.cpp in Sources */,
+				9D031E2F16BEAFF500BB4578 /* Math.cpp in Sources */,
+				9D031E3016BEAFF500BB4578 /* Plugin.cpp in Sources */,
+				9D031E3116BEAFF500BB4578 /* PluginRegistry.cpp in Sources */,
+				9D031E3216BEAFF500BB4578 /* Property.cpp in Sources */,
+				9D031E3316BEAFF500BB4578 /* PropertyDefinition.cpp in Sources */,
+				9D031E3416BEAFF500BB4578 /* PropertyDictionary.cpp in Sources */,
+				9D031E3516BEAFF500BB4578 /* PropertyParserColour.cpp in Sources */,
+				9D031E3616BEAFF500BB4578 /* PropertyParserKeyword.cpp in Sources */,
+				9D031E3716BEAFF500BB4578 /* PropertyParserNumber.cpp in Sources */,
+				9D031E3816BEAFF500BB4578 /* PropertyParserString.cpp in Sources */,
+				9D031E3916BEAFF500BB4578 /* PropertySpecification.cpp in Sources */,
+				9D031E3A16BEAFF500BB4578 /* ReferenceCountable.cpp in Sources */,
+				9D031E3B16BEAFF500BB4578 /* RenderInterface.cpp in Sources */,
+				9D031E3C16BEAFF500BB4578 /* Stream.cpp in Sources */,
+				9D031E3D16BEAFF500BB4578 /* StreamFile.cpp in Sources */,
+				9D031E3E16BEAFF500BB4578 /* StreamMemory.cpp in Sources */,
+				9D031E3F16BEAFF500BB4578 /* String.cpp in Sources */,
+				9D031E4016BEAFF500BB4578 /* StringCache.cpp in Sources */,
+				9D031E4116BEAFF500BB4578 /* StringUtilities.cpp in Sources */,
+				9D031E4216BEAFF500BB4578 /* StyleSheet.cpp in Sources */,
+				9D031E4316BEAFF500BB4578 /* StyleSheetFactory.cpp in Sources */,
+				9D031E4416BEAFF500BB4578 /* StyleSheetNode.cpp in Sources */,
+				9D031E4516BEAFF500BB4578 /* StyleSheetNodeSelector.cpp in Sources */,
+				9D031E4616BEAFF500BB4578 /* StyleSheetNodeSelectorEmpty.cpp in Sources */,
+				9D031E4716BEAFF500BB4578 /* StyleSheetNodeSelectorFirstChild.cpp in Sources */,
+				9D031E4816BEAFF500BB4578 /* StyleSheetNodeSelectorFirstOfType.cpp in Sources */,
+				9D031E4916BEAFF500BB4578 /* StyleSheetNodeSelectorLastChild.cpp in Sources */,
+				9D031E4A16BEAFF500BB4578 /* StyleSheetNodeSelectorLastOfType.cpp in Sources */,
+				9D031E4B16BEAFF500BB4578 /* StyleSheetNodeSelectorNthChild.cpp in Sources */,
+				9D031E4C16BEAFF500BB4578 /* StyleSheetNodeSelectorNthLastChild.cpp in Sources */,
+				9D031E4D16BEAFF500BB4578 /* StyleSheetNodeSelectorNthLastOfType.cpp in Sources */,
+				9D031E4E16BEAFF500BB4578 /* StyleSheetNodeSelectorNthOfType.cpp in Sources */,
+				9D031E4F16BEAFF500BB4578 /* StyleSheetNodeSelectorOnlyChild.cpp in Sources */,
+				9D031E5016BEAFF500BB4578 /* StyleSheetNodeSelectorOnlyOfType.cpp in Sources */,
+				9D031E5116BEAFF500BB4578 /* StyleSheetParser.cpp in Sources */,
+				9D031E5216BEAFF500BB4578 /* StyleSheetSpecification.cpp in Sources */,
+				9D031E5316BEAFF500BB4578 /* SystemInterface.cpp in Sources */,
+				9D031E5416BEAFF500BB4578 /* Template.cpp in Sources */,
+				9D031E5516BEAFF500BB4578 /* TemplateCache.cpp in Sources */,
+				9D031E5616BEAFF500BB4578 /* Texture.cpp in Sources */,
+				9D031E5716BEAFF500BB4578 /* TextureDatabase.cpp in Sources */,
+				9D031E5816BEAFF500BB4578 /* TextureLayout.cpp in Sources */,
+				9D031E5916BEAFF500BB4578 /* TextureLayoutRectangle.cpp in Sources */,
+				9D031E5A16BEAFF500BB4578 /* TextureLayoutRow.cpp in Sources */,
+				9D031E5B16BEAFF500BB4578 /* TextureLayoutTexture.cpp in Sources */,
+				9D031E5C16BEAFF500BB4578 /* TextureResource.cpp in Sources */,
+				9D031E5D16BEAFF500BB4578 /* UnicodeRange.cpp in Sources */,
+				9D031E5E16BEAFF500BB4578 /* URL.cpp in Sources */,
+				9D031E5F16BEAFF500BB4578 /* Variant.cpp in Sources */,
+				9D031E6016BEAFF500BB4578 /* WidgetSlider.cpp in Sources */,
+				9D031E6116BEAFF500BB4578 /* WidgetSliderScroll.cpp in Sources */,
+				9D031E6216BEAFF500BB4578 /* WString.cpp in Sources */,
+				9D031E6316BEAFF500BB4578 /* XMLNodeHandler.cpp in Sources */,
+				9D031E6416BEAFF500BB4578 /* XMLNodeHandlerBody.cpp in Sources */,
+				9D031E6516BEAFF500BB4578 /* XMLNodeHandlerDefault.cpp in Sources */,
+				9D031E6616BEAFF500BB4578 /* XMLNodeHandlerHead.cpp in Sources */,
+				9D031E6716BEAFF500BB4578 /* XMLNodeHandlerTemplate.cpp in Sources */,
+				9D031E6816BEAFF500BB4578 /* XMLParser.cpp in Sources */,
+				9D031E6916BEAFF500BB4578 /* XMLParseTools.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9D8AC75316BEF4B90025C2F4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9D8AC75B16BEF5570025C2F4 /* Clipboard.cpp in Sources */,
+				9D8AC75C16BEF5570025C2F4 /* Controls.cpp in Sources */,
+				9D8AC75D16BEF5570025C2F4 /* DataFormatter.cpp in Sources */,
+				9D8AC75E16BEF5570025C2F4 /* DataQuery.cpp in Sources */,
+				9D8AC75F16BEF5570025C2F4 /* DataSource.cpp in Sources */,
+				9D8AC76016BEF5570025C2F4 /* DataSourceListener.cpp in Sources */,
+				9D8AC76116BEF5570025C2F4 /* ElementDataGrid.cpp in Sources */,
+				9D8AC76216BEF5570025C2F4 /* ElementDataGridCell.cpp in Sources */,
+				9D8AC76316BEF5570025C2F4 /* ElementDataGridExpandButton.cpp in Sources */,
+				9D8AC76416BEF5570025C2F4 /* ElementDataGridRow.cpp in Sources */,
+				9D8AC76516BEF5570025C2F4 /* ElementForm.cpp in Sources */,
+				9D8AC76616BEF5570025C2F4 /* ElementFormControl.cpp in Sources */,
+				9D8AC76716BEF5570025C2F4 /* ElementFormControlDataSelect.cpp in Sources */,
+				9D8AC76816BEF5570025C2F4 /* ElementFormControlInput.cpp in Sources */,
+				9D8AC76916BEF5570025C2F4 /* ElementFormControlSelect.cpp in Sources */,
+				9D8AC76A16BEF5570025C2F4 /* ElementFormControlTextArea.cpp in Sources */,
+				9D8AC76B16BEF5570025C2F4 /* ElementTabSet.cpp in Sources */,
+				9D8AC76C16BEF5570025C2F4 /* ElementTextSelection.cpp in Sources */,
+				9D8AC76D16BEF5570025C2F4 /* InputType.cpp in Sources */,
+				9D8AC76E16BEF5570025C2F4 /* InputTypeButton.cpp in Sources */,
+				9D8AC76F16BEF5570025C2F4 /* InputTypeCheckbox.cpp in Sources */,
+				9D8AC77016BEF5570025C2F4 /* InputTypeRadio.cpp in Sources */,
+				9D8AC77116BEF5570025C2F4 /* InputTypeRange.cpp in Sources */,
+				9D8AC77216BEF5570025C2F4 /* InputTypeSubmit.cpp in Sources */,
+				9D8AC77316BEF5570025C2F4 /* InputTypeText.cpp in Sources */,
+				9D8AC77416BEF5570025C2F4 /* SelectOption.cpp in Sources */,
+				9D8AC77516BEF5570025C2F4 /* WidgetDropDown.cpp in Sources */,
+				9D8AC77616BEF5570025C2F4 /* WidgetSlider.cpp in Sources */,
+				9D8AC77716BEF5570025C2F4 /* WidgetSliderInput.cpp in Sources */,
+				9D8AC77816BEF5570025C2F4 /* WidgetTextInput.cpp in Sources */,
+				9D8AC77916BEF5570025C2F4 /* WidgetTextInputMultiLine.cpp in Sources */,
+				9D8AC77A16BEF5570025C2F4 /* WidgetTextInputSingleLine.cpp in Sources */,
+				9D8AC77B16BEF5570025C2F4 /* WidgetTextInputSingleLinePassword.cpp in Sources */,
+				9D8AC77C16BEF5570025C2F4 /* XMLNodeHandlerDataGrid.cpp in Sources */,
+				9D8AC77D16BEF5570025C2F4 /* XMLNodeHandlerTabSet.cpp in Sources */,
+				9D8AC77E16BEF5570025C2F4 /* XMLNodeHandlerTextArea.cpp in Sources */,
+				9D8AC77F16BEF5700025C2F4 /* BaseXMLParser.cpp in Sources */,
+				9D8AC78016BEF5700025C2F4 /* Box.cpp in Sources */,
+				9D8AC78116BEF5700025C2F4 /* Clock.cpp in Sources */,
+				9D8AC78216BEF5700025C2F4 /* Context.cpp in Sources */,
+				9D8AC78316BEF5700025C2F4 /* ContextInstancer.cpp in Sources */,
+				9D8AC78416BEF5700025C2F4 /* ContextInstancerDefault.cpp in Sources */,
+				9D8AC78516BEF5700025C2F4 /* ConvolutionFilter.cpp in Sources */,
+				9D8AC78616BEF5700025C2F4 /* Core.cpp in Sources */,
+				9D8AC78716BEF5700025C2F4 /* Decorator.cpp in Sources */,
+				9D8AC78816BEF5700025C2F4 /* DecoratorInstancer.cpp in Sources */,
+				9D8AC78916BEF5700025C2F4 /* DecoratorNone.cpp in Sources */,
+				9D8AC78A16BEF5700025C2F4 /* DecoratorNoneInstancer.cpp in Sources */,
+				9D8AC78B16BEF5700025C2F4 /* DecoratorTiled.cpp in Sources */,
+				9D8AC78C16BEF5700025C2F4 /* DecoratorTiledBox.cpp in Sources */,
+				9D8AC78D16BEF5700025C2F4 /* DecoratorTiledBoxInstancer.cpp in Sources */,
+				9D8AC78E16BEF5700025C2F4 /* DecoratorTiledHorizontal.cpp in Sources */,
+				9D8AC78F16BEF5700025C2F4 /* DecoratorTiledHorizontalInstancer.cpp in Sources */,
+				9D8AC79016BEF5700025C2F4 /* DecoratorTiledImage.cpp in Sources */,
+				9D8AC79116BEF5700025C2F4 /* DecoratorTiledImageInstancer.cpp in Sources */,
+				9D8AC79216BEF5700025C2F4 /* DecoratorTiledInstancer.cpp in Sources */,
+				9D8AC79316BEF5700025C2F4 /* DecoratorTiledVertical.cpp in Sources */,
+				9D8AC79416BEF5700025C2F4 /* DecoratorTiledVerticalInstancer.cpp in Sources */,
+				9D8AC79516BEF5700025C2F4 /* Dictionary.cpp in Sources */,
+				9D8AC79616BEF5700025C2F4 /* DocumentHeader.cpp in Sources */,
+				9D8AC79716BEF5700025C2F4 /* Element.cpp in Sources */,
+				9D8AC79816BEF5700025C2F4 /* ElementBackground.cpp in Sources */,
+				9D8AC79916BEF5700025C2F4 /* ElementBorder.cpp in Sources */,
+				9D8AC79A16BEF5700025C2F4 /* ElementDecoration.cpp in Sources */,
+				9D8AC79B16BEF5700025C2F4 /* ElementDefinition.cpp in Sources */,
+				9D8AC79C16BEF5700025C2F4 /* ElementDocument.cpp in Sources */,
+				9D8AC79D16BEF5700025C2F4 /* ElementHandle.cpp in Sources */,
+				9D8AC79E16BEF5700025C2F4 /* ElementImage.cpp in Sources */,
+				9D8AC79F16BEF5700025C2F4 /* ElementInstancer.cpp in Sources */,
+				9D8AC7A016BEF5700025C2F4 /* ElementReference.cpp in Sources */,
+				9D8AC7A116BEF5700025C2F4 /* ElementScroll.cpp in Sources */,
+				9D8AC7A216BEF5700025C2F4 /* ElementStyle.cpp in Sources */,
+				9D8AC7A316BEF5700025C2F4 /* ElementStyleCache.cpp in Sources */,
+				9D8AC7A416BEF5700025C2F4 /* ElementText.cpp in Sources */,
+				9D8AC7A516BEF5700025C2F4 /* ElementTextDefault.cpp in Sources */,
+				9D8AC7A616BEF5700025C2F4 /* ElementUtilities.cpp in Sources */,
+				9D8AC7A716BEF5700025C2F4 /* Event.cpp in Sources */,
+				9D8AC7A816BEF5700025C2F4 /* EventDispatcher.cpp in Sources */,
+				9D8AC7A916BEF5700025C2F4 /* EventInstancer.cpp in Sources */,
+				9D8AC7AA16BEF5700025C2F4 /* EventInstancerDefault.cpp in Sources */,
+				9D8AC7AB16BEF5700025C2F4 /* EventListenerInstancer.cpp in Sources */,
+				9D8AC7AC16BEF5700025C2F4 /* Factory.cpp in Sources */,
+				9D8AC7AD16BEF5700025C2F4 /* FileInterface.cpp in Sources */,
+				9D8AC7AE16BEF5700025C2F4 /* FileInterfaceDefault.cpp in Sources */,
+				9D8AC7AF16BEF5700025C2F4 /* FontDatabase.cpp in Sources */,
+				9D8AC7B016BEF5700025C2F4 /* FontEffect.cpp in Sources */,
+				9D8AC7B116BEF5700025C2F4 /* FontEffectInstancer.cpp in Sources */,
+				9D8AC7B216BEF5700025C2F4 /* FontEffectNone.cpp in Sources */,
+				9D8AC7B316BEF5700025C2F4 /* FontEffectNoneInstancer.cpp in Sources */,
+				9D8AC7B416BEF5700025C2F4 /* FontEffectOutline.cpp in Sources */,
+				9D8AC7B516BEF5700025C2F4 /* FontEffectOutlineInstancer.cpp in Sources */,
+				9D8AC7B616BEF5700025C2F4 /* FontEffectShadow.cpp in Sources */,
+				9D8AC7B716BEF5700025C2F4 /* FontEffectShadowInstancer.cpp in Sources */,
+				9D8AC7B816BEF5700025C2F4 /* FontFace.cpp in Sources */,
+				9D8AC7B916BEF5700025C2F4 /* FontFaceHandle.cpp in Sources */,
+				9D8AC7BA16BEF5700025C2F4 /* FontFaceLayer.cpp in Sources */,
+				9D8AC7BB16BEF5700025C2F4 /* FontFamily.cpp in Sources */,
+				9D8AC7BC16BEF5700025C2F4 /* Geometry.cpp in Sources */,
+				9D8AC7BD16BEF5700025C2F4 /* GeometryDatabase.cpp in Sources */,
+				9D8AC7BE16BEF5700025C2F4 /* GeometryUtilities.cpp in Sources */,
+				9D8AC7BF16BEF5700025C2F4 /* LayoutBlockBox.cpp in Sources */,
+				9D8AC7C016BEF5700025C2F4 /* LayoutBlockBoxSpace.cpp in Sources */,
+				9D8AC7C116BEF5700025C2F4 /* LayoutEngine.cpp in Sources */,
+				9D8AC7C216BEF5700025C2F4 /* LayoutInlineBox.cpp in Sources */,
+				9D8AC7C316BEF5700025C2F4 /* LayoutInlineBoxText.cpp in Sources */,
+				9D8AC7C416BEF5700025C2F4 /* LayoutLineBox.cpp in Sources */,
+				9D8AC7C516BEF5700025C2F4 /* Log.cpp in Sources */,
+				9D8AC7C616BEF5700025C2F4 /* Math.cpp in Sources */,
+				9D8AC7C716BEF5700025C2F4 /* Plugin.cpp in Sources */,
+				9D8AC7C816BEF5700025C2F4 /* PluginRegistry.cpp in Sources */,
+				9D8AC7C916BEF5700025C2F4 /* Property.cpp in Sources */,
+				9D8AC7CA16BEF5700025C2F4 /* PropertyDefinition.cpp in Sources */,
+				9D8AC7CB16BEF5700025C2F4 /* PropertyDictionary.cpp in Sources */,
+				9D8AC7CC16BEF5700025C2F4 /* PropertyParserColour.cpp in Sources */,
+				9D8AC7CD16BEF5700025C2F4 /* PropertyParserKeyword.cpp in Sources */,
+				9D8AC7CE16BEF5700025C2F4 /* PropertyParserNumber.cpp in Sources */,
+				9D8AC7CF16BEF5700025C2F4 /* PropertyParserString.cpp in Sources */,
+				9D8AC7D016BEF5700025C2F4 /* PropertySpecification.cpp in Sources */,
+				9D8AC7D116BEF5700025C2F4 /* ReferenceCountable.cpp in Sources */,
+				9D8AC7D216BEF5700025C2F4 /* RenderInterface.cpp in Sources */,
+				9D8AC7D316BEF5700025C2F4 /* Stream.cpp in Sources */,
+				9D8AC7D416BEF5700025C2F4 /* StreamFile.cpp in Sources */,
+				9D8AC7D516BEF5700025C2F4 /* StreamMemory.cpp in Sources */,
+				9D8AC7D616BEF5700025C2F4 /* String.cpp in Sources */,
+				9D8AC7D716BEF5700025C2F4 /* StringCache.cpp in Sources */,
+				9D8AC7D816BEF5700025C2F4 /* StringUtilities.cpp in Sources */,
+				9D8AC7D916BEF5700025C2F4 /* StyleSheet.cpp in Sources */,
+				9D8AC7DA16BEF5700025C2F4 /* StyleSheetFactory.cpp in Sources */,
+				9D8AC7DB16BEF5700025C2F4 /* StyleSheetNode.cpp in Sources */,
+				9D8AC7DC16BEF5700025C2F4 /* StyleSheetNodeSelector.cpp in Sources */,
+				9D8AC7DD16BEF5700025C2F4 /* StyleSheetNodeSelectorEmpty.cpp in Sources */,
+				9D8AC7DE16BEF5700025C2F4 /* StyleSheetNodeSelectorFirstChild.cpp in Sources */,
+				9D8AC7DF16BEF5700025C2F4 /* StyleSheetNodeSelectorFirstOfType.cpp in Sources */,
+				9D8AC7E016BEF5700025C2F4 /* StyleSheetNodeSelectorLastChild.cpp in Sources */,
+				9D8AC7E116BEF5700025C2F4 /* StyleSheetNodeSelectorLastOfType.cpp in Sources */,
+				9D8AC7E216BEF5700025C2F4 /* StyleSheetNodeSelectorNthChild.cpp in Sources */,
+				9D8AC7E316BEF5700025C2F4 /* StyleSheetNodeSelectorNthLastChild.cpp in Sources */,
+				9D8AC7E416BEF5700025C2F4 /* StyleSheetNodeSelectorNthLastOfType.cpp in Sources */,
+				9D8AC7E516BEF5700025C2F4 /* StyleSheetNodeSelectorNthOfType.cpp in Sources */,
+				9D8AC7E616BEF5700025C2F4 /* StyleSheetNodeSelectorOnlyChild.cpp in Sources */,
+				9D8AC7E716BEF5700025C2F4 /* StyleSheetNodeSelectorOnlyOfType.cpp in Sources */,
+				9D8AC7E816BEF5700025C2F4 /* StyleSheetParser.cpp in Sources */,
+				9D8AC7E916BEF5700025C2F4 /* StyleSheetSpecification.cpp in Sources */,
+				9D8AC7EA16BEF5700025C2F4 /* SystemInterface.cpp in Sources */,
+				9D8AC7EB16BEF5700025C2F4 /* Template.cpp in Sources */,
+				9D8AC7EC16BEF5710025C2F4 /* TemplateCache.cpp in Sources */,
+				9D8AC7ED16BEF5710025C2F4 /* Texture.cpp in Sources */,
+				9D8AC7EE16BEF5710025C2F4 /* TextureDatabase.cpp in Sources */,
+				9D8AC7EF16BEF5710025C2F4 /* TextureLayout.cpp in Sources */,
+				9D8AC7F016BEF5710025C2F4 /* TextureLayoutRectangle.cpp in Sources */,
+				9D8AC7F116BEF5710025C2F4 /* TextureLayoutRow.cpp in Sources */,
+				9D8AC7F216BEF5710025C2F4 /* TextureLayoutTexture.cpp in Sources */,
+				9D8AC7F316BEF5710025C2F4 /* TextureResource.cpp in Sources */,
+				9D8AC7F416BEF5710025C2F4 /* UnicodeRange.cpp in Sources */,
+				9D8AC7F516BEF5710025C2F4 /* URL.cpp in Sources */,
+				9D8AC7F616BEF5710025C2F4 /* Variant.cpp in Sources */,
+				9D8AC7F716BEF5710025C2F4 /* WidgetSlider.cpp in Sources */,
+				9D8AC7F816BEF5710025C2F4 /* WidgetSliderScroll.cpp in Sources */,
+				9D8AC7F916BEF5710025C2F4 /* WString.cpp in Sources */,
+				9D8AC7FA16BEF5710025C2F4 /* XMLNodeHandler.cpp in Sources */,
+				9D8AC7FB16BEF5710025C2F4 /* XMLNodeHandlerBody.cpp in Sources */,
+				9D8AC7FC16BEF5710025C2F4 /* XMLNodeHandlerDefault.cpp in Sources */,
+				9D8AC7FD16BEF5710025C2F4 /* XMLNodeHandlerHead.cpp in Sources */,
+				9D8AC7FE16BEF5710025C2F4 /* XMLNodeHandlerTemplate.cpp in Sources */,
+				9D8AC7FF16BEF5710025C2F4 /* XMLParser.cpp in Sources */,
+				9D8AC80016BEF5710025C2F4 /* XMLParseTools.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1908,6 +2879,7 @@
 				6E9D09781209858B00099E1A /* Math.cpp in Sources */,
 				6E9D0988120986B600099E1A /* ReferenceCountable.cpp in Sources */,
 				6E9D099C1209878A00099E1A /* String.cpp in Sources */,
+				9D031D3E16BEACDA00BB4578 /* ElementStyleCache.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2049,7 +3021,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -2061,7 +3033,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Rocket_Prefix.pch;
 				INFOPLIST_FILE = "plist/RocketCoreOSX-Info.plist";
-				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				INSTALL_PATH = "@rpath/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../support/lib\"",
@@ -2074,7 +3046,7 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = RocketCoreOSX;
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx10.7;
 			};
 			name = Debug;
 		};
@@ -2082,7 +3054,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -2093,7 +3065,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Rocket_Prefix.pch;
 				INFOPLIST_FILE = "plist/RocketCoreOSX-Info.plist";
-				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				INSTALL_PATH = "@rpath/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../support/lib\"",
@@ -2106,7 +3078,7 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = RocketCoreOSX;
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx10.7;
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -2115,7 +3087,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -2136,7 +3108,7 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = RocketControlsOSX;
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx10.7;
 			};
 			name = Debug;
 		};
@@ -2144,7 +3116,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -2164,7 +3136,7 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = RocketControlsOSX;
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx10.7;
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -2255,6 +3227,148 @@
 			};
 			name = Release;
 		};
+		9D031D5816BEAE5E00BB4578 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Library/Frameworks\"",
+				);
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Rocket_Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INSTALL_PATH = "@rpath";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/usr/lib\"",
+					"\"$(SRCROOT)/../../support/lib\"",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.7;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Debug;
+		};
+		9D031D5916BEAE5E00BB4578 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Library/Frameworks\"",
+				);
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Rocket_Prefix.pch;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INSTALL_PATH = "@rpath";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/usr/lib\"",
+					"\"$(SRCROOT)/../../support/lib\"",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.7;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Release;
+		};
+		9D8AC75916BEF4BA0025C2F4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				EXECUTABLE_PREFIX = "";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../support/lib\"",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.7;
+			};
+			name = Debug;
+		};
+		9D8AC75A16BEF4BA0025C2F4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				EXECUTABLE_PREFIX = "";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../support/lib\"",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.7;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -2320,6 +3434,23 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		9D031D5716BEAE5E00BB4578 /* Build configuration list for PBXNativeTarget "Rocket" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9D031D5816BEAE5E00BB4578 /* Debug */,
+				9D031D5916BEAE5E00BB4578 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9D8AC75816BEF4BA0025C2F4 /* Build configuration list for PBXNativeTarget "libRocket" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9D8AC75916BEF4BA0025C2F4 /* Debug */,
+				9D8AC75A16BEF4BA0025C2F4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

@@ -705,7 +705,7 @@ void CG_ViewSmoothPredictedSteps( vec3_t vieworg )
 */
 static void CG_ChaseCamButtons( void )
 {
-#define CHASECAMBUTTONSDELAY ( cg.time + 250 )
+#define CHASECAMBUTTONSDELAY ( cg.realTime + 250 )
 	usercmd_t cmd;
 	qboolean chasecam = ( cg.frame.playerState.pmove.pm_type == PM_CHASECAM )
 		&& ( cg.frame.playerState.POVnum != (unsigned)( cgs.playerNum + 1 ) );
@@ -713,7 +713,7 @@ static void CG_ChaseCamButtons( void )
 
 	if( (cg.frame.multipov || chasecam) && !CG_DemoCam_IsFree() )
 	{
-		if( cg.time <= chaseCam.cmd_mode_delay )
+		if( cg.realTime <= chaseCam.cmd_mode_delay )
 			return;
 
 		trap_NET_GetUserCmd( trap_NET_GetCurrentUserCmdNum() - 1, &cmd );
@@ -765,7 +765,7 @@ static void CG_ChaseCamButtons( void )
 		{
 			trap_NET_GetUserCmd( trap_NET_GetCurrentUserCmdNum() - 1, &cmd );
 
-			if( ( cmd.buttons & BUTTON_ATTACK ) && cg.time > chaseCam.cmd_mode_delay )
+			if( ( cmd.buttons & BUTTON_ATTACK ) && cg.realTime > chaseCam.cmd_mode_delay )
 			{
 				trap_Cmd_ExecuteText( EXEC_NOW, "camswitch" );
 				chaseCam.cmd_mode_delay = CHASECAMBUTTONSDELAY;

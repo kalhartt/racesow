@@ -2021,10 +2021,14 @@ void G_ClearPlayerStateEvents( gclient_t *client )
 */
 edict_t *G_PlayerForText( const char *text )
 {
+	int pnum;
+
 	if( !text || !text[0] )
 		return NULL;
 
-	if( !Q_stricmp( text, va( "%i", atoi( text ) ) ) && atoi( text ) < gs.maxclients && game.edicts[atoi( text )+1].r.inuse )
+	pnum = atoi( text );
+
+	if( !Q_stricmp( text, va( "%i", pnum ) ) && pnum >= 0 && pnum < gs.maxclients && game.edicts[pnum+1].r.inuse )
 	{
 		return &game.edicts[atoi( text )+1];
 	}

@@ -1848,8 +1848,6 @@ void CG_AddEntities( void )
 			if( cg_gibs->integer )
 			{
 				CG_AddGenericEnt( cent );
-				if( cg_gibs->integer != 1 )
-					CG_NewBloodTrail( cent );
 				CG_EntityLoopSound( state, ATTN_STATIC );
 				canLight = qtrue;
 			}
@@ -2089,16 +2087,7 @@ void CG_UpdateEntities( void )
 			{
 				cent->renderfx |= RF_NOSHADOW;
 				CG_UpdateGenericEnt( cent );
-
-				// set the gib model ignoring the modelindex one
-				if( cg_gibs->integer == 1 )
-				{
-					cent->ent.model = CG_MediaModel( cgs.media.modTechyGibs[ 0 ] );
-				}
-				else
-				{
-					cent->ent.model = CG_MediaModel( cgs.media.modMeatyGibs[ 0 ] );
-				}
+				cent->ent.model = CG_MediaModel( cgs.media.modTechyGibs[ 0 ] );
 			}
 			break;
 

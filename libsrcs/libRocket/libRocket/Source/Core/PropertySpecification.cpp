@@ -60,9 +60,17 @@ PropertyDefinition& PropertySpecification::RegisterProperty(const String& proper
 	// Delete any existing property.
 	PropertyMap::iterator iterator = properties.find(lower_case_name);
 	if (iterator != properties.end())
+	{
 		delete (*iterator).second;
+	}
 	else
+	{
 		property_names.insert(lower_case_name);
+		if (inherited)
+		{
+			inherited_property_names.insert(lower_case_name);
+		}
+	}
 
 	properties[lower_case_name] = property_definition;
 	return *property_definition;
@@ -82,6 +90,12 @@ const PropertyDefinition* PropertySpecification::GetProperty(const String& prope
 const PropertyNameList& PropertySpecification::GetRegisteredProperties(void) const
 {
 	return property_names;
+}
+
+// Fetches a list of the names of all registered property definitions.
+const PropertyNameList& PropertySpecification::GetRegisteredInheritedProperties(void) const
+{
+	return inherited_property_names;
 }
 
 // Registers a shorthand property definition.

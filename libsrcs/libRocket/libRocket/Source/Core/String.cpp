@@ -87,12 +87,6 @@ String operator+(const char* cstring, const String& string)
 	return String(cstring) + string;
 }
 
-template<>
-bool StringBase< char >::operator<(const char * compare) const
-{
-	return strcmp( value, compare ) < 0;
-}
-
 //#define ENABLE_STRING_TESTS
 #ifdef ENABLE_STRING_TESTS
 #include <string>

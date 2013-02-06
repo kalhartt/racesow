@@ -1396,95 +1396,48 @@ void CG_SmallPileOfGibs( vec3_t origin, int damage, const vec3_t initialVelocity
 	float mass;
 	vec3_t angles, velocity;
 	int time;
+	float baseangle = random() * 2 * M_PI;
+	float radialspeed = 5.0f * damage;
 
 	if( !cg_gibs->integer )
 		return;
 
-	if( cg_gibs->integer > 1 )
+	clamp( radialspeed, 50.0f, 100.0f );
+
+	time = 15;
+	mass = 120;
+	count = cg_gibs->integer;
+	clamp( count, 10, 128 );	
+
+	VectorCopy( initialVelocity, velocity );
+
+	// clip gib velocity
+	clamp( velocity[0], -100, 100 );
+	clamp( velocity[1], -100, 100 );
+	clamp( velocity[2], 100, 500 );  // always some upwards
+
+	for( i = 0; i < count; i++ )
 	{
-		time = 50;
-		mass = 60;
-		count = cg_gibs->integer;
-		clamp( count, 2, 128 );
+		le = CG_AllocModel( LE_NO_FADE, origin, vec3_origin, time + time * random(),
+			1, 1, 1, 1,
+			0, 0, 0, 0,
+			CG_MediaModel( cgs.media.modTechyGibs[MAX_BIG_TECHY_GIBS + (((int)brandom( 0, MAX_SMALL_TECHY_GIBS )) % MAX_SMALL_TECHY_GIBS)] ),
+			NULL );
 
-		for( i = 0; i < count; i++ )
-		{
-			le = CG_AllocModel( LE_NO_FADE, origin, vec3_origin, time + time * random(),
-				1, 1, 1, 1,
-				0, 0, 0, 0,
-				CG_MediaModel( cgs.media.modMeatyGibs[((int)brandom( 0, MAX_MEATY_GIBS )) % (MAX_MEATY_GIBS)] ),
-				NULL );
+		VectorSet( angles, crandom() * 360, crandom() * 360, crandom() * 360 );
+		AnglesToAxis( angles, le->ent.axis );
+		le->ent.scale = 1.0 + ( random() * 0.5f );
+		le->ent.renderfx = RF_FULLBRIGHT|RF_NOSHADOW;
 
-			// random rotation and scale variations
-			VectorSet( angles, crandom() * 360, crandom() * 360, crandom() * 360 );
-			AnglesToAxis( angles, le->ent.axis );
-			le->ent.scale = 0.75f - ( random() * 0.25 );
-			le->ent.renderfx = RF_FULLBRIGHT|RF_NOSHADOW;
+		le->velocity[0] = velocity[0] + ( cos( baseangle + M_PI * 2 * (float)(i) / (float)(count) ) * radialspeed ) + crandom() * radialspeed * 0.5f;
+		le->velocity[1] = velocity[1] + ( sin( baseangle + M_PI * 2 * (float)(i) / (float)(count) ) * radialspeed ) + crandom() * radialspeed * 0.5f;
+		le->velocity[2] = velocity[2] + 125 + crandom() * radialspeed;
 
-			velocity[0] = 20.0 * crandom();
-			velocity[1] = 20.0 * crandom();
-			velocity[2] = 20.0 + 20.0 * random();
-			VectorScale( velocity, damage * 0.1, velocity );
-
-			VectorAdd( initialVelocity, velocity, le->velocity );
-			clamp( le->velocity[0], -200, 200 );
-			clamp( le->velocity[1], -200, 200 );
-			clamp( le->velocity[2], 100, 400 );  // always have upwards
-
-			// velocity brought by game + random variations
-			le->velocity[0] += crandom() * 75;
-			le->velocity[1] += crandom() * 75;
-			le->velocity[2] += random() * 75;
-
-			//friction and gravity
-			VectorSet( le->accel, -0.2f, -0.2f, -500 );
-
-			le->bounce = 35;
-		}
-
-		CG_ImpactPuffParticles( origin, vec3_origin, 16, 2.5f, 1, 0, 0, 1, NULL );
+		VectorSet( le->accel, -0.2f, -0.2f, -900 );
+		le->bounce = 35;
 	}
-	else
-	{
-		float baseangle = random() * 2 * M_PI;
-		float radialspeed = 5.0f * damage;
 
-		clamp( radialspeed, 50.0f, 100.0f );
-
-		time = 15;
-		mass = 120;
-		count = 10;
-
-		VectorCopy( initialVelocity, velocity );
-
-		// clip gib velocity
-		clamp( velocity[0], -100, 100 );
-		clamp( velocity[1], -100, 100 );
-		clamp( velocity[2], 100, 500 );  // always some upwards
-
-		for( i = 0; i < count; i++ )
-		{
-			le = CG_AllocModel( LE_NO_FADE, origin, vec3_origin, time + time * random(),
-				1, 1, 1, 1,
-				0, 0, 0, 0,
-				CG_MediaModel( cgs.media.modTechyGibs[MAX_BIG_TECHY_GIBS + (((int)brandom( 0, MAX_SMALL_TECHY_GIBS )) % MAX_SMALL_TECHY_GIBS)] ),
-				NULL );
-
-			VectorSet( angles, crandom() * 360, crandom() * 360, crandom() * 360 );
-			AnglesToAxis( angles, le->ent.axis );
-			le->ent.scale = 1.0 + ( random() * 0.5f );
-			le->ent.renderfx = RF_FULLBRIGHT|RF_NOSHADOW;
-
-			le->velocity[0] = velocity[0] + ( cos( baseangle + M_PI * 2 * (float)(i) / (float)(count) ) * radialspeed ) + crandom() * radialspeed * 0.5f;
-			le->velocity[1] = velocity[1] + ( sin( baseangle + M_PI * 2 * (float)(i) / (float)(count) ) * radialspeed ) + crandom() * radialspeed * 0.5f;
-			le->velocity[2] = velocity[2] + 125 + crandom() * radialspeed;
-
-			VectorSet( le->accel, -0.2f, -0.2f, -900 );
-			le->bounce = 35;
-		}
-
-		CG_ImpactPuffParticles( origin, vec3_origin, 16, 2.5f, 1, 0.5, 0, 1, NULL );
-	}
+	CG_ImpactPuffParticles( origin, vec3_origin, 16, 2.5f, 1, 0.5, 0, 1, NULL );
 }
 
 /*

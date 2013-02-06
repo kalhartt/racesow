@@ -694,7 +694,7 @@ static void R_RenderMeshGLSL_Shadowmap( r_glslfeat_t programFeatures )
 		}
 
 		shadowGroups[numShadows++] = group;
-		if( numShadows >= min( GLSL_SHADOWMAP_LIMIT, r_temp1->integer) ) {
+		if( numShadows >= GLSL_SHADOWMAP_LIMIT ) {
 			R_RenderMeshGLSL_ShadowmapArray( programFeatures, numShadows, shadowGroups, scissor );
 			numShadows = 0;
 		}

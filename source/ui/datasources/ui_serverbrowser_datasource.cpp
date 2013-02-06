@@ -426,7 +426,8 @@ void ServerInfoFetcher::startQuery( const std::string &adr )
 ServerBrowserDataSource::ServerBrowserDataSource() :
 		Rocket::Controls::DataSource("serverbrowser_source"),
 		serverList(),
-		fetcher(this), active(false)
+		fetcher(this), active(false),
+		lastUpdateTime(0)
 {
 	// default sorting function
 	// hostname
@@ -580,25 +581,29 @@ void ServerBrowserDataSource::updateFrame()
 	fetcher.updateFrame();
 
 	// incoming info queue
-	while( referenceQueue.size() > 0 )
+	if( trap::Milliseconds() > lastUpdateTime + REFRESH_TIMEOUT_MSEC )
 	{
-		ServerInfo &serverInfo = *(referenceQueue.front());
-		// yes this is safe, its only a pointer
-		referenceQueue.pop_front();
-
-		// DEBUG_PRINT_SERVERINFO( serverInfo );
-
-		// put to the visible list if it passes the filters
-		if( filter.filterServer( serverInfo ) )
+		while( referenceQueue.size() > 0 )
 		{
-			String tableName;
-			
-			tableNameForServerInfo( serverInfo, tableName );
-			addServerToTable( serverInfo, tableName );
+			ServerInfo &serverInfo = *(referenceQueue.front());
+			// yes this is safe, its only a pointer
+			referenceQueue.pop_front();
 
-			if( serverInfo.favorite )
-				addServerToTable( serverInfo, TABLE_NAME_FAVORITES );
+			// DEBUG_PRINT_SERVERINFO( serverInfo );
+
+			// put to the visible list if it passes the filters
+			if( filter.filterServer( serverInfo ) )
+			{
+				String tableName;
+				
+				tableNameForServerInfo( serverInfo, tableName );
+				addServerToTable( serverInfo, tableName );
+
+				if( serverInfo.favorite )
+					addServerToTable( serverInfo, TABLE_NAME_FAVORITES );
+			}
 		}
+		lastUpdateTime = trap::Milliseconds();
 	}
 
 	//if( numNotifies )
