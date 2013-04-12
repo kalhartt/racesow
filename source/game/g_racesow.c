@@ -2653,7 +2653,7 @@ void *RS_MysqlLoadRanking_Thread( void* in ) {
 				position++;
 				
 				if ( !Q_stricmp(order, "points") || !Q_stricmp(order, "diff_points") )
-					Q_strncatz( ranking, va( "%s%d. %s      %s%d (%d)\n", S_COLOR_WHITE, position, row[0], S_COLOR_WHITE, atoi(row[1]), atoi(row[2]) ), sizeof(ranking) );
+					Q_strncatz( ranking, va( "%s%d. %s      %s%s (%s)\n", S_COLOR_WHITE, position, row[0], S_COLOR_WHITE, row[1], row[2] ), sizeof(ranking) );
 				else if ( !Q_stricmp(order, "races") )
 					Q_strncatz( ranking, va( "%s%d. %s      %s%d\n", S_COLOR_WHITE, position, row[0], S_COLOR_WHITE, atoi(row[3]) ), sizeof(ranking) );
 				else if ( !Q_stricmp(order, "maps") )
