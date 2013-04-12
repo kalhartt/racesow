@@ -83,7 +83,7 @@ CREATE TABLE `player` (
   `points` int(11) NOT NULL DEFAULT '0',
   `races` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `maps` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `diff_points` mediumint(9) DEFAULT NULL,
+  `diff_points` mediumint(9) NOT NULL DEFAULT '0',
   `awardval` mediumint(8) unsigned DEFAULT NULL,
   `playtime` bigint(20) NOT NULL DEFAULT '0',
   `created` datetime DEFAULT NULL,
