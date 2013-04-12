@@ -1,5 +1,6 @@
 doc/api/
 source/release/
+source/debug/
 source/build*/
 libsrcs/angelscript/angelSVN/sdk/angelscript/projects/gnuc/obj/
 libsrcs/angelscript/angelSVN/sdk/angelscript/lib/libangelscript.a
