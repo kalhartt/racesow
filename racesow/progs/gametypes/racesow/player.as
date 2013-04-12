@@ -737,15 +737,14 @@ class Racesow_Player
     void restartingRace()
     {
   		this.isSpawned = true;
+        this.completedInPracticemode = false;
 
   		if ( this.practicing && this.positionSaved )
   		{
   			this.teleport( this.positionOrigin, this.positionAngles, false, false );
   			this.client.selectWeapon( this.positionWeapon );
-  			if ( this.completedInPracticemode )
-  				this.completedInPracticemode = false;
-
-  		} else if ( this.isRacing() )
+  		}
+        else if ( this.isRacing() )
   		{
   			this.racingTime += this.race.getCurrentTime();
   			this.racingTimeSinceLastRace += this.race.getCurrentTime();
