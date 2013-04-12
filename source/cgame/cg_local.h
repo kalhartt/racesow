@@ -998,12 +998,13 @@ void CG_PLink( vec3_t start, vec3_t end, vec4_t color, int flags );
 //
 
 //racesow - client console variables
-cvar_t *rc_showPlayerTrails;
-cvar_t *rc_playerTrailsColor;
-cvar_t *rc_playerTrailsAlpha;
-cvar_t *rc_playerTrailsSize;
+extern cvar_t *rc_showPlayerTrails;
+extern cvar_t *rc_playerTrailsColor;
+extern cvar_t *rc_playerTrailsAlpha;
+extern cvar_t *rc_playerTrailsSize;
 extern cvar_t *rs_autoRaceDemo;
 extern cvar_t *rs_autoRaceScreenshot;
+extern cvar_t *rs_ignoreTeleEffect;
 void RC_AddLinearTrail( centity_t *cent, float lifetime );
 //!racesow
 
