@@ -879,13 +879,9 @@ class Command_Practicemode : Racesow_Command
 {
 	bool validate( Racesow_Player @player, String &args, int argc )
 	{
-		if ( player.client.team != TEAM_PLAYERS )
-		{
-			player.sendErrorMessage( "You must join the game before going into practice mode" );
-			return false;
-		}
 		return true;
 	}
+
 	bool execute( Racesow_Player @player, String &args, int argc )
 	{
 		if ( @player.client != null )
