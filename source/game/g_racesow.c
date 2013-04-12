@@ -27,6 +27,7 @@ cvar_t *rs_mysqlPass;
 cvar_t *rs_mysqlDb;
 
 cvar_t *rs_queryGetPlayerAuth;
+cvar_t *rs_querySetPlayerAuth;
 cvar_t *rs_queryGetPlayerAuthByToken;
 //cvar_t *rs_queryGetPlayerAuthBySession;
 cvar_t *rs_queryGetPlayerByToken;
@@ -286,6 +287,7 @@ qboolean RS_LoadCvars( void )
     G_Printf("-------------------------------------\nClient authentication via userinfo:\nsetu %s \"username\"\nsetu %s \"password\"\nor the more secure method using an encrypted token\nsetu %s \"token\"\n-------------------------------------\n", rs_authField_Name->string, rs_authField_Pass->string, rs_authField_Token->string);
 
     rs_queryGetPlayerAuth			= trap_Cvar_Get( "rs_queryGetPlayerAuth",			"SELECT `id`, `auth_mask`, `auth_token` FROM `player` WHERE `auth_name` = '%s' AND `auth_pass` = MD5('%s%s') LIMIT 1;", CVAR_ARCHIVE );
+    rs_querySetPlayerAuth			= trap_Cvar_Get( "rs_querySetPlayerAuth",			"UPDATE `player` SET `auth_name` = '%s', `auth_pass` = MD5('%s%s'), auth_mask = 1 WHERE `simplified` = '%s' AND `auth_name` IS NULL;", CVAR_ARCHIVE );
     rs_queryGetPlayerAuthByToken    = trap_Cvar_Get( "rs_queryGetPlayerAuthByToken",	"SELECT `id`, `auth_mask` FROM `player` WHERE `auth_token` = MD5('%s%s') LIMIT 1;", CVAR_ARCHIVE );
     //rs_queryGetPlayerAuthBySession  = trap_Cvar_Get( "rs_queryGetPlayerAuthBySession",	"SELECT `id`, `auth_mask` FROM `player` WHERE `session_token` = '%s' LIMIT 1;", CVAR_ARCHIVE );
     rs_querySetTokenForPlayer       = trap_Cvar_Get( "rs_querySetTokenForPlayer",	    "UPDATE `player` SET `auth_token` = MD5('%s%s') WHERE `id` = %d;", CVAR_ARCHIVE );
@@ -1245,8 +1247,35 @@ void *RS_MysqlPlayerAppear_Thread(void *in)
                 if (row[2] != NULL)
                 {
                     Q_strncpyz(authToken, row[2], sizeof(authToken));
+                }
             }
         }
+        else
+        {
+            mysql_free_result(mysql_res);
+            // try to register
+            sprintf(query, rs_querySetPlayerAuth->string, authName, authPass, rs_tokenSalt->string, simplified);
+            mysql_real_query(&mysql, query, strlen(query));
+            RS_CheckMysqlThreadError(query);
+            // try again
+            sprintf(query, rs_queryGetPlayerAuth->string, authName, authPass, rs_tokenSalt->string);
+            mysql_real_query(&mysql, query, strlen(query));
+            RS_CheckMysqlThreadError(query);
+            mysql_res = mysql_store_result(&mysql);
+            RS_CheckMysqlThreadError(query);
+            if ((row = mysql_fetch_row(mysql_res)) != NULL)
+            {
+                if (row[0]!=NULL && row[1]!=NULL) // token may be null
+                {
+                    player_id = atoi(row[0]);
+                    auth_mask = atoi(row[1]);
+
+                    if (row[2] != NULL)
+                    {
+                        Q_strncpyz(authToken, row[2], sizeof(authToken));
+                    }
+                }
+            }
         }
 
         mysql_free_result(mysql_res);
