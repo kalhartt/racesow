@@ -321,6 +321,9 @@ class Racesow_Player
         this.sendAward( S_COLOR_CYAN + "Race Finished!" );
         bool noDelta = 0 == bestTime;
 
+        if ( this.lastRace.checkPointsString.len() > 0 )
+            this.sendMessage( this.lastRace.checkPointsString );
+
         if ( @this.getClient() != null)
 		{
             G_CenterPrintMsg( this.getClient().getEnt(),
@@ -336,9 +339,6 @@ class Racesow_Player
                     + S_COLOR_ORANGE + "/" + Capitalize(rs_networkName.string) + ": " + S_COLOR_WHITE + diffString(oldBestTime, newTime) // database best
                     + "\n");
 		}
-
-        if ( this.lastRace.checkPointsString.len() > 0 )
-            this.sendMessage( this.lastRace.checkPointsString );
 
         earnedPoints = newPoints - oldPoints;
         if (earnedPoints > 0)
