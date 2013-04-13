@@ -333,7 +333,7 @@ class Racesow_Player
             this.sendMessage(S_COLOR_WHITE + "Race " + S_COLOR_ORANGE + "#"
                     + this.tries + S_COLOR_WHITE + " finished: "
                     + TimeToString( newTime)
-                    + S_COLOR_ORANGE + " Distance: " + S_COLOR_WHITE + ((this.lastRace.stopDistance - this.lastRace.startDistance)/1000) // racing distance
+                    + S_COLOR_ORANGE + " Speed: " + S_COLOR_WHITE + this.lastRace.stopSpeed // finish speed
                     + S_COLOR_ORANGE + " Personal: " + S_COLOR_WHITE + diffString(oldTime, newTime) // personal best
                     + S_COLOR_ORANGE + "/Server: " + S_COLOR_WHITE + diffString(oldServerBestTime, newTime) // server best
                     + S_COLOR_ORANGE + "/" + Capitalize(rs_networkName.string) + ": " + S_COLOR_WHITE + diffString(oldBestTime, newTime) // database best

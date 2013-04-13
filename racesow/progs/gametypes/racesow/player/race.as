@@ -37,6 +37,12 @@ class Racesow_Player_Race : Racesow_Player_Implemented
     uint64 startDistance;
 
 	/**
+	 * Speed when stopped race
+	 * @var uint
+	 */
+    int stopSpeed;
+
+	/**
 	 * Distance when stopped race
 	 * @var uint64
 	 */
@@ -228,7 +234,7 @@ class Racesow_Player_Race : Racesow_Player_Implemented
 
         this.checkPointsString += S_COLOR_ORANGE + "#" + ( this.lastCheckPoint + 1 ) + ": "
                 + S_COLOR_WHITE + TimeToString( newTime )
-                + S_COLOR_ORANGE + " Distance: " + S_COLOR_WHITE + this.getCurrentDistance()
+                + S_COLOR_ORANGE + " Speed: " + S_COLOR_WHITE + this.player.getSpeed()
                 + S_COLOR_ORANGE + " Personal: " + S_COLOR_WHITE + diffString( personalBestTime, newTime )
                 + S_COLOR_ORANGE + "/Server: " + S_COLOR_WHITE + diffString( serverBestTime, newTime ) + "\n";
 
@@ -244,6 +250,7 @@ class Racesow_Player_Race : Racesow_Player_Implemented
 		clearCheckpoints();
 		this.startTime = this.player.getClient().uCmdTimeStamp;
 		this.startDistance = this.player.distance;
+        this.checkPointsString += S_COLOR_ORANGE + "Start speed: " + S_COLOR_WHITE + this.player.getSpeed() + "\n";
 	}
 
 	/**
@@ -257,6 +264,7 @@ class Racesow_Player_Race : Racesow_Player_Implemented
 
         this.stopTime = this.player.getClient().uCmdTimeStamp;
 		this.stopDistance = this.player.distance;
+		this.stopSpeed = this.player.getSpeed();
 		this.timeStamp = localTime;
 
 		return true;
