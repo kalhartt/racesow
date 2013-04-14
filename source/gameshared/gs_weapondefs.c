@@ -193,7 +193,7 @@ gs_weapon_definition_t gs_weaponDefs[] =
 			0,								// smooth refire
 
 			//damages
-			6,								// damage
+			6.75,							// damage
 			0,								// selfdamage ratio
 			5,								// knockback
 			0,								// stun
@@ -226,7 +226,7 @@ gs_weapon_definition_t gs_weaponDefs[] =
 			0,								// smooth refire
 
 			//damages
-			6,								// damage
+			6.75,							// damage
 			0,								// selfdamage ratio
 			5,								// knockback
 			0,								// stun
@@ -263,7 +263,7 @@ gs_weapon_definition_t gs_weaponDefs[] =
 			0,								// smooth refire
 
 			//damages
-			3.6,							// damage
+			4,  							// damage
 			0,								// selfdamage ratio (rg cant selfdamage)
 			5,								// knockback
 			85,								// stun
@@ -296,7 +296,7 @@ gs_weapon_definition_t gs_weaponDefs[] =
 			0,								// smooth refire
 
 			//damages
-			3.6,							// damage
+			4,  							// damage
 			0,								// selfdamage ratio (rg cant selfdamage)
 			5,								// knockback
 			85,								// stun
@@ -489,7 +489,7 @@ gs_weapon_definition_t gs_weaponDefs[] =
 			0,								// smooth refire
 
 			//damages
-			15,								// damage
+			14,								// damage
 			0.5,							// selfdamage ratio
 			18,								// knockback
 			200,							// stun
