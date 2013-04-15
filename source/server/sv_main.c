@@ -61,6 +61,7 @@ cvar_t *sv_highchars;
 cvar_t *sv_hostname;
 cvar_t *sv_public;         // should heartbeats be sent
 cvar_t *sv_defaultmap;
+cvar_t *sv_write_defaultmap;
 
 cvar_t *sv_iplimit;
 
@@ -626,8 +627,24 @@ static void SV_CheckDefaultMap( void )
 	svc.autostarted = qtrue;
 	if( dedicated->integer )
 	{
-		if( ( sv.state == ss_dead ) && sv_defaultmap && strlen( sv_defaultmap->string ) && !strlen( sv.mapname ) )
-			Cbuf_ExecuteText( EXEC_APPEND, va( "map %s\n", sv_defaultmap->string ) );
+		if( sv.state == ss_dead && !strlen( sv.mapname ) )
+        {
+            int filehandle;
+            if( sv_write_defaultmap && sv_write_defaultmap->integer && FS_FOpenFile( "defaultmap", &filehandle, FS_READ ) != -1 )
+            {
+                static char buffer[MAX_QPATH];
+                buffer[0] = '\0';
+                FS_Read( buffer, MAX_QPATH - 1, filehandle );
+                FS_FCloseFile( filehandle );
+                if( buffer[0] )
+                {
+                    Cbuf_ExecuteText( EXEC_APPEND, va( "map %s\n", buffer ) );
+                    return;
+                }
+            }
+            if( sv_defaultmap && strlen( sv_defaultmap->string ) )
+                Cbuf_ExecuteText( EXEC_APPEND, va( "map %s\n", sv_defaultmap->string ) );
+        }
 	}
 }
 
@@ -919,6 +936,7 @@ void SV_Init( void )
 	sv_pure_forcemodulepk3 =    Cvar_Get( "sv_pure_forcemodulepk3", "", CVAR_LATCH );
 
 	sv_defaultmap =		    Cvar_Get( "sv_defaultmap", "wdm1", CVAR_ARCHIVE );
+	sv_write_defaultmap =	Cvar_Get( "sv_write_defaultmap", "0", CVAR_ARCHIVE );
 	sv_reconnectlimit =	    Cvar_Get( "sv_reconnectlimit", "3", CVAR_ARCHIVE );
 	sv_maxclients =		    Cvar_Get( "sv_maxclients", "8", CVAR_ARCHIVE | CVAR_SERVERINFO | CVAR_LATCH );
 	sv_maxmvclients =	    Cvar_Get( "sv_maxmvclients", "4", CVAR_ARCHIVE | CVAR_SERVERINFO );

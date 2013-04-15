@@ -602,6 +602,8 @@ static void SV_Map_f( void )
 		if( !found )
 		{
 			Com_Printf( "Couldn't find map: %s\n", map );
+            if( sv.state == ss_dead && !strlen( sv.mapname ) && sv_defaultmap && strlen( sv_defaultmap->string ) && strcmp( map, sv_defaultmap->string ) )
+                Cbuf_ExecuteText( EXEC_APPEND, va( "map %s\n", sv_defaultmap->string ) );
 			return;
 		}
 	}

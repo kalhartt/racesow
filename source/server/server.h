@@ -347,6 +347,7 @@ extern cvar_t *sv_MOTDFile;
 extern cvar_t *sv_MOTDString;
 extern cvar_t *sv_lastAutoUpdate;
 extern cvar_t *sv_defaultmap;
+extern cvar_t *sv_write_defaultmap;
 
 extern cvar_t *sv_demodir;
 

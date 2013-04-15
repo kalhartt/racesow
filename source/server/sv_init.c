@@ -280,6 +280,17 @@ static void SV_SpawnServer( const char *server, qboolean devmap )
 	// set serverinfo variable
 	Cvar_FullSet( "mapname", sv.mapname, CVAR_SERVERINFO | CVAR_READONLY, qtrue );
 
+    // write the next default map
+    if( sv_write_defaultmap->integer )
+    {
+        int filehandle;
+        if( FS_FOpenFile( "defaultmap", &filehandle, FS_WRITE ) != -1 )
+        {
+            FS_Write( sv.mapname, strlen( sv.mapname ), filehandle );
+            FS_FCloseFile( filehandle );
+        }
+    }
+
 	//
 	// spawn the rest of the entities on the map
 	//
