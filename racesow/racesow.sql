@@ -58,10 +58,9 @@ CREATE TABLE `map` (
   `weapons` varchar(10) NOT NULL DEFAULT '0000000',
   `created` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `name_key` (`name`),
+  UNIQUE KEY `name` (`name`),
   KEY `races` (`races`),
   KEY `playtime` (`playtime`),
-  KEY `name` (`name`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 -- --------------------------------------------------------
