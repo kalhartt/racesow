@@ -71,8 +71,9 @@ sub analyze {
                 my $status = 'enabled';
                 my @weapons = ('0', '0', '0', '0', '0', '0', '0');
                 my $content = read_file($dir . $pk3, $file);
-                $content =~ /("classname".*)\x00/s;
-                $content = $1;
+                if ($content =~ /("classname"\s*"worldspawn".*?)\x00/s) {
+                    $content = $1;
+                }
                 if ($content =~ /[^{]*"message"\s*"(.*?)"/s) {
                     $longname = $1;
                 }
