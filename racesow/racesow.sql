@@ -60,7 +60,7 @@ CREATE TABLE `map` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
   KEY `races` (`races`),
-  KEY `playtime` (`playtime`),
+  KEY `playtime` (`playtime`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 -- --------------------------------------------------------
