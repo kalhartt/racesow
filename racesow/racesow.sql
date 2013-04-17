@@ -58,6 +58,7 @@ CREATE TABLE `map` (
   `weapons` varchar(10) NOT NULL DEFAULT '0000000',
   `created` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `name_key` (`name`),
   KEY `races` (`races`),
   KEY `playtime` (`playtime`),
   KEY `name` (`name`)

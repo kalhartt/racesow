@@ -10,10 +10,12 @@ use File::Find;
 use Archive::Zip;
 
 my $dir = $ENV{'HOME'} . '/.warsow-1.0/basewsw/';
-my $delete_unused = 0;
+my $disable_unused = 0;
+my $remove_unused = 0;
 
 GetOptions(
-    "delete-unused" => \$delete_unused
+    "remove-unused" => \$remove_unused,
+    "disable-unused" => \$disable_unused
 ) or exit 1;
 
 if (@ARGV) {
@@ -59,13 +61,20 @@ sub exists_after {
     return 0;
 }
 
+sub sanitize {
+    my($result) = @_;
+    $result =~ s/\\/\\\\/g;
+    $result =~ s/'/\\'/g;
+    return $result;
+}
+
 sub analyze {
     find(\&encounter_file, $dir);
     my @maps = ();
     for my $pk3(keys %{$files}) {
         for my $file(@{$files->{$pk3}}) {
             if ($file =~ /([^\/\.]*)\.bsp$/ && !contains($1, @maps)) {
-                my $name = $1;
+                my $name = sanitize($1);
                 push @maps, $name;
                 my $longname = '';
                 my $status = 'enabled';
@@ -75,7 +84,7 @@ sub analyze {
                     $content = $1;
                 }
                 if ($content =~ /[^{]*"message"\s*"(.*?)"/s) {
-                    $longname = $1;
+                    $longname = sanitize($1);
                 }
                 if ($content !~ /"classname"\s*"target_startTimer"/i) {
                     $status = 'disabled';
@@ -103,12 +112,18 @@ sub analyze {
                 if ($content =~ /"classname"\s*"weapon_electrobolt"/i) {
                     $weapons[6] = '1';
                 }
-                print "INSERT INTO `map` (`name`, `status`, `file`, `longname`, `weapons`, `created`) SELECT '$name', '$status', '$pk3', '$longname', '" . (join '', @weapons) . "', NOW() FROM `map` WHERE `name`<>'$name' LIMIT 1;\n";
+                my $reference = sanitize($pk3);
+                print "INSERT INTO `map` SET `name`='$name', `status`='$status', `file`='$reference', `longname`='$longname', `weapons`='" . (join '', @weapons) . "', `created`=NOW() ON DUPLICATE KEY UPDATE `status`='$status', `file`='$reference', `longname`='$longname', `weapons`='" . (join '', @weapons) . "';\n";
             }
         }
     }
-    if ($delete_unused && @maps) {
-        print 'DELETE FROM `map` WHERE `name` NOT IN (' . (join ', ', map {"'$_'"} @maps) . ");\n";
+    if (@maps) {
+        if ($disable_unused) {
+            print "UPDATE `map` SET `status`='disabled' WHERE `name` NOT IN (" . (join ', ', map {"'$_'"} @maps) . ");\n";
+        }
+        if ($remove_unused) {
+            print 'DELETE FROM `map` WHERE `name` NOT IN (' . (join ', ', map {"'$_'"} @maps) . ");\n";
+        }
     }
 }
 
