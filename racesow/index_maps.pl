@@ -102,7 +102,7 @@ sub analyze {
                 if ($content =~ /"classname"\s*"weapon_electrobolt"/i) {
                     $weapons[6] = '1';
                 }
-                print "INSERT INTO `map` (`name`, `status`, `longname`, `weapons`, `created`) SELECT '$name', '$status', '$longname', '" . (join '', @weapons) . "', NOW() FROM `map` WHERE `name`<>'$name' LIMIT 1;\n";
+                print "INSERT INTO `map` (`name`, `status`, `file`, `longname`, `weapons`, `created`) SELECT '$name', '$status', '$pk3', '$longname', '" . (join '', @weapons) . "', NOW() FROM `map` WHERE `name`<>'$name' LIMIT 1;\n";
             }
         }
     }
