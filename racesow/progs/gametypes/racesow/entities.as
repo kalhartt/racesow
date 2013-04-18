@@ -240,7 +240,7 @@ void RS_UseShooter( cEntity @self, cEntity @other, cEntity @activator ) {
 	switch ( self.weapon )
 	{
         case WEAP_GRENADELAUNCHER:
-        	G_FireGrenade( self.origin, angles, rs_grenadeweak_speed.integer, 0, 65, rs_grenadeweak_knockback.integer, 0, @activator );
+        	G_FireGrenade( self.origin, angles, rs_grenadeweak_speed.integer, rs_grenadeweak_splash.integer, 65, rs_grenadeweak_knockback.integer, 0, @activator );
             break;
         case WEAP_ROCKETLAUNCHER:
         	G_FireRocket( self.origin, angles, rs_rocketweak_speed.integer, rs_rocketweak_splash.integer, 75, rs_rocketweak_knockback.integer, 0, @activator );
@@ -275,34 +275,6 @@ void RS_InitShooter( cEntity @self, int weapon ) {
 }
 
 
-void shooter_rocket_think( cEntity @ent )
-{
-	RS_InitShooter_Finish( @ent );
-}
-
-void shooter_plasma_think( cEntity @ent )
-{
-	RS_InitShooter_Finish( @ent );
-}
-
-void shooter_grenade_think( cEntity @ent )
-{
-	RS_InitShooter_Finish( @ent );
-}
-
-void shooter_rocket_use( cEntity @self, cEntity @other, cEntity @activator ) {
-	RS_UseShooter( @self, @other, @activator );
-}
-
-void shooter_plasma_use( cEntity @self, cEntity @other, cEntity @activator ) {
-	RS_UseShooter( @self, @other, @activator );
-}
-
-void shooter_grenade_use( cEntity @self, cEntity @other, cEntity @activator )
-{
-	RS_UseShooter( @self, @other, @activator );
-}
-
 //=================
 //RS_shooter_rocket
 //===============
@@ -316,6 +288,8 @@ void shooter_rocket( cEntity @ent ) {
 //RS_shooter_plasma
 //===============
 void shooter_plasma( cEntity @ent ) {
+    @ent.think = RS_InitShooter_Finish;
+    @ent.use = RS_UseShooter;
     RS_InitShooter( @ent, WEAP_PLASMAGUN );
 }
 
@@ -323,6 +297,8 @@ void shooter_plasma( cEntity @ent ) {
 //RS_shooter_grenade
 //===============
 void shooter_grenade( cEntity @ent ) {
+    @ent.think = RS_InitShooter_Finish;
+    @ent.use = RS_UseShooter;
     RS_InitShooter( @ent, WEAP_GRENADELAUNCHER );
 }
 
