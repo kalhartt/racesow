@@ -358,13 +358,17 @@ class Racesow_Player
             this.sendAward( "Personal record!" );
         }
 
+        String prejumpRec = "";
+        if ( this.lastRace.prejumped )
+            prejumpRec = S_COLOR_RED + " prejump" + S_COLOR_YELLOW;
+
         //server record
         if ( oldServerBestTime == 0 || newTime < oldServerBestTime )
         {
             map.getHighScore().fromRace(this.lastRace);
             this.sendAward( S_COLOR_GREEN + "New server record!" );
             G_PrintMsg(null, this.getName() + " "
-                             + S_COLOR_YELLOW + "made a new server record: "
+                             + S_COLOR_YELLOW + "made a new" + prejumpRec + " server record: "
                              + TimeToString( newTime ) + "\n");
 
             RS_ircSendMessage( this.getName().removeColorTokens()
@@ -377,7 +381,7 @@ class Racesow_Player
         {
             this.sendAward( S_COLOR_GREEN + "New " + rs_networkName.string + " record!" );
             G_PrintMsg(null, this.getName() + " "
-                             + S_COLOR_YELLOW + "made a new "
+                             + S_COLOR_YELLOW + "made a new" + prejumpRec + " "
                              + S_COLOR_GREEN  + rs_networkName.string
                              + S_COLOR_YELLOW + " record: " + TimeToString( newTime ) + "\n");
 
