@@ -48,6 +48,7 @@ Cvar rs_registrationDisabled( "rs_registrationDisabled", "0", CVAR_ARCHIVE|CVAR_
 Cvar rs_registrationInfo( "rs_registrationInfo", "Please ask the serveradmin how to create a new account.", CVAR_ARCHIVE|CVAR_NOSET );
 
 Cvar sv_cheats( "sv_cheats", "0", CVAR_SERVERINFO|CVAR_ARCHIVE|CVAR_NOSET );
+Cvar sv_pure( "sv_pure", "0", CVAR_SERVERINFO|CVAR_ARCHIVE|CVAR_NOSET );
 
 Cvar g_gravity( "g_gravity", "850", CVAR_ARCHIVE );
 Cvar g_self_knockback( "g_self_knockback", "1.18", CVAR_ARCHIVE);

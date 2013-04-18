@@ -42,24 +42,33 @@ class Racesow_Player_ClientDemo : Racesow_Player_Implemented
 	 */
 	void sendStop()
 	{
-		this.player.getClient().execGameCommand( "dstop " + this.time );
-		this.lastCommandTime = realTime;
-		this.recording = false;
-		this.time = 0;
+        if ( sv_pure.boolean )
+        {
+            this.player.getClient().execGameCommand( "dstop " + this.time );
+            this.lastCommandTime = realTime;
+            this.recording = false;
+            this.time = 0;
+        }
 	}
 	void sendStart()
 	{
-		this.player.getClient().execGameCommand( "dstart" );
-		this.lastCommandTime = realTime;
-		this.recording = true;
-		this.starting = false;
+        if ( sv_pure.boolean )
+        {
+            this.player.getClient().execGameCommand( "dstart" );
+            this.lastCommandTime = realTime;
+            this.recording = true;
+            this.starting = false;
+        }
 	}
 	void sendCancel()
 	{
-		this.player.getClient().execGameCommand( "dcancel" );
-		this.lastCommandTime = realTime;
-		this.recording = false;
-		this.time = 0;
+        if ( sv_pure.boolean )
+        {
+            this.player.getClient().execGameCommand( "dcancel" );
+            this.lastCommandTime = realTime;
+            this.recording = false;
+            this.time = 0;
+        }
 	}
 
 	/**
