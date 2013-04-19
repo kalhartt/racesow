@@ -294,8 +294,7 @@ class Racesow_Player_Race : Racesow_Player_Implemented
 	 */
 	void addCheckpoint( int id, int time )
 	{
-        if ( sv_pure.boolean )
-            this.player.getClient().execGameCommand( "cpa " + id + " " + time );
+		this.player.getClient().execGameCommand( "cpa " + id + " " + time );
 	}
 
 	/**
@@ -303,7 +302,6 @@ class Racesow_Player_Race : Racesow_Player_Implemented
 	 */
 	void clearCheckpoints()
 	{
-        if ( sv_pure.boolean )
-            this.player.getClient().execGameCommand( "cpc" );
+		this.player.getClient().execGameCommand( "cpc" );
 	}
 }
