@@ -51,7 +51,9 @@ typedef struct
 typedef struct callvotetype_s
 {
 	char *name;
-	int expectedargs;               // -1 = any amount, -2 = any amount except 0
+    // racesow : more flexible argument counts
+    int minargc;
+    int maxargc;
 	qboolean ( *validate )( callvotedata_t *data, qboolean first );
 	void ( *execute )( callvotedata_t *vote );
 	char *( *current )( void );
@@ -284,38 +286,41 @@ qboolean RS_VoteRandmapValidate( callvotedata_t *vote, qboolean first )
 
     weapon = -1;
     played = -1;
-    if( !Q_stricmp( vote->argv[0], "strafe" ) )
+    if( vote->argc >= 1 )
     {
-        weapon = -2;
-    }
-    else if( !Q_stricmp( vote->argv[0], "weapon" ) )
-    {
-        weapon = -3;
-    }
-    else if( !Q_stricmp( vote->argv[0], "rl" ) )
-    {
-        weapon = 3;
-    }
-    else if( !Q_stricmp( vote->argv[0], "pg" ) )
-    {
-        weapon = 4;
-    }
-    else if( !Q_stricmp( vote->argv[0], "gl" ) )
-    {
-        weapon = 2;
-    }
-    else if( !Q_stricmp( vote->argv[0], "played" ) )
-    {
-        played = 1;
-    }
-    else if( !Q_stricmp( vote->argv[0], "unplayed" ) )
-    {
-        played = 2;
-    }
-    else if( Q_stricmp( vote->argv[0], "any" ) )
-    {
-		G_PrintMsg( vote->caller, "%sInvalid randmap type.\n", S_COLOR_RED );
-        return qfalse;
+        if( !Q_stricmp( vote->argv[0], "strafe" ) )
+        {
+            weapon = -2;
+        }
+        else if( !Q_stricmp( vote->argv[0], "weapon" ) )
+        {
+            weapon = -3;
+        }
+        else if( !Q_stricmp( vote->argv[0], "rl" ) )
+        {
+            weapon = 3;
+        }
+        else if( !Q_stricmp( vote->argv[0], "pg" ) )
+        {
+            weapon = 4;
+        }
+        else if( !Q_stricmp( vote->argv[0], "gl" ) )
+        {
+            weapon = 2;
+        }
+        else if( !Q_stricmp( vote->argv[0], "played" ) )
+        {
+            played = 1;
+        }
+        else if( !Q_stricmp( vote->argv[0], "unplayed" ) )
+        {
+            played = 2;
+        }
+        else if( Q_stricmp( vote->argv[0], "any" ) )
+        {
+            G_PrintMsg( vote->caller, "%sInvalid randmap type.\n", S_COLOR_RED );
+            return qfalse;
+        }
     }
 
     for( i = 0; i < mapcount; i++)
@@ -2141,15 +2146,12 @@ static void G_CallVote( edict_t *ent, qboolean isopcall )
 	}
 
 	//we got a valid type. Get the parameters if any
-	if( callvote->expectedargs != trap_Cmd_Argc()-2 )
+	if( ( callvote->minargc >= 0 && trap_Cmd_Argc()-2 < callvote->minargc )
+            || ( callvote->maxargc >= 0 && trap_Cmd_Argc()-2 > callvote->maxargc ) )
 	{
-		if( callvote->expectedargs != -1 &&
-			( callvote->expectedargs != -2 || trap_Cmd_Argc()-2 > 0 ) )
-		{
-			// wrong number of parametres
-			G_CallVotes_PrintHelpToPlayer( ent, callvote );
-			return;
-		}
+        // wrong number of parameters
+        G_CallVotes_PrintHelpToPlayer( ent, callvote );
+        return;
 	}
 
 	callvoteState.vote.argc = trap_Cmd_Argc()-2;
@@ -2391,7 +2393,8 @@ void G_RegisterGametypeScriptCallvote( const char *name, const char *usage, cons
 		return;
 
 	vote = G_RegisterCallvote( name );
-	vote->expectedargs = (usage[0]=='\0') ? 0 : 1; //racesow : allow to register callvotes without values
+	vote->minargc = (usage[0]=='\0') ? 0 : 1; //racesow : allow to register callvotes without values
+	vote->maxargc = vote->minargc;
 	vote->validate = G_VoteFromScriptValidate;
 	vote->execute = G_VoteFromScriptPassed;
 	vote->current = NULL;
@@ -2414,7 +2417,8 @@ void G_CallVotes_Init( void )
 	// register all callvotes
 
 	callvote = G_RegisterCallvote( "map" );
-	callvote->expectedargs = 1;
+	callvote->minargc = 1;
+	callvote->maxargc = 1;
 	callvote->validate = G_VoteMapValidate;
 	callvote->execute = G_VoteMapPassed;
 	callvote->current = G_VoteMapCurrent;
@@ -2427,7 +2431,8 @@ void G_CallVotes_Init( void )
 
 	// racesow
 	callvote = G_RegisterCallvote( "randmap" );
-	callvote->expectedargs = 1;
+	callvote->minargc = 0;
+	callvote->maxargc = 1;
 	callvote->validate = RS_VoteRandmapValidate;
 	callvote->execute = RS_VoteRandmapPassed;
 	callvote->current = NULL;
@@ -2437,7 +2442,8 @@ void G_CallVotes_Init( void )
 	// !racesow
 
 	callvote = G_RegisterCallvote( "restart" );
-	callvote->expectedargs = 0;
+	callvote->minargc = 0;
+	callvote->maxargc = 0;
 	callvote->validate = NULL;
 	callvote->execute = G_VoteRestartPassed;
 	callvote->current = NULL;
@@ -2446,7 +2452,8 @@ void G_CallVotes_Init( void )
 	callvote->help = G_LevelCopyString( "- Restarts current map" );
 
 	callvote = G_RegisterCallvote( "nextmap" );
-	callvote->expectedargs = 0;
+	callvote->minargc = 0;
+	callvote->maxargc = 0;
 	callvote->validate = NULL;
 	callvote->execute = G_VoteNextMapPassed;
 	callvote->current = NULL;
@@ -2455,7 +2462,8 @@ void G_CallVotes_Init( void )
 	callvote->help = G_LevelCopyString( "- Jumps to the next map" );
 
 	callvote = G_RegisterCallvote( "scorelimit" );
-	callvote->expectedargs = 1;
+	callvote->minargc = 1;
+	callvote->maxargc = 1;
 	callvote->validate = G_VoteScorelimitValidate;
 	callvote->execute = G_VoteScorelimitPassed;
 	callvote->current = G_VoteScorelimitCurrent;
@@ -2464,7 +2472,8 @@ void G_CallVotes_Init( void )
 	callvote->help = G_LevelCopyString( "- Sets the number of frags or caps needed to win the match\n- Use 0 to disable" );
 
 	callvote = G_RegisterCallvote( "timelimit" );
-	callvote->expectedargs = 1;
+	callvote->minargc = 1;
+	callvote->maxargc = 1;
 	callvote->validate = G_VoteTimelimitValidate;
 	callvote->execute = G_VoteTimelimitPassed;
 	callvote->current = G_VoteTimelimitCurrent;
@@ -2473,7 +2482,8 @@ void G_CallVotes_Init( void )
 	callvote->help = G_LevelCopyString( "- Sets number of minutes after which the match ends\n- Use 0 to disable" );
 
 	callvote = G_RegisterCallvote( "gametype" );
-	callvote->expectedargs = 1;
+	callvote->minargc = 1;
+	callvote->maxargc = 1;
 	callvote->validate = G_VoteGametypeValidate;
 	callvote->execute = G_VoteGametypePassed;
 	callvote->current = G_VoteGametypeCurrent;
@@ -2482,7 +2492,8 @@ void G_CallVotes_Init( void )
 	callvote->help = G_LevelCopyString( "- Changes the gametype" );
 
 	callvote = G_RegisterCallvote( "warmup_timelimit" );
-	callvote->expectedargs = 1;
+	callvote->minargc = 1;
+	callvote->maxargc = 1;
 	callvote->validate = G_VoteWarmupTimelimitValidate;
 	callvote->execute = G_VoteWarmupTimelimitPassed;
 	callvote->current = G_VoteWarmupTimelimitCurrent;
@@ -2491,7 +2502,8 @@ void G_CallVotes_Init( void )
 	callvote->help = G_LevelCopyString( "- Sets the number of minutes after which the warmup ends\n- Use 0 to disable" );
 
 	callvote = G_RegisterCallvote( "extended_time" );
-	callvote->expectedargs = 1;
+	callvote->minargc = 1;
+	callvote->maxargc = 1;
 	callvote->validate = G_VoteExtendedTimeValidate;
 	callvote->execute = G_VoteExtendedTimePassed;
 	callvote->current = G_VoteExtendedTimeCurrent;
@@ -2500,7 +2512,8 @@ void G_CallVotes_Init( void )
 	callvote->help = G_LevelCopyString( "- Sets the length of the overtime\n- Use 0 to enable suddendeath mode" );
 
 	callvote = G_RegisterCallvote( "maxteamplayers" );
-	callvote->expectedargs = 1;
+	callvote->minargc = 1;
+	callvote->maxargc = 1;
 	callvote->validate = G_VoteMaxTeamplayersValidate;
 	callvote->execute = G_VoteMaxTeamplayersPassed;
 	callvote->current = G_VoteMaxTeamplayersCurrent;
@@ -2509,7 +2522,8 @@ void G_CallVotes_Init( void )
 	callvote->help = G_LevelCopyString( "- Sets the maximum number of players in one team" );
 
 	callvote = G_RegisterCallvote( "lock" );
-	callvote->expectedargs = 0;
+	callvote->minargc = 0;
+	callvote->maxargc = 0;
 	callvote->validate = G_VoteLockValidate;
 	callvote->execute = G_VoteLockPassed;
 	callvote->current = NULL;
@@ -2518,7 +2532,8 @@ void G_CallVotes_Init( void )
 	callvote->help = G_LevelCopyString( "- Locks teams to disallow players joining in mid-game" );
 
 	callvote = G_RegisterCallvote( "unlock" );
-	callvote->expectedargs = 0;
+	callvote->minargc = 0;
+	callvote->maxargc = 0;
 	callvote->validate = G_VoteUnlockValidate;
 	callvote->execute = G_VoteUnlockPassed;
 	callvote->current = NULL;
@@ -2527,7 +2542,8 @@ void G_CallVotes_Init( void )
 	callvote->help = G_LevelCopyString( "- Unlocks teams to allow players joining in mid-game" );
 
 	callvote = G_RegisterCallvote( "allready" );
-	callvote->expectedargs = 0;
+	callvote->minargc = 0;
+	callvote->maxargc = 0;
 	callvote->validate = G_VoteAllreadyValidate;
 	callvote->execute = G_VoteAllreadyPassed;
 	callvote->current = NULL;
@@ -2536,7 +2552,8 @@ void G_CallVotes_Init( void )
 	callvote->help = G_LevelCopyString( "- Sets all players as ready so the match can start" );
 
 	callvote = G_RegisterCallvote( "remove" );
-	callvote->expectedargs = 1;
+	callvote->minargc = 1;
+	callvote->maxargc = 1;
 	callvote->validate = G_VoteRemoveValidate;
 	callvote->execute = G_VoteRemovePassed;
 	callvote->current = NULL;
@@ -2545,7 +2562,8 @@ void G_CallVotes_Init( void )
 	callvote->help = G_LevelCopyString( "- Forces player back to spectator mode" );
 
 	callvote = G_RegisterCallvote( "kick" );
-	callvote->expectedargs = 1;
+	callvote->minargc = 1;
+	callvote->maxargc = 1;
 	callvote->validate = G_VoteKickValidate;
 	callvote->execute = G_VoteKickPassed;
 	callvote->current = NULL;
@@ -2554,7 +2572,8 @@ void G_CallVotes_Init( void )
 	callvote->help = G_LevelCopyString( "- Removes player from the server" );
 
 	callvote = G_RegisterCallvote( "kickban" );
-	callvote->expectedargs = 1;
+	callvote->minargc = 1;
+	callvote->maxargc = 1;
 	callvote->validate = G_VoteKickBanValidate;
 	callvote->execute = G_VoteKickBanPassed;
 	callvote->current = NULL;
@@ -2563,7 +2582,8 @@ void G_CallVotes_Init( void )
 	callvote->help = G_LevelCopyString( "- Removes player from the server and bans his IP-address for 15 minutes" );
 
 	callvote = G_RegisterCallvote( "mute" );
-	callvote->expectedargs = 1;
+	callvote->minargc = 1;
+	callvote->maxargc = 1;
 	callvote->validate = G_VoteMuteValidate;
 	callvote->execute = G_VoteMutePassed;
 	callvote->current = NULL;
@@ -2572,7 +2592,8 @@ void G_CallVotes_Init( void )
 	callvote->help = G_LevelCopyString( "- Disallows chat messages from the muted player" );
 
 	callvote = G_RegisterCallvote( "vmute" );
-	callvote->expectedargs = 1;
+	callvote->minargc = 1;
+	callvote->maxargc = 1;
 	callvote->validate = G_VoteMuteValidate;
 	callvote->execute = G_VoteVMutePassed;
 	callvote->current = NULL;
@@ -2581,7 +2602,8 @@ void G_CallVotes_Init( void )
 	callvote->help = G_LevelCopyString( "- Disallows voice chat messages from the muted player" );
 
 	callvote = G_RegisterCallvote( "unmute" );
-	callvote->expectedargs = 1;
+	callvote->minargc = 1;
+	callvote->maxargc = 1;
 	callvote->validate = G_VoteUnmuteValidate;
 	callvote->execute = G_VoteUnmutePassed;
 	callvote->current = NULL;
@@ -2590,7 +2612,8 @@ void G_CallVotes_Init( void )
 	callvote->help = G_LevelCopyString( "- Reallows chat messages from the unmuted player" );
 
 	callvote = G_RegisterCallvote( "vunmute" );
-	callvote->expectedargs = 1;
+	callvote->minargc = 1;
+	callvote->maxargc = 1;
 	callvote->validate = G_VoteUnmuteValidate;
 	callvote->execute = G_VoteVUnmutePassed;
 	callvote->current = NULL;
@@ -2599,7 +2622,8 @@ void G_CallVotes_Init( void )
 	callvote->help = G_LevelCopyString( "- Reallows voice chat messages from the unmuted player" );
 
 	callvote = G_RegisterCallvote( "numbots" );
-	callvote->expectedargs = 1;
+	callvote->minargc = 1;
+	callvote->maxargc = 1;
 	callvote->validate = G_VoteNumBotsValidate;
 	callvote->execute = G_VoteNumBotsPassed;
 	callvote->current = G_VoteNumBotsCurrent;
@@ -2608,7 +2632,8 @@ void G_CallVotes_Init( void )
 	callvote->help = G_LevelCopyString( "- Sets the number of bots to play on the server" );
 
 	callvote = G_RegisterCallvote( "allow_teamdamage" );
-	callvote->expectedargs = 1;
+	callvote->minargc = 1;
+	callvote->maxargc = 1;
 	callvote->validate = G_VoteAllowTeamDamageValidate;
 	callvote->execute = G_VoteAllowTeamDamagePassed;
 	callvote->current = G_VoteAllowTeamDamageCurrent;
@@ -2617,7 +2642,8 @@ void G_CallVotes_Init( void )
 	callvote->help = G_LevelCopyString( "- Toggles whether shooting teammates will do damage to them" );
 
 	callvote = G_RegisterCallvote( "instajump" );
-	callvote->expectedargs = 1;
+	callvote->minargc = 1;
+	callvote->maxargc = 1;
 	callvote->validate = G_VoteAllowInstajumpValidate;
 	callvote->execute = G_VoteAllowInstajumpPassed;
 	callvote->current = G_VoteAllowInstajumpCurrent;
@@ -2626,7 +2652,8 @@ void G_CallVotes_Init( void )
 	callvote->help = G_LevelCopyString( "- Toggles whether instagun can be used for weapon jumping" );
 
 	callvote = G_RegisterCallvote( "instashield" );
-	callvote->expectedargs = 1;
+	callvote->minargc = 1;
+	callvote->maxargc = 1;
 	callvote->validate = G_VoteAllowInstashieldValidate;
 	callvote->execute = G_VoteAllowInstashieldPassed;
 	callvote->current = G_VoteAllowInstashieldCurrent;
@@ -2635,7 +2662,8 @@ void G_CallVotes_Init( void )
 	callvote->help = G_LevelCopyString( "- Toggles the availability of instashield in instagib" );
 
 	callvote = G_RegisterCallvote( "allow_falldamage" );
-	callvote->expectedargs = 1;
+	callvote->minargc = 1;
+	callvote->maxargc = 1;
 	callvote->validate = G_VoteAllowFallDamageValidate;
 	callvote->execute = G_VoteAllowFallDamagePassed;
 	callvote->current = G_VoteAllowFallDamageCurrent;
@@ -2644,7 +2672,8 @@ void G_CallVotes_Init( void )
 	callvote->help = G_LevelCopyString( "- Toggles whether falling long distances deals damage" );
 
 	callvote = G_RegisterCallvote( "allow_selfdamage" );
-	callvote->expectedargs = 1;
+	callvote->minargc = 1;
+	callvote->maxargc = 1;
 	callvote->validate = G_VoteAllowSelfDamageValidate;
 	callvote->execute = G_VoteAllowSelfDamagePassed;
 	callvote->current = G_VoteAllowSelfDamageCurrent;
@@ -2653,7 +2682,8 @@ void G_CallVotes_Init( void )
 	callvote->help = G_LevelCopyString( "- Toggles whether weapon splashes can damage self" );
 
 	callvote = G_RegisterCallvote( "timeout" );
-	callvote->expectedargs = 0;
+	callvote->minargc = 0;
+	callvote->maxargc = 0;
 	callvote->validate = G_VoteTimeoutValidate;
 	callvote->execute = G_VoteTimeoutPassed;
 	callvote->current = NULL;
@@ -2662,7 +2692,8 @@ void G_CallVotes_Init( void )
 	callvote->help = G_LevelCopyString( "- Pauses the game" );
 
 	callvote = G_RegisterCallvote( "timein" );
-	callvote->expectedargs = 0;
+	callvote->minargc = 0;
+	callvote->maxargc = 0;
 	callvote->validate = G_VoteTimeinValidate;
 	callvote->execute = G_VoteTimeinPassed;
 	callvote->current = NULL;
@@ -2671,7 +2702,8 @@ void G_CallVotes_Init( void )
 	callvote->help = G_LevelCopyString( "- Resumes the game if in timeout" );
 
 	callvote = G_RegisterCallvote( "challengers_queue" );
-	callvote->expectedargs = 1;
+	callvote->minargc = 1;
+	callvote->maxargc = 1;
 	callvote->validate = G_VoteChallengersValidate;
 	callvote->execute = G_VoteChallengersPassed;
 	callvote->current = G_VoteChallengersCurrent;
@@ -2680,7 +2712,8 @@ void G_CallVotes_Init( void )
 	callvote->help = G_LevelCopyString( "- Toggles the challenging spectators queue line" );
 
 	callvote = G_RegisterCallvote( "allow_uneven" );
-	callvote->expectedargs = 1;
+	callvote->minargc = 1;
+	callvote->maxargc = 1;
 	callvote->validate = G_VoteAllowUnevenValidate;
 	callvote->execute = G_VoteAllowUnevenPassed;
 	callvote->current = G_VoteAllowUnevenCurrent;
@@ -2690,7 +2723,8 @@ void G_CallVotes_Init( void )
 
 #ifdef ALLOWBYNNY_VOTE
 	callvote = G_RegisterCallvote( "allow_bunny" );
-	callvote->expectedargs = 1;
+	callvote->minargc = 1;
+	callvote->maxargc = 1;
 	callvote->validate = G_VoteAllowBunnyValidate;
 	callvote->execute = G_VoteAllowBunnyPassed;
 	callvote->current = G_VoteAllowBunnyCurrent;
