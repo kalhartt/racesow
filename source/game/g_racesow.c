@@ -116,7 +116,8 @@ char *players_query[MAX_CLIENTS]={0};
  * map-list related global variables
  */
 unsigned int mapcount = 0;
-char maplist[50000] = {0}; // around 5000 maps..
+map_t maplist[5000];
+static char ml_mem[50000] = {0};
 char previousMapName[MAX_CONFIGSTRING_CHARS];
 
 /**
@@ -324,7 +325,7 @@ qboolean RS_LoadCvars( void )
     rs_queryResetPlayerMapPoints	= trap_Cvar_Get( "rs_queryResetPlayerMapPoints",	"UPDATE `player_map` SET `points` = 0 WHERE `map_id` = %d;", CVAR_ARCHIVE );
     rs_queryUpdatePlayerMapPoints	= trap_Cvar_Get( "rs_queryUpdatePlayerMapPoints",	"UPDATE `player_map` SET `points` = %d WHERE `map_id` = %d AND `player_id` = %d;", CVAR_ARCHIVE );
 	rs_querySetMapRating			= trap_Cvar_Get( "rs_querySetMapRating",			"INSERT INTO `map_rating` (`player_id`, `map_id`, `value`, `created`) VALUES(%d, %d, %d, NOW()) ON DUPLICATE KEY UPDATE `value` = VALUE(`value`), `changed` = NOW();", CVAR_ARCHIVE );
-	rs_queryLoadMapList				= trap_Cvar_Get( "rs_queryLoadMapList",				"SELECT name FROM map WHERE freestyle = '%d' AND status = 'enabled' ORDER BY %s;", CVAR_ARCHIVE);
+	rs_queryLoadMapList				= trap_Cvar_Get( "rs_queryLoadMapList",				"SELECT name, weapons, races FROM map WHERE freestyle = '%d' AND status = 'enabled' ORDER BY %s;", CVAR_ARCHIVE);
 	rs_queryMapFilter               = trap_Cvar_Get( "rs_queryMapFilter",               "SELECT id, name FROM map WHERE name LIKE '%%%s%%' AND freestyle = '%s' LIMIT %u, %u;", CVAR_ARCHIVE );
 	rs_queryMapFilterCount          = trap_Cvar_Get( "rs_queryMapFilterCount",          "SELECT COUNT(id)FROM map WHERE name LIKE '%%%s%%' AND freestyle = '%s';", CVAR_ARCHIVE );
     rs_queryUpdateCheckpoint        = trap_Cvar_Get( "rs_queryUpdateCheckpoint",        "INSERT INTO `checkpoint` (`player_id`, `map_id`, `time`, `num`) VALUES(%d, %d, %d, %d) ON DUPLICATE KEY UPDATE `time` = VALUES(`time`);", CVAR_ARCHIVE );
@@ -1865,13 +1866,12 @@ void *RS_MapFilter_Thread( void *in )
 {
     struct filterDataStruct *filterData = (struct filterDataStruct *)in;
     int filterCount = 0, totalPages = 0, mapCount = 0, size = 0;
-    static const char *seps = " ,\n\r";
-    char *s, *t;
     int page = filterData->page;
     const int MAPS_PER_PAGE = 15;
     char result[MAX_STRING_CHARS]; //stores the result string
     char filter[MAX_CONFIGSTRING_CHARS]; //stores the lowercase version of the filter
     char temp[MAX_CONFIGSTRING_CHARS]; //stores the lowercase version of the map name
+    int i;
 
 	result[0]='\0';
     filter[0]='\0';
@@ -1879,22 +1879,15 @@ void *RS_MapFilter_Thread( void *in )
     Q_strncpyz(filter,filterData->filter, sizeof( filter ) );
     Q_strlwr(filter);
 
-    s = G_CopyString( maplist );
-    t = strtok( s, seps );
-
     //first get the count of maps matching the search
-    while( t != NULL )
+    for ( i = 0; i < mapcount; i++ )
     {
-        Q_strncpyz( temp, t, sizeof( temp ) );
+        Q_strncpyz( temp, maplist[i].name, sizeof( temp ) );
         Q_strlwr( temp );
 
         if ( !( strstr( temp, filter ) == NULL ) )
             filterCount++;
-
-        t = strtok( NULL, seps);
     }
-
-    G_Free( s );
 
     if ( filterCount == 0 )
         Q_strncatz( result, va( "No maps found for your search on %s%s.\n", S_COLOR_YELLOW, filterData->filter ), sizeof( result ) );
@@ -1910,46 +1903,40 @@ void *RS_MapFilter_Thread( void *in )
         if ( page > totalPages )
         {
             Q_strncatz( result , va( "There are only%s %d%s pages for your search on%s %s%s\n",
-                    S_COLOR_YELLOW,
-                    totalPages,
-                    S_COLOR_WHITE,
-                    S_COLOR_YELLOW,
-                    filterData->filter,
-                    S_COLOR_WHITE ), sizeof ( result ) );
-    }
-    else
-    {
-        Q_strncatz( result, va( "Printing page %d/%d of maps matching %s%s.\n%sUse %smapfilter %s <pagenum> %sto print other pages.\n",
-                page,
-                totalPages,
-                S_COLOR_YELLOW,
-                filterData->filter,
-                S_COLOR_WHITE,
-                S_COLOR_YELLOW,
-                filterData->filter,
-                S_COLOR_WHITE),  sizeof(result));
+                        S_COLOR_YELLOW,
+                        totalPages,
+                        S_COLOR_WHITE,
+                        S_COLOR_YELLOW,
+                        filterData->filter,
+                        S_COLOR_WHITE ), sizeof ( result ) );
+        }
+        else
+        {
+            Q_strncatz( result, va( "Printing page %d/%d of maps matching %s%s.\n%sUse %smapfilter %s <pagenum> %sto print other pages.\n",
+                        page,
+                        totalPages,
+                        S_COLOR_YELLOW,
+                        filterData->filter,
+                        S_COLOR_WHITE,
+                        S_COLOR_YELLOW,
+                        filterData->filter,
+                        S_COLOR_WHITE),  sizeof(result));
 
-            s = G_CopyString( maplist );
-            t = strtok( s, seps );
             filterCount = 0;
 
-            while( ( t != NULL ) && ( filterCount <= page*MAPS_PER_PAGE ) )
+            for( i = 0; i < mapcount && ( filterCount <= page*MAPS_PER_PAGE ); i++ )
             {
                 mapCount++;
-                Q_strncpyz( temp, t, sizeof( temp ) );
+                Q_strncpyz( temp, maplist[i].name, sizeof( temp ) );
                 Q_strlwr( temp );
                 if ( !( strstr( temp, filter ) == NULL ) )
                 {
                     filterCount++;
                     if ( ( filterCount >= ((page-1)*MAPS_PER_PAGE + 1) ) && ( filterCount <= page*MAPS_PER_PAGE  ) )
-                        Q_strncatz( result, va( "%s#%4d%s : %s\n", S_COLOR_ORANGE, mapCount, S_COLOR_WHITE, t ),  sizeof( result ) );
+                        Q_strncatz( result, va( "%s#%4d%s : %s\n", S_COLOR_ORANGE, mapCount, S_COLOR_WHITE, maplist[i].name ),  sizeof( result ) );
+                }
+            }
         }
-
-                t = strtok( NULL, seps);
-        }
-
-            G_Free( s );
-    }
     }
 
     size = strlen( result )+1;
@@ -2253,8 +2240,7 @@ void *RS_Maplist_Thread(void *in)
     struct maplistDataStruct *maplistData = (struct maplistDataStruct *)in ;
     int mapsFound = 0, totalPages = 0, size = 0;
     int page = maplistData->page;
-    static const char *seps = " ,\n\r";
-    char *s, *t;
+    int i;
     const int MAPS_PER_PAGE = 20;
     char result[MAX_STRING_CHARS]; //stores the result string
     result[0]='\0';
@@ -2282,19 +2268,12 @@ void *RS_Maplist_Thread(void *in)
                 totalPages,
                 S_COLOR_YELLOW ),  sizeof( result ) );
 
-        s = G_CopyString( maplist );
-        t = strtok( s, seps );
-
-        while( ( t != NULL ) && ( mapsFound <= page*MAPS_PER_PAGE ) )
+        for( i = 0; i < mapcount && ( mapsFound <= page*MAPS_PER_PAGE ); i++ )
         {
             mapsFound++;
             if ( ( mapsFound >= ((page-1)*MAPS_PER_PAGE + 1) ) && ( mapsFound <= page*MAPS_PER_PAGE  ) )
-                Q_strncatz( result, va( "%s#%4d%s : %s\n", S_COLOR_ORANGE, mapsFound, S_COLOR_WHITE, t ),  sizeof( result ) );
-
-            t = strtok( NULL, seps);
+                Q_strncatz( result, va( "%s#%4d%s : %s\n", S_COLOR_ORANGE, mapsFound, S_COLOR_WHITE, maplist[i].name ),  sizeof( result ) );
         }
-
-        G_Free( s );
     }
 
     size = strlen( result )+1;
@@ -2874,7 +2853,9 @@ qboolean RS_MysqlLoadMaplist( int is_freestyle )
         MYSQL_RES  *mysql_res;
         char query[MYSQL_QUERY_LENGTH];
         mapcount = 0;
-        maplist[0] = '\0';
+        char *p = ml_mem;
+        int mem_left = sizeof( ml_mem );
+        int size;
 
         sprintf(query, rs_queryLoadMapList->string, is_freestyle, "name");
         mysql_real_query(&mysql, query, strlen(query));
@@ -2892,9 +2873,23 @@ qboolean RS_MysqlLoadMaplist( int is_freestyle )
             if ( !RS_MapValidate( row[0] ) )
        	        continue;
 
-       	    Q_strncatz( maplist, va( "%s ", row[0] ), sizeof( maplist ) );
-            mapcount++;
+            size = strlen(row[0]) + 1;
+            if( mem_left >= size && mapcount < sizeof( maplist ) / sizeof( *maplist ) )
+            {
+                strcpy(p, row[0]);
+                maplist[mapcount].name = p;
+                p += size;
+                size = strlen(row[1]) + 1;
+                if( mem_left >= size )
+                {
+                    strcpy(p, row[1]);
+                    maplist[mapcount].weapons = p;
+                    p += size;
+                    maplist[mapcount].played = atoi(row[2]) > 0;
+                    mapcount++;
+                }
             }
+        }
 
         mysql_free_result(mysql_res);
         return qtrue;
@@ -2909,9 +2904,11 @@ qboolean RS_MysqlLoadMaplist( int is_freestyle )
 qboolean RS_BasicLoadMaplist(char *stringMapList)
 {
     char *s, *t;
+    char *p = ml_mem;
     static const char *seps = " ,\n\r";
-    maplist[0] = '\0';
     mapcount = 0;
+    int mem_left = sizeof( ml_mem );
+    int size;
 
     s = G_CopyString( stringMapList );
     t = strtok( s, seps );
@@ -2920,8 +2917,14 @@ qboolean RS_BasicLoadMaplist(char *stringMapList)
     {
         if ( RS_MapValidate( t ) )
         {
-            Q_strncatz( maplist, va("%s ", t), sizeof( maplist ) );
-        mapcount++;
+            size = strlen(t) + 1;
+            if( mem_left >= size && mapcount < sizeof( maplist ) / sizeof( *maplist ) )
+            {
+                strcpy(p, t);
+                maplist[mapcount].name = p;
+                p += size;
+                mapcount++;
+            }
         }
 
         t = strtok( NULL, seps);
@@ -3100,15 +3103,14 @@ void rs_TimeDeltaPrestepProjectile( edict_t *projectile, int timeDelta )
 char *RS_ChooseNextMap()
 {
     edict_t *ent = NULL;
-    char *s, *t, *f;
-    static const char *seps = " ,\n\r";
+    int i, index;
 
     if( *level.forcemap )
     {
         return level.forcemap;
     }
 
-    if( !( *maplist ) || strlen( maplist ) == 0 || g_maprotation->integer == 0 )
+    if( mapcount == 0 || g_maprotation->integer == 0 )
     {
         // same map again
         return level.mapname;
@@ -3116,89 +3118,30 @@ char *RS_ChooseNextMap()
     else if( g_maprotation->integer == 1 )
     {
         // next map in list
-        s = G_CopyString( maplist );
-        f = NULL;
-        t = strtok( s, seps );
-
-        while( t != NULL )
+        index = -1;
+        for( i = 0; i < mapcount && trap_ML_FilenameExists( maplist[i].name ) && index == -1; i++)
         {
-            if( !Q_stricmp( t, level.mapname ) )
-            {
-                // it's in the list, go to the next one
-                do {
-                t = strtok( NULL, seps );
-                } while ( t && !trap_ML_FilenameExists( t ) );
-
-                if( t == NULL )
-                {
-                    // end of list, go to first one. if there isn't a first one, same level
-                    if ( f == NULL )
-                    {
-                        G_Free( s );
-                        return level.mapname;
-                    }
-                    else
-                    {
-                        G_Free( s );
-                        return f;
-                    }
-                }
-                else
-                {
-                    G_Free( s );
-                    return t;
-                }
-            }
-            if( !f && trap_ML_FilenameExists( t ) )
-                f = t;
-            t = strtok( NULL, seps );
+            if( !Q_stricmp( maplist[i].name, level.mapname ) && trap_ML_FilenameExists( maplist[(i + 1) % mapcount].name ) )
+                return maplist[(i + 1) % mapcount].name;
         }
-
         // not in the list, we go for the first one
-        if ( f == NULL )
-        {
-            G_Free( s );
-            return level.mapname;
-        }
-        else
-        {
-            G_Free( s );
-            return f;
-        }
+        if( trap_ML_FilenameExists( maplist[0].name ) )
+            return maplist[0].name;
+        return level.mapname;
     }
     else if( g_maprotation->integer == 2 )
     {
         // random from the list, but not the same
-        char *s1;
-        size_t str_size;
-
         int count = 0;
-        s = G_CopyString( maplist );
-
-        str_size = strlen( s ) + 1;
-        s1 = G_Malloc( str_size );
-        s1[0] = s1[str_size-1] = '\0';
-
-        t = strtok( s, seps );
-        while( t != NULL )
+        for( i = 0; i < mapcount && trap_ML_FilenameExists( maplist[i].name ); i++)
         {
-            if( Q_stricmp( t, level.mapname ) && trap_ML_FilenameExists( t ) ) {
+            if( Q_stricmp( maplist[i].name, level.mapname ) && trap_ML_FilenameExists( maplist[(i + 1) % mapcount].name ) )
                 count++;
-                if( *s1 ) {
-                    Q_strncatz( s1, " ", str_size );
-                }
-                Q_strncatz( s1, t, str_size );
-            }
-            t = strtok( NULL, seps );
         }
-
-        G_Free( s );
-        s = NULL;
 
         if( count < 1 )
         {
             // no other maps found, restart
-            G_Free( s1 );
             return level.mapname;
         }
         else
@@ -3207,17 +3150,14 @@ char *RS_ChooseNextMap()
             count -= (int)Q_brandom( &seed, 0, count ); // this should give random integer from 0 to count-1
             ent = NULL; // shutup compiler warning;
 
-            t = strtok( s1, seps );
-            while( t != NULL )
+            for( i = 0; i < mapcount && trap_ML_FilenameExists( maplist[i].name ); i++)
             {
-                count--;
+                if( Q_stricmp( maplist[i].name, level.mapname ) && trap_ML_FilenameExists( maplist[(i + 1) % mapcount].name ) )
+                    count--;
                 if( count == 0 )
-                {
-                    G_Free( s1 );
-                    return t;
-                }
-                t = strtok( NULL, seps );
+                    return maplist[i].name;
             }
+            return level.mapname;
         }
     }
 
@@ -3237,31 +3177,17 @@ char *RS_ChooseNextMap()
 
 char *RS_GetMapByNum(int num)
 {
-    char *s, *tok;
     char *result;
     int size = 0;
-    static const char *seps = " ,\n\r";
-    int maps = 0;
 
-    s = G_CopyString( maplist );
-    tok = strtok( s, seps );
-
-    while ( tok != NULL )
+    if( num < mapcount )
     {
-        maps++;
-        if ( maps == num )
-        {
-            size = strlen(tok)+1;
-            result = malloc(size);
-            Q_strncpyz(result, tok, size);
-            G_Free( s );
-            return result;
-        }
-        else
-            tok = strtok( NULL, seps );
+        size = strlen(maplist[num].name)+1;
+        result = malloc(size);
+        Q_strncpyz(result, maplist[num].name, size);
+        return result;
     }
 
-    G_Free( s );
     return NULL;
 }
 

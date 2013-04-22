@@ -203,26 +203,17 @@ static qboolean G_VoteMapValidate( callvotedata_t *data, qboolean first )
 		// check if valid map is in map pool when on
 		if( g_enforce_map_pool->integer )
 		{
-			char *s, *tok;
-			static const char *seps = " ,";
+            int i;
 
 			// if map pool is empty, basically turn it off
-			if( strlen(maplist) < 2 ) //racesow : use maplist
+			if( mapcount == 0 ) //racesow : use maplist
 				return qtrue;
 
-			s = G_CopyString(maplist); //racesow : use maplist
-			tok = strtok( s, seps );
-			while ( tok != NULL )
-			{
-				if ( !Q_stricmp( tok, mapname ) )
-				{
-					G_Free( s );
-					return qtrue;
-				}
-				else
-					tok = strtok( NULL, seps );
-			}
-			G_Free( s );
+            for( i = 0; i < mapcount; i++)
+            {
+				if ( !Q_stricmp( maplist[i].name, mapname ) )
+                    return qtrue;
+            }
 			G_PrintMsg( data->caller, "%sMap is not in map pool.\n", S_COLOR_RED );
 			return qfalse;
 		}
@@ -253,41 +244,75 @@ static char *G_VoteMapCurrent( void )
  */
 qboolean RS_VoteRandmapValidate( callvotedata_t *vote, qboolean first )
 {
-	int index = brandom( 1, mapcount );
-	int size = 0;
-	char *s, *tok;
-	static const char *seps = " ,\n\r";
+    int weapon, played;
+    int count = 0;
+    int i;
+	int size;
 
 	if( !first )
 		return qtrue;
 
-	s = G_CopyString( maplist );
-	tok = strtok( s, seps );
+    weapon = -1;
+    played = -1;
+    if( !Q_stricmp( vote->argv[0], "strafe" ) )
+    {
+        weapon = 0;
+    }
+    else if( !Q_stricmp( vote->argv[0], "rl" ) )
+    {
+        weapon = 3;
+    }
+    else if( !Q_stricmp( vote->argv[0], "pg" ) )
+    {
+        weapon = 4;
+    }
+    else if( !Q_stricmp( vote->argv[0], "gl" ) )
+    {
+        weapon = 2;
+    }
+    else if( !Q_stricmp( vote->argv[0], "played" ) )
+    {
+        played = 1;
+    }
+    else if( !Q_stricmp( vote->argv[0], "unplayed" ) )
+    {
+        played = -1;
+    }
+    else if( Q_stricmp( vote->argv[0], "any" ) )
+    {
+		G_PrintMsg( vote->caller, "%sInvalid randmap type.\n", S_COLOR_RED );
+        return qfalse;
+    }
 
-	while ( tok != NULL )
-	{
-		if( Q_stricmp( tok, level.mapname ) )
-			index--;
+    for( i = 0; i < mapcount; i++)
+    {
+        if( ( played == -1 || ( played == 1 && maplist[i].played ) || ( played == -1 && !maplist[i].played ) )
+                && ( weapon == -1 || ( weapon > 0 && maplist[i].weapons[weapon] == '1' ) || ( weapon == 0 && maplist[i].weapons[0] == '0' && maplist[i].weapons[1] == '0' && maplist[i].weapons[2] == '0' && maplist[i].weapons[3] == '0' && maplist[i].weapons[4] == '0' && maplist[i].weapons[5] == '0' && maplist[i].weapons[6] == '0' ) ) && Q_stricmp( maplist[i].name, level.mapname ) )
+            count++;
+    }
+    if( count == 0 )
+    {
+		G_PrintMsg( vote->caller, "%sNo such map available.\n", S_COLOR_RED );
+        return qfalse;
+    }
+    int seed = game.realtime;
+    count -= Q_brandom( &seed, 0, count );
+    i = 0;
+    while( count > 0 )
+    {
+        if( ( played == -1 || ( played == 1 && maplist[i].played ) || ( played == -1 && !maplist[i].played ) )
+                && ( weapon == -1 || ( weapon > 0 && maplist[i].weapons[weapon] == '1' ) || ( weapon == 0 && maplist[i].weapons[0] == '0' && maplist[i].weapons[1] == '0' && maplist[i].weapons[2] == '0' && maplist[i].weapons[3] == '0' && maplist[i].weapons[4] == '0' && maplist[i].weapons[5] == '0' && maplist[i].weapons[6] == '0' ) ) )
+            count--;
+        i++;
+    }
+    while( !( ( played == -1 || ( played == 1 && maplist[i].played ) || ( played == -1 && !maplist[i].played ) )
+            && ( weapon == -1 || ( weapon > 0 && maplist[i].weapons[weapon] == '1' ) || ( weapon == 0 && maplist[i].weapons[0] == '0' && maplist[i].weapons[1] == '0' && maplist[i].weapons[2] == '0' && maplist[i].weapons[3] == '0' && maplist[i].weapons[4] == '0' && maplist[i].weapons[5] == '0' && maplist[i].weapons[6] == '0' ) ) ) )
+        i++;
 
-		if ( index == 0)
-			break;
-
-		tok = strtok( NULL, seps );
-	}
-
-	G_Free(s);
-
-	if ( index == 0){
-		size = strlen( tok ) + 1;
-		vote->data = G_Malloc( size );
-		Q_strncpyz(vote->data, tok, size);
-		return qtrue;
-	}
-	else
-	{
-		G_PrintMsg( vote->caller, "%sCouldn't find a random map, maybe try again.\n", S_COLOR_RED );
-		return qfalse;
-	}
+    size = strlen( maplist[i].name ) + 1;
+    vote->data = G_Malloc( size );
+    Q_strncpyz(vote->data, maplist[i].name, size);
+    return qtrue;
 }
 
 /**
@@ -2372,12 +2397,12 @@ void G_CallVotes_Init( void )
 
 	// racesow
 	callvote = G_RegisterCallvote( "randmap" );
-	callvote->expectedargs = 0;
+	callvote->expectedargs = 1;
 	callvote->validate = RS_VoteRandmapValidate;
 	callvote->execute = RS_VoteRandmapPassed;
 	callvote->current = NULL;
 	callvote->extraHelp = NULL;
-	callvote->argument_format = NULL;
+	callvote->argument_format = G_LevelCopyString( "<any | strafe | rl | pg | gl | played | unplayed>" );
 	callvote->help = G_LevelCopyString( "- Changes to a random map" );
 	// !racesow
 

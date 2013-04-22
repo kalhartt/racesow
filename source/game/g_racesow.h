@@ -25,7 +25,13 @@ void mqtt_connect_callback(void *obj, int result);
 void mqtt_disconnect_callback(void *obj);
 void mqtt_publish_callback(void *obj, uint16_t mid);
 
-char maplist[50000];
+typedef struct {
+    char *name;
+    char *weapons;
+    qboolean played;
+} map_t;
+
+map_t maplist[5000];
 unsigned int mapcount;
 int MysqlConnected;
 char previousMapName[MAX_CONFIGSTRING_CHARS];
