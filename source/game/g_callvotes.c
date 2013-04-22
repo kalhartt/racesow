@@ -239,6 +239,36 @@ static char *G_VoteMapCurrent( void )
 
 // racesow : randmap
 
+static qboolean RS_MapMatches( map_t *map, int weapon, int played )
+{
+    int i;
+    if ( played == 1 && !map->played )
+        return qfalse;
+    if ( played == 2 && map->played )
+        return qfalse;
+    if ( weapon >= 0 && map->weapons[weapon] == '0' )
+        return qfalse;
+    if ( weapon == -2 ) // strafe
+    {
+        for( i = 0; i < 7; i++ )
+        {
+            if( map->weapons[i] != '0' )
+                return qfalse;
+        }
+    }
+    if ( weapon == -3 ) // weapon
+    {
+        for( i = 0; i < 7; i++ )
+        {
+            if( map->weapons[i] != '0' )
+                break;
+        }
+        if( i == 7 )
+            return qfalse;
+    }
+    return Q_stricmp( map->name, level.mapname ) != 0;
+}
+
 /**
  * Choose a valid random map in the map list.
  */
@@ -256,7 +286,11 @@ qboolean RS_VoteRandmapValidate( callvotedata_t *vote, qboolean first )
     played = -1;
     if( !Q_stricmp( vote->argv[0], "strafe" ) )
     {
-        weapon = 0;
+        weapon = -2;
+    }
+    else if( !Q_stricmp( vote->argv[0], "weapon" ) )
+    {
+        weapon = -3;
     }
     else if( !Q_stricmp( vote->argv[0], "rl" ) )
     {
@@ -276,7 +310,7 @@ qboolean RS_VoteRandmapValidate( callvotedata_t *vote, qboolean first )
     }
     else if( !Q_stricmp( vote->argv[0], "unplayed" ) )
     {
-        played = -1;
+        played = 2;
     }
     else if( Q_stricmp( vote->argv[0], "any" ) )
     {
@@ -286,8 +320,7 @@ qboolean RS_VoteRandmapValidate( callvotedata_t *vote, qboolean first )
 
     for( i = 0; i < mapcount; i++)
     {
-        if( ( played == -1 || ( played == 1 && maplist[i].played ) || ( played == -1 && !maplist[i].played ) )
-                && ( weapon == -1 || ( weapon > 0 && maplist[i].weapons[weapon] == '1' ) || ( weapon == 0 && maplist[i].weapons[0] == '0' && maplist[i].weapons[1] == '0' && maplist[i].weapons[2] == '0' && maplist[i].weapons[3] == '0' && maplist[i].weapons[4] == '0' && maplist[i].weapons[5] == '0' && maplist[i].weapons[6] == '0' ) ) && Q_stricmp( maplist[i].name, level.mapname ) )
+        if( RS_MapMatches( maplist + i, weapon, played ) )
             count++;
     }
     if( count == 0 )
@@ -300,18 +333,15 @@ qboolean RS_VoteRandmapValidate( callvotedata_t *vote, qboolean first )
     i = 0;
     while( count > 0 )
     {
-        if( ( played == -1 || ( played == 1 && maplist[i].played ) || ( played == -1 && !maplist[i].played ) )
-                && ( weapon == -1 || ( weapon > 0 && maplist[i].weapons[weapon] == '1' ) || ( weapon == 0 && maplist[i].weapons[0] == '0' && maplist[i].weapons[1] == '0' && maplist[i].weapons[2] == '0' && maplist[i].weapons[3] == '0' && maplist[i].weapons[4] == '0' && maplist[i].weapons[5] == '0' && maplist[i].weapons[6] == '0' ) ) )
+        if( RS_MapMatches( maplist + i, weapon, played ) )
             count--;
-        i++;
+        if( i != 0 )
+            i++;
     }
-    while( !( ( played == -1 || ( played == 1 && maplist[i].played ) || ( played == -1 && !maplist[i].played ) )
-            && ( weapon == -1 || ( weapon > 0 && maplist[i].weapons[weapon] == '1' ) || ( weapon == 0 && maplist[i].weapons[0] == '0' && maplist[i].weapons[1] == '0' && maplist[i].weapons[2] == '0' && maplist[i].weapons[3] == '0' && maplist[i].weapons[4] == '0' && maplist[i].weapons[5] == '0' && maplist[i].weapons[6] == '0' ) ) ) )
-        i++;
 
     size = strlen( maplist[i].name ) + 1;
     vote->data = G_Malloc( size );
-    Q_strncpyz(vote->data, maplist[i].name, size);
+    Q_strncpyz( vote->data, maplist[i].name, size );
     return qtrue;
 }
 
@@ -2402,7 +2432,7 @@ void G_CallVotes_Init( void )
 	callvote->execute = RS_VoteRandmapPassed;
 	callvote->current = NULL;
 	callvote->extraHelp = NULL;
-	callvote->argument_format = G_LevelCopyString( "<any | strafe | rl | pg | gl | played | unplayed>" );
+	callvote->argument_format = G_LevelCopyString( "<any | strafe | weapon | rl | pg | gl | played | unplayed>" );
 	callvote->help = G_LevelCopyString( "- Changes to a random map" );
 	// !racesow
 
