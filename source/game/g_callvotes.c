@@ -241,13 +241,15 @@ static char *G_VoteMapCurrent( void )
 
 // racesow : randmap
 
-static qboolean RS_MapMatches( map_t *map, int weapon, int played )
+static qboolean RS_MapMatches( map_t *map, int weapon, int played, char *filter )
 {
     int i;
+
     if ( played == 1 && !map->played )
         return qfalse;
     if ( played == 2 && map->played )
         return qfalse;
+
     if ( weapon >= 0 && map->weapons[weapon] == '0' )
         return qfalse;
     if ( weapon == -2 ) // strafe
@@ -268,6 +270,10 @@ static qboolean RS_MapMatches( map_t *map, int weapon, int played )
         if( i == 7 )
             return qfalse;
     }
+
+    if( filter && strstr( map->name, filter ) == NULL )
+        return qfalse;
+
     return Q_stricmp( map->name, level.mapname ) != 0;
 }
 
@@ -277,6 +283,7 @@ static qboolean RS_MapMatches( map_t *map, int weapon, int played )
 qboolean RS_VoteRandmapValidate( callvotedata_t *vote, qboolean first )
 {
     int weapon, played;
+    char *filter = NULL;
     int count = 0;
     int i;
 	int size;
@@ -321,11 +328,14 @@ qboolean RS_VoteRandmapValidate( callvotedata_t *vote, qboolean first )
             G_PrintMsg( vote->caller, "%sInvalid randmap type.\n", S_COLOR_RED );
             return qfalse;
         }
+
+        if( vote->argc >= 2 )
+            filter = vote->argv[1];
     }
 
     for( i = 0; i < mapcount; i++)
     {
-        if( RS_MapMatches( maplist + i, weapon, played ) )
+        if( RS_MapMatches( maplist + i, weapon, played, filter ) )
             count++;
     }
     if( count == 0 )
@@ -338,7 +348,7 @@ qboolean RS_VoteRandmapValidate( callvotedata_t *vote, qboolean first )
     i = 0;
     while( count > 0 )
     {
-        if( RS_MapMatches( maplist + i, weapon, played ) )
+        if( RS_MapMatches( maplist + i, weapon, played, filter ) )
             count--;
         if( count != 0 )
             i++;
@@ -2432,12 +2442,12 @@ void G_CallVotes_Init( void )
 	// racesow
 	callvote = G_RegisterCallvote( "randmap" );
 	callvote->minargc = 0;
-	callvote->maxargc = 1;
+	callvote->maxargc = 2;
 	callvote->validate = RS_VoteRandmapValidate;
 	callvote->execute = RS_VoteRandmapPassed;
 	callvote->current = NULL;
 	callvote->extraHelp = NULL;
-	callvote->argument_format = G_LevelCopyString( "<any | strafe | weapon | rl | pg | gl | played | unplayed>" );
+	callvote->argument_format = G_LevelCopyString( "[any | strafe | weapon | rl | pg | gl | played | unplayed] [filter]" );
 	callvote->help = G_LevelCopyString( "- Changes to a random map" );
 	// !racesow
 
