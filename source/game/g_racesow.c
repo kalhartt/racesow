@@ -117,7 +117,7 @@ char *players_query[MAX_CLIENTS]={0};
  */
 unsigned int mapcount = 0;
 map_t maplist[5000];
-static char ml_mem[50000] = {0};
+static char ml_mem[100000] = {0};
 char previousMapName[MAX_CONFIGSTRING_CHARS];
 
 /**
@@ -2876,12 +2876,14 @@ qboolean RS_MysqlLoadMaplist( int is_freestyle )
             size = strlen(row[0]) + 1;
             if( mem_left >= size && mapcount < sizeof( maplist ) / sizeof( *maplist ) )
             {
+                mem_left -= size;
                 strcpy(p, row[0]);
                 maplist[mapcount].name = p;
                 p += size;
                 size = strlen(row[1]) + 1;
                 if( mem_left >= size )
                 {
+                    mem_left -= size;
                     strcpy(p, row[1]);
                     maplist[mapcount].weapons = p;
                     p += size;
@@ -2920,6 +2922,7 @@ qboolean RS_BasicLoadMaplist(char *stringMapList)
             size = strlen(t) + 1;
             if( mem_left >= size && mapcount < sizeof( maplist ) / sizeof( *maplist ) )
             {
+                mem_left -= size;
                 strcpy(p, t);
                 maplist[mapcount].name = p;
                 p += size;
