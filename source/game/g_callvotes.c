@@ -340,7 +340,7 @@ qboolean RS_VoteRandmapValidate( callvotedata_t *vote, qboolean first )
     {
         if( RS_MapMatches( maplist + i, weapon, played ) )
             count--;
-        if( i != 0 )
+        if( count != 0 )
             i++;
     }
 
