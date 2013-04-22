@@ -350,8 +350,15 @@ qboolean RS_VoteRandmapValidate( callvotedata_t *vote, qboolean first )
     {
         if( RS_MapMatches( maplist + i, weapon, played, filter ) )
             count--;
-        if( count != 0 )
-            i++;
+        i++;
+    }
+    while( !RS_MapMatches( maplist + i, weapon, played, filter ) )
+        i++;
+
+    if( !Q_stricmp( maplist[i].name, level.mapname ) )
+    {
+        G_PrintMsg( vote->caller, "%sNo such map available.\n", S_COLOR_RED );
+        return qfalse;
     }
 
     size = strlen( maplist[i].name ) + 1;
