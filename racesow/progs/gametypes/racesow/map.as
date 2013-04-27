@@ -30,6 +30,11 @@ class Racesow_Map
     Racesow_Map_HighScore highScore;
 	
 	/*
+	 * Prejump Highscore
+	 */
+    Racesow_Map_HighScore prejumpHighScore;
+	
+	/*
 	 * World record time for this map (loaded from database)
 	 */
 	uint worldBest;
@@ -82,6 +87,7 @@ class Racesow_Map
 
         this.logTime = 0;
         this.highScore.reset();
+        this.prejumpHighScore.reset();
 	}
 	
 	void PrintMinutesLeft()
@@ -146,6 +152,15 @@ class Racesow_Map
 	Racesow_Map_HighScore @getHighScore()
 	{
 		return @this.highScore;
+	}
+    
+    /**
+	 * Get the map prejump highscore
+	 * @return Racesow_Map_HighScore
+	 */
+	Racesow_Map_HighScore @getPrejumpHighScore()
+	{
+		return @this.prejumpHighScore;
 	}
     
     void startOvertime()

@@ -199,7 +199,7 @@ class Racesow_Player_Race : Racesow_Player_Implemented
 		this.checkPoints[id] = this.player.getClient().uCmdTimeStamp - this.startTime;
 
 		uint newTime = this.checkPoints[id];
-		uint serverBestTime = map.getHighScore().getCheckPoint(id);
+		uint serverBestTime = this.player.race.prejumped ? map.getPrejumpHighScore().getCheckPoint(id) : map.getHighScore().getCheckPoint(id);
 		uint personalBestTime = this.player.getBestCheckPoint(id);
 		bool noDelta = 0 == serverBestTime;
 

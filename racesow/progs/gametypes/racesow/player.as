@@ -315,7 +315,7 @@ class Racesow_Player
         bestTime = oldTime; // diff to own best
         //bestTime = oldBestTime // diff to server best
 
-        oldServerBestTime = map.getHighScore().getTime();
+        oldServerBestTime = this.lastRace.prejumped ? map.getPrejumpHighScore().getTime() : map.getHighScore().getTime();
 
         //print general info to player
         this.sendAward( S_COLOR_CYAN + "Race Finished!" );
@@ -365,7 +365,10 @@ class Racesow_Player
         //server record
         if ( oldServerBestTime == 0 || newTime < oldServerBestTime )
         {
-            map.getHighScore().fromRace(this.lastRace);
+            if ( this.lastRace.prejumped )
+                map.getPrejumpHighScore().fromRace(this.lastRace);
+            else
+                map.getHighScore().fromRace(this.lastRace);
             this.sendAward( S_COLOR_GREEN + "New server record!" );
             G_PrintMsg(null, this.getName() + " "
                              + S_COLOR_YELLOW + "made a new" + prejumpRec + " server record: "
@@ -654,6 +657,7 @@ class Racesow_Player
 
         this.setLastRace(@this.race);
 
+        uint record = this.race.prejumped ? map.getPrejumpHighScore().getTime(): map.getHighScore().getTime();
 		switch (gametypeFlag) {
             case MODFLAG_DRACE:
                 // we kill the player who lost
@@ -667,10 +671,7 @@ class Racesow_Player
                         DRACERound.roundWinner.getEnt().health = -1;
                 }
 
-                this.raceCallback(0,0,0,
-                                    this.bestRaceTime,
-                                    map.getHighScore().getTime(),
-                                    this.race.getTime());
+                this.raceCallback(0,0,0,this.bestRaceTime,record,this.race.getTime());
 
                 break;
 
@@ -679,10 +680,7 @@ class Racesow_Player
                 this.client.stats.addScore( 1 );
                 //G_GetTeam( this.client.getEnt().team ).stats.setScore( this.client.stats.score );
                 G_GetTeam( this.client.getEnt().team ).stats.addScore( 1 );
-                this.raceCallback(0,0,0,
-                                    this.bestRaceTime,
-                                    map.getHighScore().getTime(),
-                                    this.race.getTime());
+                this.raceCallback(0,0,0,this.bestRaceTime,record,this.race.getTime());
 
                 break;
 
