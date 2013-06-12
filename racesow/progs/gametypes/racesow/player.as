@@ -215,6 +215,7 @@ class Racesow_Player
 	Vec3 positionOrigin; //stored origin
 	Vec3 positionAngles; //stored angles
 	int positionWeapon; //stored weapon
+    float positionSpeed; //stored speed
 
 	/**
 	 * Constructor
@@ -262,6 +263,7 @@ class Racesow_Player
 		if(@this.gravestone != null)
 			this.gravestone.freeEntity();
 		this.positionSaved = false;
+        this.positionSpeed = 0;
 		@this.triggerEntity = null;
 		this.triggerTimeout = 0;
 		this.tries = 0;
@@ -745,6 +747,16 @@ class Racesow_Player
   		{
   			this.teleport( this.positionOrigin, this.positionAngles, false, false );
   			this.client.selectWeapon( this.positionWeapon );
+            cEntity@ ent = @this.client.getEnt();
+            if( @ent != null )
+            {
+                Vec3 a, b, c;
+                this.positionAngles.angleVectors(a, b, c);
+                a.z = 0;
+                a.normalize();
+                a *= this.positionSpeed;
+                ent.set_velocity(a);
+            }
   		}
         else if ( this.isRacing() )
   		{
@@ -1013,12 +1025,27 @@ class Racesow_Player
 			else
 			this.positionWeapon = client.weapon;
 		}
+        else if( action == "speed" && argsString.getToken( 1 ) != "" )
+        {
+            this.positionSpeed = argsString.getToken( 1 ).toFloat();
+        }
 		else if( action == "load" )
 		{
 			if(!this.positionSaved)
 				return false;
 			if( this.teleport( this.positionOrigin, this.positionAngles, false, false ) )
+            {
 				this.client.selectWeapon( this.positionWeapon );
+                Vec3 a, b, c;
+                this.positionAngles.angleVectors(a, b, c);
+                a.z = 0;
+                a.normalize();
+                a *= this.positionSpeed;
+                cEntity@ ent = @this.client.getEnt();
+                if( @ent == null )
+                    return false;
+                ent.set_velocity(a);
+            }
 			return true;
 		}
 		else if( action == "set" && argsString.getToken( 5 ) != "" )
@@ -1070,6 +1097,7 @@ class Racesow_Player
 				return false;
 			String msg;
 			msg = "Usage:\nposition save - Save current position\n";
+            msg += "position speed <speed> - Set saved position speed\n";
 			msg += "position load - Teleport to saved position\n";
 			msg += "position set <x> <y> <z> <pitch> <yaw> - Teleport to specified position\n";
 			msg += "position store <id> <name> - Store a position for another session\n";
