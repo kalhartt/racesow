@@ -1959,7 +1959,7 @@ static void G_CallVotes_CheckState( void )
             afk++;
 	}
 
-    voters -= afk * (int)( ( g_callvote_afkspecspercentage->value ) / 100 );
+    voters -= (int)( ( afk * g_callvote_afkspecspercentage->value ) / 100 );
 
 	// passed?
 	needvotes = (int)( ( voters * g_callvote_electpercentage->value ) / 100 );
