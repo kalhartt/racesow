@@ -46,6 +46,8 @@ typedef struct
 	char *argv[MAX_STRING_TOKENS];
 	char *string;               // can be used to overwrite the displayed vote string
 	void *data;                 // any data vote wants to carry over multiple calls of validate and to execute
+    int previous_yesses;
+    int previous_noes;
 } callvotedata_t;
 
 typedef struct callvotetype_s
@@ -1918,7 +1920,7 @@ static char *G_CallVotes_String( callvotedata_t *vote )
 static void G_CallVotes_CheckState( void )
 {
 	edict_t	*ent;
-	int needvotes, yeses = 0, voters = 0, noes = 0;
+	int needvotes, yesses = 0, voters = 0, noes = 0;
 	static unsigned int warntimer;
 
 	if( !callvoteState.vote.callvote )
@@ -1949,14 +1951,14 @@ static void G_CallVotes_CheckState( void )
 
 		voters++;
 		if( clientVoted[PLAYERNUM( ent )] == VOTED_YES )
-			yeses++;
+			yesses++;
 		else if( clientVoted[PLAYERNUM( ent )] == VOTED_NO )
 			noes++;
 	}
 
 	// passed?
 	needvotes = (int)( ( voters * g_callvote_electpercentage->value ) / 100 );
-	if( yeses > needvotes || callvoteState.vote.operatorcall )
+	if( yesses > needvotes || callvoteState.vote.operatorcall )
 	{
 		G_AnnouncerSound( NULL, trap_SoundIndex( va( S_ANNOUNCER_CALLVOTE_PASSED_1_to_2, ( rand()&1 )+1 ) ), GS_MAX_TEAMS, qtrue, NULL );
 		G_PrintMsg( NULL, "Vote %s%s %s%s passed\n", S_COLOR_YELLOW, callvoteState.vote.callvote->name,
@@ -1977,14 +1979,16 @@ static void G_CallVotes_CheckState( void )
 		return;
 	}
 
-	if( warntimer < game.realtime )
+	if( warntimer < game.realtime || callvoteState.vote.previous_yesses != yesses || callvoteState.vote.previous_noes != noes )
 	{
 		if( callvoteState.timeout - game.realtime <= 7.5 && callvoteState.timeout - game.realtime > 2.5 )
 			G_AnnouncerSound( NULL, trap_SoundIndex( S_ANNOUNCER_CALLVOTE_VOTE_NOW ), GS_MAX_TEAMS, qtrue, NULL );
 		G_PrintMsg( NULL, "Vote in progress: %s%s %s%s, %i voted yes, %i voted no. %i required\n", S_COLOR_YELLOW,
-			callvoteState.vote.callvote->name, G_CallVotes_String( &callvoteState.vote ), S_COLOR_WHITE, yeses, noes,
+			callvoteState.vote.callvote->name, G_CallVotes_String( &callvoteState.vote ), S_COLOR_WHITE, yesses, noes,
 			needvotes + 1 );
 		warntimer = game.realtime + 5 * 1000;
+        callvoteState.vote.previous_yesses = yesses;
+        callvoteState.vote.previous_noes = noes;
 	}
 }
 
@@ -2199,6 +2203,8 @@ static void G_CallVote( edict_t *ent, qboolean isopcall )
 
 	//we're done. Proceed launching the election
 	memset( clientVoted, VOTED_NOTHING, sizeof( clientVoted ) );
+    callvoteState.vote.previous_yesses = 1;
+    callvoteState.vote.previous_noes = 0;
 	callvoteState.timeout = game.realtime + ( g_callvote_electtime->integer * 1000 );
 
 	//caller is assumed to vote YES
