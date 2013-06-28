@@ -328,8 +328,7 @@ class Racesow_Player
 
         if ( @this.getClient() != null)
 		{
-            G_CenterPrintMsg( this.getClient().getEnt(),
-                              "Time: " + TimeToString( newTime ) + "\n"
+            this.sendCenteredMessage( "Time: " + TimeToString( newTime ) + "\n"
                               + ( noDelta ? "" : diffString( bestTime, newTime ) ) );
 
             this.sendMessage(S_COLOR_WHITE + "Race " + S_COLOR_ORANGE + "#"
@@ -1132,6 +1131,32 @@ class Racesow_Player
 
 		// maybe log messages for some reason to figure out ;)
 	}
+
+	/**
+	 * Send a message to the center of the screen of the player
+	 * @param String message
+	 * @return void
+	 */
+    void sendCenteredMessage( String message )
+    {
+        if (@this.client == null)
+            return;
+        this.client.execGameCommand( "cp \"" + message + "\"" );
+        //print the finish times to specs too
+        cTeam @spectators = @G_GetTeam( TEAM_SPECTATOR );
+        cEntity @other;
+        for ( int i = 0; @spectators.ent( i ) != null; i++ )
+        {
+            @other = @spectators.ent( i );
+            if ( @other.client != null && other.client.chaseActive )
+            {
+                if( other.client.chaseTarget == this.client.playerNum + 1 )
+                {
+                    other.client.execGameCommand( "cp \"" + message + "\"" );
+                }
+            }
+        }
+    }
 
    /**
      * Send an unlogged award to the player

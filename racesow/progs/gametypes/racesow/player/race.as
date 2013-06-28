@@ -204,24 +204,8 @@ class Racesow_Player_Race : Racesow_Player_Implemented
 		bool noDelta = 0 == serverBestTime;
 
         addCheckpoint( this.lastCheckPoint, noDelta ? 0 : ( newTime - serverBestTime ) );
-        G_CenterPrintMsg( this.player.getClient().getEnt(), "Current: " + TimeToString( newTime )
+        this.player.sendCenteredMessage( "Current: " + TimeToString( newTime )
 			+ ( noDelta ? "" : ("\n" + diffString( serverBestTime, newTime ) )) );
-
-        //print the checkpoint times to specs too
-        cTeam @spectators = @G_GetTeam( TEAM_SPECTATOR );
-        cEntity @other;
-        for ( int i = 0; @spectators.ent( i ) != null; i++ )
-        {
-            @other = @spectators.ent( i );
-            if ( @other.client != null && other.client.chaseActive )
-            {
-                if( other.client.chaseTarget == this.player.getClient().playerNum + 1 )
-                {
-                    G_CenterPrintMsg( other.client.getEnt(), "Current: " + TimeToString( newTime ) + "\n"
-                        + ( noDelta ? "" : diffString( serverBestTime, newTime ) ) );
-                }
-            }
-        }
 
         if ( newTime < serverBestTime || serverBestTime == 0 )
         {
