@@ -1027,7 +1027,13 @@ class Racesow_Player
 		}
         else if( action == "speed" && argsString.getToken( 1 ) != "" )
         {
-            this.positionSpeed = argsString.getToken( 1 ).toFloat();
+            String speed = argsString.getToken( 1 );
+            if( speed.locate( "+", 0 ) == 0 )
+                this.positionSpeed = this.getSpeed() + speed.substr( 1 ).toFloat();
+            else if( speed.locate( "-", 0 ) == 0 )
+                this.positionSpeed = this.getSpeed() - speed.substr( 1 ).toFloat();
+            else
+                this.positionSpeed = speed.toFloat();
         }
 		else if( action == "load" )
 		{
