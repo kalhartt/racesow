@@ -100,6 +100,7 @@ void replacementItem_use( cEntity @ent, cEntity @other, cEntity @activator )
 void trigger_push_velocity( cEntity @ent )
 {
 	@ent.think = trigger_push_velocity_think;
+	@ent.touch = trigger_push_velocity_touch;
 
 	//@ent.enemy = @ent.findTargetEntity( ent );
 	String speed = G_SpawnTempValue("speed");
