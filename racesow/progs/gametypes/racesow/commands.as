@@ -888,14 +888,23 @@ class Command_Practicemode : Racesow_Command
 		{
 			if ( player.isRacing() )
 				player.cancelRace();
-				
-			if ( player.practicing )
+
+            bool leave = player.practicing;
+            if ( argc >= 1 )
+            {
+                if ( args == "0" )
+                    leave = true;
+                else
+                    leave = false;
+                if ( leave ^^ player.practicing )
+                    return true;
+            }
+
+			if ( leave )
 			{
 				player.practicing = false;
 				player.sendAward( S_COLOR_GREEN + "Leaving practice mode" );
 				player.restartRace();
-					
-				
 			} else {
 				player.practicing = true;
 				player.sendAward( S_COLOR_GREEN + "You have entered practice mode" );
