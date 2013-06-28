@@ -1141,7 +1141,7 @@ class Racesow_Player
     {
         if (@this.client == null)
             return;
-        this.client.execGameCommand( "cp \"" + message + "\"" );
+        G_CenterPrintMsg( this.client.getEnt(), message );
         //print the finish times to specs too
         cTeam @spectators = @G_GetTeam( TEAM_SPECTATOR );
         cEntity @other;
@@ -1152,7 +1152,7 @@ class Racesow_Player
             {
                 if( other.client.chaseTarget == this.client.playerNum + 1 )
                 {
-                    other.client.execGameCommand( "cp \"" + message + "\"" );
+                    G_CenterPrintMsg( other, message );
                 }
             }
         }
