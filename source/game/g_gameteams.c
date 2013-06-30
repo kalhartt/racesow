@@ -111,7 +111,9 @@ void G_Teams_UpdateMembersList( void )
 			bestplayer = -2;
 			while( bestplayer != -1 )
 			{
-				bestscore = -9999;
+				bestscore = 999999999;
+                if( !level.gametype.isRace )
+                    bestscore *= -1;
 				bestplayer = -1;
 				//now sort them by their score
 				for( i = 0; i < count; i++ )
@@ -121,7 +123,7 @@ void G_Teams_UpdateMembersList( void )
 						int score;
 						ent = game.edicts + list[i];
 						score = ent->r.client->level.stats.score;
-						if( score >= bestscore )
+						if( ( !level.gametype.isRace && score >= bestscore ) || ( level.gametype.isRace && score <= bestscore && ( score != 0 || bestplayer == -1 ) ) )
 						{
 							bestplayer = i;
 							bestscore = score;
