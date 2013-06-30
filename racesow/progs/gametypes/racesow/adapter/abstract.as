@@ -2,7 +2,7 @@
  * Racesow_Adapter_Abstract
  *
  * @package Racesow_Adapter
- * @version 0.6.2
+ * @version 1.0.3
  */
 
 const uint RACESOW_ADAPTER_LOADMAP = 2;

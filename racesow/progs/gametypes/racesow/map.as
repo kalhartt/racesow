@@ -2,7 +2,7 @@
  * Racesow_Map
  *
  * @package Racesow
- * @version 0.6.2
+ * @version 1.0.3
  */
 class Racesow_Map
 {

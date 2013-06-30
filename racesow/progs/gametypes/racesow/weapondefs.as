@@ -2,7 +2,7 @@
 * Racesow weapondefs cvar interface file
 *
 * @package Racesow
-* @version 0.6.2
+* @version 1.0.3
 */
 
 /**

@@ -3,7 +3,7 @@
  *
  * @package Racesow
  * @subpackage Player
- * @version 0.6.2
+ * @version 1.0.3
  */
 class Racesow_Player_Race : Racesow_Player_Implemented
 {
