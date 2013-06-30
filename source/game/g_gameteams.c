@@ -81,6 +81,7 @@ void G_Teams_UpdateMembersList( void )
 	int i, team;
 	int bestscore;
 	int bestplayer = 0;
+	int zeroplayer;
 
 	for( team = TEAM_SPECTATOR; team < GS_MAX_TEAMS; team++ )
 	{
@@ -115,6 +116,7 @@ void G_Teams_UpdateMembersList( void )
                 if( !level.gametype.isRace )
                     bestscore *= -1;
 				bestplayer = -1;
+                zeroplayer = -1;
 				//now sort them by their score
 				for( i = 0; i < count; i++ )
 				{
@@ -123,13 +125,22 @@ void G_Teams_UpdateMembersList( void )
 						int score;
 						ent = game.edicts + list[i];
 						score = ent->r.client->level.stats.score;
-						if( ( !level.gametype.isRace && score >= bestscore ) || ( level.gametype.isRace && score <= bestscore && ( score != 0 || bestplayer == -1 ) ) )
+						if( ( !level.gametype.isRace && score >= bestscore ) || ( level.gametype.isRace && score <= bestscore ) )
 						{
-							bestplayer = i;
-							bestscore = score;
+                            if( level.gametype.isRace && score == 0 )
+                            {
+                                zeroplayer = i;
+                            }
+                            else
+                            {
+                                bestplayer = i;
+                                bestscore = score;
+                            }
 						}
 					}
 				}
+                if( bestplayer == -1 )
+                    bestplayer = zeroplayer;
 
 				if( bestplayer > -1 )
 				{
