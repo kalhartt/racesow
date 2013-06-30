@@ -994,15 +994,6 @@ void RS_CreateCommands()
     @commands[commandCount] = @spec;
     commandCount++;
 
-	// do we really need this alias? commands are limited you know..
-    Command_Spec chase;
-    chase.name = "chase";
-    chase.description = "Spectate";
-    chase.usage = "";
-    chase.modFlag = MODFLAG_ALL ^ MODFLAG_DURACE;  //registered in all mod except in durace, because of challengers queue
-    @commands[commandCount] = @chase;
-    commandCount++;
-	
     Command_RaceRestart racerestart;
     racerestart.name = "racerestart";
     racerestart.description = "Go back to the start area whenever you want";
