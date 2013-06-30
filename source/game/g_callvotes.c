@@ -1959,11 +1959,12 @@ static void G_CallVotes_CheckState( void )
             afk++;
 	}
 
-    voters -= (int)( ( afk * g_callvote_afkspecspercentage->value ) / 100 );
+    afk = (int)( ( afk * g_callvote_afkspecspercentage->value ) / 100 );
+    voters -= afk;
 
 	// passed?
-	needvotes = (int)( ( voters * g_callvote_electpercentage->value ) / 100 );
-	if( yesses > needvotes || callvoteState.vote.operatorcall )
+	needvotes = (int)( ( voters * g_callvote_electpercentage->value ) / 100 ) + 1;
+	if( yesses >= needvotes || callvoteState.vote.operatorcall )
 	{
 		G_AnnouncerSound( NULL, trap_SoundIndex( va( S_ANNOUNCER_CALLVOTE_PASSED_1_to_2, ( rand()&1 )+1 ) ), GS_MAX_TEAMS, qtrue, NULL );
 		G_PrintMsg( NULL, "Vote %s%s %s%s passed\n", S_COLOR_YELLOW, callvoteState.vote.callvote->name,
@@ -1975,7 +1976,7 @@ static void G_CallVotes_CheckState( void )
 	}
 
 	// failed?
-	if( game.realtime > callvoteState.timeout || voters-noes <= needvotes ) // no change to pass anymore
+	if( game.realtime > callvoteState.timeout || voters - noes < needvotes ) // no change to pass anymore
 	{
 		G_AnnouncerSound( NULL, trap_SoundIndex( va( S_ANNOUNCER_CALLVOTE_FAILED_1_to_2, ( rand()&1 )+1 ) ), GS_MAX_TEAMS, qtrue, NULL );
 		G_PrintMsg( NULL, "Vote %s%s %s%s failed\n", S_COLOR_YELLOW, callvoteState.vote.callvote->name,
@@ -1990,7 +1991,7 @@ static void G_CallVotes_CheckState( void )
 			G_AnnouncerSound( NULL, trap_SoundIndex( S_ANNOUNCER_CALLVOTE_VOTE_NOW ), GS_MAX_TEAMS, qtrue, NULL );
 		G_PrintMsg( NULL, "Vote in progress: %s%s %s%s, %i voted yes, %i voted no. %i required\n", S_COLOR_YELLOW,
 			callvoteState.vote.callvote->name, G_CallVotes_String( &callvoteState.vote ), S_COLOR_WHITE, yesses, noes,
-			needvotes + 1 );
+			needvotes );
 		warntimer = game.realtime + 5 * 1000;
         callvoteState.vote.previous_yesses = yesses;
         callvoteState.vote.previous_noes = noes;
