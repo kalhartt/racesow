@@ -561,7 +561,7 @@ void Cmd_ChaseCam_f( edict_t *ent )
 	}
 	else if( !Q_stricmp( arg1, "score" ) )
 	{
-		G_PrintMsg( ent, "Chasecam mode is 'score'. It will always follow the highest fragger.\n" );
+		G_PrintMsg( ent, "Chasecam mode is 'score'. It will always follow the highest fragger or fastest racer.\n" );
 		G_ChasePlayer( ent, NULL, team_only, 1 );
 	}
 	else if( !Q_stricmp( arg1, "fragger" ) )
