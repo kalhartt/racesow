@@ -90,7 +90,9 @@ static int G_Chase_FindFollowPOV( edict_t *ent )
 	}
 
 	// find what players have what
-	score_max = -999999999;
+	score_max = 999999999;
+    if( !level.gametype.isRace )
+        score_max *= -1;
 	quad = warshell = regen = scorelead = -1;
 	memset( flags, -1, sizeof( flags ) );
 	newctfpov = newpoweruppov = -1;
@@ -129,7 +131,7 @@ static int G_Chase_FindFollowPOV( edict_t *ent )
 		}
 
 		// find the scoring leader
-		if( target->r.client->ps.stats[STAT_SCORE] > score_max )
+		if( ( !level.gametype.isRace && target->r.client->ps.stats[STAT_SCORE] > score_max ) || ( level.gametype.isRace && target->r.client->ps.stats[STAT_SCORE] < score_max && ( target->r.client->ps.stats[STAT_SCORE] != 0 || score_max == 999999999 ) ) )
 		{
 			score_max = target->r.client->ps.stats[STAT_SCORE];
 			scorelead = ENTNUM( target );
