@@ -1134,7 +1134,7 @@ void RS_CreateCommands()
     timeleft.name = "timeleft";
     timeleft.description = "Print remaining time before map change";
     timeleft.usage = "";
-    timeleft.modFlag = MODFLAG_RACE;
+    timeleft.modFlag = MODFLAG_RACE | MODFLAG_COOPRACE;
     @commands[commandCount] = @timeleft;
     commandCount++;
 

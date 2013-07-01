@@ -686,6 +686,7 @@ class Racesow_Player
                 break;
 
             case MODFLAG_RACE:
+            case MODFLAG_COOPRACE:
                 if ( this.bestRaceTime == 0 || this.race.getTime() < this.bestRaceTime )
                 {
                     this.getClient().stats.setScore(this.race.getTime());

@@ -417,7 +417,7 @@ const uint RACESOW_AUTH_ADMIN           = (RACESOW_AUTH_REGISTERED | RACESOW_AUT
         if ( rs_loadHighscores.boolean )
 		{
 		    this.player.bestRaceTime = personalBest;
-		    if ( gametypeFlag == MODFLAG_RACE )
+		    if ( gametypeFlag == MODFLAG_RACE || gametypeFlag == MODFLAG_COOPRACE )
 		    {
 		        this.player.getClient().stats.setScore(personalBest);
 		    }
