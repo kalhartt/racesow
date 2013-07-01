@@ -501,7 +501,7 @@ void G_ClientRespawn( edict_t *self, qboolean ghost )
 	self->r.svflags &= ~SVF_NOCLIENT;
     self->r.svflags |= SVF_ONLYOWNER;
 
-    if( rs_cup->integer > 0 && self->r.client->team == TEAM_SPECTATOR && GS_MatchState() < MATCH_STATE_POSTMATCH )
+    if( rs_cup->integer > 0 && self->r.client->team == TEAM_SPECTATOR && GS_MatchState() < MATCH_STATE_POSTMATCH && !level.forceExit )
     {
         self->r.client->team = TEAM_PLAYERS;
         ghost = false;
@@ -681,7 +681,7 @@ void ClientBegin( edict_t *ent )
 	ent->r.client->level.timeStamp = level.time;
 	G_Client_UpdateActivity( ent->r.client ); // activity detected
 
-    if( rs_cup->integer && GS_MatchState() < MATCH_STATE_POSTMATCH )
+    if( rs_cup->integer && GS_MatchState() < MATCH_STATE_POSTMATCH && !level.forceExit )
     {
         ent->r.client->team = TEAM_PLAYERS;
         G_ClientRespawn( ent, qfalse ); // respawn
