@@ -500,6 +500,12 @@ void G_ClientRespawn( edict_t *self, qboolean ghost )
 
 	self->r.svflags &= ~SVF_NOCLIENT;
 
+    if( rs_cup->integer > 0 && self->r.client->team == TEAM_SPECTATOR && GS_MatchState() < MATCH_STATE_POSTMATCH )
+    {
+        self->r.client->team = TEAM_PLAYERS;
+        ghost = false;
+    }
+
 	//if invalid be spectator
 	if( self->r.client->team < 0 || self->r.client->team >= GS_MAX_TEAMS )
 		self->r.client->team = TEAM_SPECTATOR;
@@ -674,9 +680,17 @@ void ClientBegin( edict_t *ent )
 	ent->r.client->level.timeStamp = level.time;
 	G_Client_UpdateActivity( ent->r.client ); // activity detected
 
-	ent->r.client->team = TEAM_SPECTATOR;
-	G_ClientRespawn( ent, qtrue ); // respawn as ghost
-	ent->movetype = MOVETYPE_NOCLIP; // allow freefly
+    if( rs_cup->integer && GS_MatchState() < MATCH_STATE_POSTMATCH )
+    {
+        ent->r.client->team = TEAM_PLAYERS;
+        G_ClientRespawn( ent, qfalse ); // respawn
+    }
+    else
+    {
+        ent->r.client->team = TEAM_SPECTATOR;
+        ent->movetype = MOVETYPE_NOCLIP; // allow freefly
+        G_ClientRespawn( ent, qtrue ); // respawn as ghost
+    }
 
 	G_UpdatePlayerMatchMsg( ent );
 

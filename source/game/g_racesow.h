@@ -140,6 +140,8 @@ struct onelinerDataStruct {
 	char *oneliner;
 };
 
+extern cvar_t *rs_cup;
+
 qboolean RS_LoadCvars( void );
 qboolean RS_MysqlConnect( void );
 qboolean RS_MysqlDisconnect( void );
