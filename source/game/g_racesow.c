@@ -15,6 +15,8 @@ qboolean mysqlclient_present=qfalse;
 cvar_t *sv_port;
 cvar_t *sv_hostname;
 
+cvar_t *rs_cup;
+
 /**
  * MySQL CVARs
  */
@@ -188,6 +190,8 @@ int MysqlConnected = 0;
  */
 void RS_Init()
 {
+    rs_cup = trap_Cvar_Get( "rs_cup", "0", CVAR_ARCHIVE );
+
 	// initialize threading
     pthread_mutex_init(&mutexsum, NULL);
 	pthread_mutex_init(&mutex_callback, NULL);
@@ -3125,7 +3129,11 @@ char *RS_ChooseNextMap()
         for( i = 0; i < mapcount && trap_ML_FilenameExists( maplist[i].name ) && index == -1; i++)
         {
             if( !Q_stricmp( maplist[i].name, level.mapname ) && trap_ML_FilenameExists( maplist[(i + 1) % mapcount].name ) )
+            {
+                if( rs_cup->integer && i == mapcount - 1 )
+                    trap_Cmd_ExecuteText( EXEC_APPEND, "quit\n" );
                 return maplist[(i + 1) % mapcount].name;
+            }
         }
         // not in the list, we go for the first one
         if( trap_ML_FilenameExists( maplist[0].name ) )
