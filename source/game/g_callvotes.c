@@ -1920,7 +1920,7 @@ static char *G_CallVotes_String( callvotedata_t *vote )
 static void G_CallVotes_CheckState( void )
 {
 	edict_t	*ent;
-	int needvotes, yesses = 0, voters = 0, noes = 0, afk = 0;
+	int needvotes, yesses = 0, voters = 0, noes = 0, specs = 0, voteless_specs = 0, afk = 0;
 	static unsigned int warntimer;
 
 	if( !callvoteState.vote.callvote )
@@ -1949,16 +1949,21 @@ static void G_CallVotes_CheckState( void )
 		if( ( ent->r.svflags & SVF_FAKECLIENT ) || ent->r.client->tv )
 			continue;
 
+        if( ent->s.team == TEAM_SPECTATOR )
+            specs++;
+
         voters++;
 		if( clientVoted[PLAYERNUM( ent )] == VOTED_YES )
 			yesses++;
 		else if( clientVoted[PLAYERNUM( ent )] == VOTED_NO )
 			noes++;
         else if( ent->s.team == TEAM_SPECTATOR )
-            afk++;
+            voteless_specs++;
 	}
 
-    afk = (int)( ( afk * g_callvote_afkspecspercentage->value ) / 100 );
+    afk = (int)( ( specs * g_callvote_afkspecspercentage->value ) / 100 );
+    if( afk > voteless_specs )
+        afk = voteless_specs;
     voters -= afk;
 
 	// passed?
@@ -2444,7 +2449,7 @@ void G_CallVotes_Init( void )
 
 	g_callvote_electpercentage =	trap_Cvar_Get( "g_vote_percent", "55", CVAR_ARCHIVE );
 	g_callvote_electtime =		trap_Cvar_Get( "g_vote_electtime", "40", CVAR_ARCHIVE );
-	g_callvote_afkspecspercentage =	trap_Cvar_Get( "g_vote_afkSpecsPercent", "70", CVAR_ARCHIVE );
+	g_callvote_afkspecspercentage =	trap_Cvar_Get( "g_vote_afkSpecsPercent", "40", CVAR_ARCHIVE );
 	g_callvote_enabled =		trap_Cvar_Get( "g_vote_allowed", "1", CVAR_ARCHIVE );
 
 	// register all callvotes
