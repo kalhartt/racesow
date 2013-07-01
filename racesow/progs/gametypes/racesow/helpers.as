@@ -252,6 +252,8 @@ int RS_GetModFlagByName(String name)
         return MODFLAG_DURACE;
     if ( name == "trace" )
         return MODFLAG_TRACE;
+    if ( name == "cooprace" )
+        return MODFLAG_COOPRACE;
 
     G_Print("Gametype " + name + " doesn't exist. Check your config.\n");
     return -1;

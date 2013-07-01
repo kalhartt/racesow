@@ -904,6 +904,10 @@ void GT_InitGametype()
           @racesowGametype = @Racesow_Gametype_Race();
           break;
 
+      case MODFLAG_COOPRACE:
+          @racesowGametype = @Racesow_Gametype_CoopRace();
+          break;
+
       case MODFLAG_FREESTYLE:
           @racesowGametype = @Racesow_Gametype_Freestyle();
           break;

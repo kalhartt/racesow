@@ -13,7 +13,8 @@ const int MODFLAG_FASTCAP = 4;
 const int MODFLAG_DRACE = 8;
 const int MODFLAG_DURACE = 16;
 const int MODFLAG_TRACE = 32;
-const int MODFLAG_ALL = 63;
+const int MODFLAG_COOPRACE = 64;
+const int MODFLAG_ALL = 127;
 
 /**
  * Container for all the commands, filled in RS_CreateCommands
@@ -1052,7 +1053,7 @@ void RS_CreateCommands()
     oneliner.name = "oneliner";
     oneliner.description = "Set a one-line message that is displayed right next to your top time";
     oneliner.usage = "";
-	  oneliner.modFlag = MODFLAG_RACE;
+	  oneliner.modFlag = MODFLAG_RACE | MODFLAG_COOPRACE;
     @commands[commandCount] = @oneliner;
     commandCount++;
 
@@ -1150,7 +1151,7 @@ void RS_CreateCommands()
     top.name = "top";
     top.description = "Print the best times of a given map (default: current map)";
     top.usage = "top <pj/nopj> <limit(3-30)> <mapname>";
-    top.modFlag = MODFLAG_RACE | MODFLAG_DURACE | MODFLAG_DRACE | MODFLAG_TRACE;
+    top.modFlag = MODFLAG_RACE | MODFLAG_COOPRACE | MODFLAG_DURACE | MODFLAG_DRACE | MODFLAG_TRACE;
     @commands[commandCount] = @top;
     commandCount++;
 	
@@ -1158,7 +1159,7 @@ void RS_CreateCommands()
     ranking.name = "ranking";
     ranking.description = "Print the server ranking";
     ranking.usage = "ranking <page> <order(points|diff_points|races|maps|playtime)>";
-    ranking.modFlag = MODFLAG_RACE | MODFLAG_DURACE | MODFLAG_DRACE | MODFLAG_TRACE;
+    ranking.modFlag = MODFLAG_RACE | MODFLAG_COOPRACE | MODFLAG_DURACE | MODFLAG_DRACE | MODFLAG_TRACE;
     @commands[commandCount] = @ranking;
     commandCount++;
 	

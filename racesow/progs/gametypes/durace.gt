@@ -32,6 +32,7 @@ racesow/weapondefs.as;
 racesow/commands.as;
 racesow/gametypes.as;
 racesow/gametypes/race.as;
+racesow/gametypes/cooprace.as;
 racesow/gametypes/freestyle.as;
 racesow/gametypes/durace.as;
 racesow/gametypes/drace.as;
