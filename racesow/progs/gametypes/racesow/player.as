@@ -1005,10 +1005,6 @@ class Racesow_Player
 	 */
 	bool position( String argsString )
 	{
-		if( this.positionLastcmd + 500 > realTime )
-			return false;
-		this.positionLastcmd = realTime;
-
 		String action = argsString.getToken( 0 );
 
 		if( action == "save" )
@@ -1038,6 +1034,11 @@ class Racesow_Player
 		{
 			if(!this.positionSaved)
 				return false;
+
+            if( this.positionLastcmd + 500 > realTime )
+                return false;
+            this.positionLastcmd = realTime;
+
 			if( this.teleport( this.positionOrigin, this.positionAngles, false, false ) )
             {
 				this.client.selectWeapon( this.positionWeapon );
