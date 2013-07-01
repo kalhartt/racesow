@@ -1412,7 +1412,7 @@ static void BOT_DMclass_VSAYmessages( edict_t *self )
 
 	if( GS_MatchDuration() && game.serverTime + 4000 > GS_MatchEndTime() )
 	{
-		self->ai.vsay_timeout = game.serverTime + ( 1000 + (GS_MatchEndTime() - game.serverTime) );
+		self->ai.vsay_timeout = level.time + ( 1000 + (GS_MatchEndTime() - game.serverTime) );
 		if( rand() & 1 )
 			G_BOTvsay_f( self, "goodgame", qfalse );
 		return;
