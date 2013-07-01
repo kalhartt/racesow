@@ -286,6 +286,8 @@ static edict_t *W_Fire_LinearProjectile( edict_t *self, vec3_t start, vec3_t ang
 	projectile->r.svflags = SVF_PROJECTILE;
 	// enable me when drawing exception is added to cgame
 	projectile->r.svflags |= SVF_TRANSMITORIGIN2;
+    if( rs_cup->integer )
+        projectile->r.svflags |= SVF_ONLYOWNER;
 	VectorClear( projectile->r.mins );
 	VectorClear( projectile->r.maxs );
 	projectile->s.modelindex = 0;
