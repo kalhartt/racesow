@@ -709,7 +709,7 @@ class Command_Position : Racesow_Command
 {
 	bool validate(Racesow_Player @player, String &args, int argc)
 	{
-		if ( gametypeFlag == MODFLAG_RACE && !player.practicing )
+		if ( gametypeFlag == MODFLAG_RACE && !player.practicing && argc != 0 )
 			return false;
 			
 		return true;
