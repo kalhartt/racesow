@@ -1524,7 +1524,7 @@ static void BOT_DMclass_GhostingFrame( edict_t *self )
 	{
 		// try to join a team
 		if( !self->r.client->queueTimeStamp )
-			G_Teams_JoinAnyTeam( self, qfalse );
+			G_Teams_JoinAnyTeam( self, qtrue );
 
 		if( self->r.client->team == TEAM_SPECTATOR ) // couldn't join, delay the next think
 			self->nextThink = level.time + 2000 + (int)( 4000 * random() );

@@ -616,7 +616,7 @@ void G_Teams_Join_Cmd( edict_t *ent )
 	t = trap_Cmd_Argv( 1 );
 	if( !t || *t == 0 )
 	{
-		G_Teams_JoinAnyTeam( ent, qfalse );
+		G_Teams_JoinAnyTeam( ent, qtrue );
 		return;
 	}
 
