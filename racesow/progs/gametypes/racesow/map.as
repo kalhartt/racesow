@@ -123,7 +123,7 @@ class Racesow_Map
 			if ( !this.thirdAnnouncement && match.duration() >= 60000 )
 			{
 				this.thirdAnnouncement = true;
-				G_PrintMsg( null, S_COLOR_RED + "1 minutes left...\n");
+				G_PrintMsg( null, S_COLOR_RED + "1 minute left...\n");
 			}
 		}
 		else
