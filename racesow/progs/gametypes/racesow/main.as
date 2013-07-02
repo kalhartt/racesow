@@ -34,6 +34,7 @@ Cvar rs_extendtimeperiod( "rs_extendtimeperiod", "3", CVAR_ARCHIVE );
 Cvar rs_loadHighscores( "rs_loadHighscores", "0", CVAR_ARCHIVE );
 Cvar rs_loadPlayerCheckpoints( "rs_loadPlayerCheckpoints", "0", CVAR_ARCHIVE );
 Cvar rs_allowAutoHop( "rs_allowAutoHop", "1", CVAR_ARCHIVE );
+Cvar rs_cup( "rs_cup", "0", CVAR_ARCHIVE );
 
 Cvar g_allowammoswitch( "g_allowammoswitch", "0", CVAR_ARCHIVE|CVAR_NOSET );
 Cvar g_timelimit_reset( "g_timelimit_reset", "1", CVAR_ARCHIVE|CVAR_NOSET );

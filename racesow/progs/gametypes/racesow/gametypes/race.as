@@ -138,6 +138,12 @@ class Racesow_Gametype_Race : Racesow_Gametype
     
     void playerRespawn( cEntity @ent, int old_team, int new_team )
     {
+        if ( new_team == TEAM_SPECTATOR && rs_cup.boolean && match.getState() < MATCH_STATE_POSTMATCH && !map.inOvertime )
+        {
+            ent.client.team = TEAM_PLAYERS;
+            ent.client.respawn( false );
+        }
+
         if ( ent.isGhosting() )
 	        return;
 	        
