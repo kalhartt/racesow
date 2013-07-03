@@ -12,10 +12,12 @@ use Archive::Zip;
 my $dir = $ENV{'HOME'} . '/.warsow-1.0/basewsw/';
 my $disable_unused = 0;
 my $remove_unused = 0;
+my $bad_list;
 
 GetOptions(
     "remove-unused" => \$remove_unused,
-    "disable-unused" => \$disable_unused
+    "disable-unused" => \$disable_unused,
+    "bad-list=s" => \$bad_list
 ) or exit 1;
 
 if (@ARGV) {
@@ -123,6 +125,16 @@ sub analyze {
         }
         if ($remove_unused) {
             print 'DELETE FROM `map` WHERE `name` NOT IN (' . (join ', ', map {"'$_'"} @maps) . ");\n";
+        }
+        if (defined $bad_list) {
+            my @bad;
+            open my $bfh, '<', $bad_list;
+            while (my $map = <$bfh>) {
+                chomp $map;
+                push @bad, $map;
+            }
+            close $bfh;
+            print "UPDATE `map` SET `status`='disabled' WHERE `name` IN (" . (join ', ', map {"'$_'"} @bad) . ");\n";
         }
     }
 }
