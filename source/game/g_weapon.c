@@ -341,7 +341,7 @@ static edict_t *W_Fire_TossProjectile( edict_t *self, vec3_t start, vec3_t angle
 	projectile->movetype = MOVETYPE_BOUNCEGRENADE;
 
 	// make missile fly through players in race
-	if( GS_RaceGametype() )
+	if( GS_RaceGametype() && !level.gametype.playerInteraction )
 		projectile->r.clipmask = MASK_SOLID;
 	else
 		projectile->r.clipmask = MASK_SHOT;
