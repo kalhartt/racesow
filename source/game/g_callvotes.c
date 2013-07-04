@@ -24,11 +24,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //===================================================================
 
 int clientVoted[MAX_CLIENTS];
+unsigned int mapvotelock;
 
 cvar_t *g_callvote_electpercentage;
 cvar_t *g_callvote_electtime;          // in seconds
 cvar_t *g_callvote_afkspecspercentage;
 cvar_t *g_callvote_enabled;
+cvar_t *g_mapvotelocktime;
 
 enum
 {
@@ -74,6 +76,17 @@ typedef struct
 static callvotestate_t callvoteState;
 
 static callvotetype_t *callvotesHeadNode = NULL;
+
+// racesow
+qboolean RS_CheckMapVoteLock( edict_t *ent ) {
+    if( mapvotelock != 0 && game.realtime < mapvotelock )
+    {
+        G_PrintMsg( ent, "%sMap votes are locked for %d more minutes\n", S_COLOR_RED, ( mapvotelock - game.realtime ) / 60000 );
+        return qfalse;
+    }
+    return qtrue;
+}
+// !racesow
 
 //==============================================
 //		Vote specifics
@@ -152,6 +165,9 @@ static qboolean G_VoteMapValidate( callvotedata_t *data, qboolean first )
 	// racesow
 	char *map;
 	int mapnumber;
+
+    if( !RS_CheckMapVoteLock( data->caller ) )
+        return false;
 	// !racesow
 
 	if( !first )  // map can't become invalid while voting
@@ -290,6 +306,9 @@ qboolean RS_VoteRandmapValidate( callvotedata_t *vote, qboolean first )
 	int size;
     static qboolean show = qfalse;
 
+    if( !RS_CheckMapVoteLock( vote->caller ) )
+        return false;
+
 	if( !first )
     {
         if( show )
@@ -385,6 +404,15 @@ void RS_VoteRandmapPassed( callvotedata_t *vote){
 	G_EndMatch();
 }
 
+/*
+* mapvotelock
+*/
+
+void RS_VoteMapVoteLockPassed( callvotedata_t *vote){
+    mapvotelock = game.realtime + g_mapvotelocktime->integer * 60000;
+    G_PrintMsg( NULL, "Map votes are now locked for %d minutes\n", g_mapvotelocktime->integer );
+}
+
 // !racesow
 
 /*
@@ -400,6 +428,13 @@ static void G_VoteRestartPassed( callvotedata_t *vote )
 /*
 * nextmap
 */
+
+// racesow
+static qboolean RS_VoteNextMapValidate( callvotedata_t *vote, qboolean first )
+{
+    return RS_CheckMapVoteLock( first ? vote->caller : NULL );
+}
+// !racesow
 
 static void G_VoteNextMapPassed( callvotedata_t *vote )
 {
@@ -2457,6 +2492,9 @@ void G_CallVotes_Init( void )
 	g_callvote_electtime =		trap_Cvar_Get( "g_vote_electtime", "40", CVAR_ARCHIVE );
 	g_callvote_afkspecspercentage =	trap_Cvar_Get( "g_vote_afkSpecsPercent", "40", CVAR_ARCHIVE );
 	g_callvote_enabled =		trap_Cvar_Get( "g_vote_allowed", "1", CVAR_ARCHIVE );
+	g_mapvotelocktime =		trap_Cvar_Get( "g_mapVoteLockTime", "15", CVAR_ARCHIVE );
+
+    mapvotelock = 0;
 
 	// register all callvotes
 
@@ -2483,6 +2521,16 @@ void G_CallVotes_Init( void )
 	callvote->extraHelp = NULL;
 	callvote->argument_format = G_LevelCopyString( "[any | strafe | weapon | rl | pg | gl | played | unplayed] [filter]" );
 	callvote->help = G_LevelCopyString( "- Changes to a random map" );
+
+	callvote = G_RegisterCallvote( "mapvotelock" );
+	callvote->minargc = 0;
+	callvote->maxargc = 0;
+	callvote->validate = NULL;
+	callvote->execute = RS_VoteMapVoteLockPassed;
+	callvote->current = NULL;
+	callvote->extraHelp = NULL;
+	callvote->argument_format = NULL;
+	callvote->help = G_LevelCopyString( va( "- Disables map votes for %d minutes", g_mapvotelocktime->integer ) );
 	// !racesow
 
 	callvote = G_RegisterCallvote( "restart" );
@@ -2498,7 +2546,7 @@ void G_CallVotes_Init( void )
 	callvote = G_RegisterCallvote( "nextmap" );
 	callvote->minargc = 0;
 	callvote->maxargc = 0;
-	callvote->validate = NULL;
+	callvote->validate = RS_VoteNextMapValidate;
 	callvote->execute = G_VoteNextMapPassed;
 	callvote->current = NULL;
 	callvote->extraHelp = NULL;
