@@ -13,11 +13,13 @@ my $dir = $ENV{'HOME'} . '/.warsow-1.0/basewsw/';
 my $disable_unused = 0;
 my $remove_unused = 0;
 my $bad_list;
+my $freestyle_list;
 
 GetOptions(
     "remove-unused" => \$remove_unused,
     "disable-unused" => \$disable_unused,
-    "bad-list=s" => \$bad_list
+    "bad-list=s" => \$bad_list,
+    "freestyle-list=s" => \$freestyle_list
 ) or exit 1;
 
 if (@ARGV) {
@@ -135,6 +137,16 @@ sub analyze {
             }
             close $bfh;
             print "UPDATE `map` SET `status`='disabled' WHERE `name` IN (" . (join ', ', map {"'$_'"} @bad) . ");\n";
+        }
+        if (defined $freestyle_list) {
+            my @freestyle;
+            open my $ffh, '<', $freestyle_list;
+            while (my $map = <$ffh>) {
+                chomp $map;
+                push @freestyle, $map;
+            }
+            close $ffh;
+            print "UPDATE `map` SET `status`='enabled', `freestyle`=1 WHERE `name` IN (" . (join ', ', map {"'$_'"} @freestyle) . ");\n";
         }
     }
 }
