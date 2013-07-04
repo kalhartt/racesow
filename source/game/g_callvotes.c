@@ -288,9 +288,17 @@ qboolean RS_VoteRandmapValidate( callvotedata_t *vote, qboolean first )
     int count = 0;
     int i;
 	int size;
+    static qboolean show = qfalse;
 
 	if( !first )
+    {
+        if( show )
+        {
+            G_PrintMsg( NULL, "Chosen map: %s%s\n", S_COLOR_YELLOW, vote->data );
+            show = qfalse;
+        }
 		return qtrue;
+    }
 
     weapon = -1;
     played = -1;
@@ -365,6 +373,7 @@ qboolean RS_VoteRandmapValidate( callvotedata_t *vote, qboolean first )
     size = strlen( maplist[i].name ) + 1;
     vote->data = G_Malloc( size );
     Q_strncpyz( vote->data, maplist[i].name, size );
+    show = qtrue;
     return qtrue;
 }
 
