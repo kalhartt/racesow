@@ -220,7 +220,7 @@ class Racesow_Player_Race : Racesow_Player_Implemented
                 + S_COLOR_WHITE + TimeToString( newTime )
                 + S_COLOR_ORANGE + " Speed: " + S_COLOR_WHITE + this.player.getSpeed()
                 + S_COLOR_ORANGE + " Personal: " + S_COLOR_WHITE + diffString( personalBestTime, newTime )
-                + S_COLOR_ORANGE + "/Server: " + S_COLOR_WHITE + diffString( serverBestTime, newTime ) + "\n";
+                + S_COLOR_ORANGE + " Server: " + S_COLOR_WHITE + diffString( serverBestTime, newTime ) + "\n";
 
 	    this.lastCheckPoint++;
 	}
