@@ -234,7 +234,16 @@ class Racesow_Player_Race : Racesow_Player_Implemented
 		clearCheckpoints();
 		this.startTime = this.player.getClient().uCmdTimeStamp;
 		this.startDistance = this.player.distance;
-        this.checkPointsString += S_COLOR_ORANGE + "Start speed: " + S_COLOR_WHITE + this.player.getSpeed() + "\n";
+        this.checkPointsString += S_COLOR_ORANGE + "Start speed: " + S_COLOR_WHITE + this.player.getSpeed();
+        cEntity@ ent = @this.player.getClient().getEnt();
+        Vec3 mins, maxs;
+        ent.getSize( mins, maxs );
+        Vec3 down = ent.origin;
+        down.z -= 5000;
+        cTrace tr;
+        if( tr.doTrace( ent.origin, mins, maxs, down, ent.entNum, MASK_PLAYERSOLID ))
+            this.checkPointsString += S_COLOR_ORANGE + " Height: " + S_COLOR_WHITE + int( ent.origin.z - tr.get_endPos().z );
+        this.checkPointsString += "\n";
 	}
 
 	/**
