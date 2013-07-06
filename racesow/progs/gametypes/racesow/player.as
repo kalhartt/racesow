@@ -1051,7 +1051,8 @@ class Racesow_Player
                 cEntity@ ent = @this.client.getEnt();
                 if( @ent == null )
                     return false;
-                ent.set_velocity(a);
+                if( ent.moveType != MOVETYPE_NOCLIP )
+                    ent.set_velocity(a);
             }
 			return true;
 		}
