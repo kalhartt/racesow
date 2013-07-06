@@ -214,6 +214,8 @@ class Racesow_Player
 	bool positionSaved; //is a position saved?
 	Vec3 positionOrigin; //stored origin
 	Vec3 positionAngles; //stored angles
+    bool[] positionWeapons; //stored weapon possessions
+    int[] positionAmmos; //stored ammo counts
 	int positionWeapon; //stored weapon
     float positionSpeed; //stored speed
 
@@ -225,6 +227,9 @@ class Racesow_Player
     {
 		@this.auth = Racesow_Player_Auth();
 		@this.demo = Racesow_Player_ClientDemo();
+
+        positionWeapons.resize( WEAP_TOTAL );
+        positionAmmos.resize( WEAP_TOTAL );
     }
 
 	/**
@@ -746,6 +751,13 @@ class Racesow_Player
   		if ( this.practicing && this.positionSaved )
   		{
   			this.teleport( this.positionOrigin, this.positionAngles, false, false );
+            for( int i = WEAP_NONE + 1; i < WEAP_TOTAL; i++ )
+            {
+                if( this.positionWeapons[i] )
+                    client.inventoryGiveItem( i );
+                cItem @item = G_GetItem( i );
+                client.inventorySetCount( item.ammoTag, this.positionAmmos[i] );
+            }
   			this.client.selectWeapon( this.positionWeapon );
             cEntity@ ent = @this.client.getEnt();
             if( @ent != null )
@@ -1016,10 +1028,16 @@ class Racesow_Player
 				return false;
 			this.positionOrigin = ent.origin;
 			this.positionAngles = ent.angles;
+            for( int i = WEAP_NONE + 1; i < WEAP_TOTAL; i++ )
+            {
+                this.positionWeapons[i] = client.canSelectWeapon( i );
+                cItem @item = G_GetItem( i );
+                this.positionAmmos[i] = client.inventoryCount( item.ammoTag );
+            }
 			if ( ent.moveType == MOVETYPE_NOCLIP )
 				this.positionWeapon = this.noclipWeapon;
 			else
-			this.positionWeapon = client.weapon;
+                this.positionWeapon = client.weapon;
 		}
         else if( action == "speed" && argsString.getToken( 1 ) != "" )
         {
@@ -1042,6 +1060,13 @@ class Racesow_Player
 
 			if( this.teleport( this.positionOrigin, this.positionAngles, false, false ) )
             {
+                for( int i = WEAP_NONE + 1; i < WEAP_TOTAL; i++ )
+                {
+                    if( this.positionWeapons[i] )
+                        client.inventoryGiveItem( i );
+                    cItem @item = G_GetItem( i );
+                    client.inventorySetCount( item.ammoTag, this.positionAmmos[i] );
+                }
 				this.client.selectWeapon( this.positionWeapon );
                 Vec3 a, b, c;
                 this.positionAngles.angleVectors(a, b, c);
