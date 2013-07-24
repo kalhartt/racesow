@@ -473,11 +473,15 @@ class Command_ProtectedNick : Racesow_Command
     {
 		bool is_authenticated = player.getAuth().isAuthenticated();
 		bool is_nickprotected = player.getAuth().wontGiveUpViolatingNickProtection() == 0;
-		bool valid = ( is_authenticated and is_nickprotected );
+        bool protectable = player.getAuth().canBeProtected();
+		bool valid = is_authenticated and is_nickprotected and protectable;
+
+        if ( argc >= 1 && args.getToken(0) != "update" )
+            return false;
 		
 		if (not valid)
 		{
-			player.sendErrorMessage( "You must be authenticated and not under nick protection.");
+			player.sendErrorMessage( "You must be authenticated and not under nick protection and not named player.");
 			return false;
 		}
 		
@@ -514,6 +518,13 @@ class Command_Register : Racesow_Command
         if ( argc < 4)
         {
             player.sendErrorMessage("You must provide all required information");
+            return false;
+        }
+
+		if( player.isWaitingForCommand )
+        {
+            player.sendErrorMessage( "Flood protection. Slow down cowboy, wait for the "
+                    +"results of your previous command");
             return false;
         }
 
@@ -1084,7 +1095,7 @@ void RS_CreateCommands()
     Command_ProtectedNick protectednick;
     protectednick.name = "protectednick";
     protectednick.description = "Show/update your current protected nick";
-    protectednick.usage = "protectednick <newnick>";
+    protectednick.usage = "protectednick <update>";
     @commands[commandCount] = @protectednick;
     commandCount++;
 

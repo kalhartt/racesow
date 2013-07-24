@@ -405,6 +405,27 @@ class Racesow_Player
         }
     }
 
+    /**
+     * Callback for account administration results
+     * @return void
+     */
+    void accountCallback(uint code)
+    {
+        switch (code) {
+            case 0:
+                this.sendErrorMessage("You are already registered");
+                break;
+            case 1:
+                this.sendErrorMessage("This account or email is already registered");
+                break;
+            case 2:
+                this.sendMessage("Registration completed!\n");
+                this.disappear(this.getName(), true);
+                this.appear();
+                break;
+        }
+    }
+
     void setLastRace(Racesow_Player_Race @race)
     {
         @this.lastRace = @race;

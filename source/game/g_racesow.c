@@ -43,7 +43,8 @@ cvar_t *rs_queryAddServer;
 cvar_t *rs_queryIncrementServerRaces;
 cvar_t *rs_queryUpdateServerData;
 cvar_t *rs_queryGetPlayerPoints;
-cvar_t *rs_queryRegisterPlayer;
+cvar_t *rs_queryCheckAccount;
+cvar_t *rs_queryRegisterAccount;
 cvar_t *rs_queryGetPlayerNick;
 cvar_t *rs_queryGetPlayerSimplified;
 cvar_t *rs_queryUpdatePlayerNick;
@@ -132,8 +133,9 @@ const unsigned int RACESOW_CALLBACK_RACE = 5;
 const unsigned int RACESOW_CALLBACK_MAPFILTER = 6;
 const unsigned int RACESOW_CALLBACK_MAPLIST = 7;
 const unsigned int RACESOW_CALLBACK_PLAYERNICK = 8;
-const unsigned int RACESOW_CALLBACK_ONELINER = 9;
-const unsigned int RACESOW_CALLBACK_RANKING = 10;
+const unsigned int RACESOW_CALLBACK_ACCOUNT = 9;
+const unsigned int RACESOW_CALLBACK_ONELINER = 10;
+const unsigned int RACESOW_CALLBACK_RANKING = 11;
 
 /**
  * MySQL Socket
@@ -299,7 +301,8 @@ qboolean RS_LoadCvars( void )
 	rs_queryAddPlayer				= trap_Cvar_Get( "rs_queryAddPlayer",				"INSERT INTO `player` (`name`, `simplified`, `created`) VALUES ('%s', '%s', NOW());", CVAR_ARCHIVE );
 	rs_queryGetPlayerStats  		= trap_Cvar_Get( "rs_queryGetPlayerStats",			"SELECT `points`, `diff_points`, `races`, (SELECT SUM(`overall_tries`) FROM `player_map` WHERE `player_id` = `p`.`id` LIMIT 1) `race_tries`, `maps`, `playtime`, (SELECT SUM(`racing_time`) FROM `player_map` WHERE `player_id` = `p`.`id` LIMIT 1) `racing_time`, DATE_FORMAT(`created`, '%%Y-%%m-%%d') `first_seen`, (SELECT `date` FROM `player_history` WHERE `player_id` = `p`.`id` ORDER BY `date` DESC LIMIT 1) `last_seen` FROM `player` `p` WHERE `simplified` = '%s' LIMIT 1;", CVAR_ARCHIVE );
 	rs_queryGetPlayerPoints			= trap_Cvar_Get( "rs_queryGetPlayerPoints",		    "SELECT `points` FROM `player` WHERE `id` = '%d' LIMIT 1;", CVAR_ARCHIVE );
-	rs_queryRegisterPlayer			= trap_Cvar_Get( "rs_queryRegisterPlayer",			"UPDATE `player` SET `auth_name` = '%s', `auth_email` = '%s', `auth_pass` = MD5('%s%s'), `auth_mask` = 1, `auth_token` = MD5('%s%s') WHERE `simplified` = '%s' AND (`auth_mask` = 0 OR `auth_mask` IS NULL);", CVAR_ARCHIVE );
+	rs_queryCheckAccount			= trap_Cvar_Get( "rs_queryCheckAccount",			"SELECT `id` FROM `player` WHERE `auth_name` = '%s' OR `auth_email` = '%s' OR (`id` = '%d' AND `auth_mask` > 0);", CVAR_ARCHIVE );
+	rs_queryRegisterAccount			= trap_Cvar_Get( "rs_queryRegisterAccount",			"UPDATE `player` SET `auth_name` = '%s', `auth_email` = '%s', `auth_pass` = MD5('%s%s'), `auth_mask` = 1 WHERE `id` = '%d';", CVAR_ARCHIVE );
 	rs_queryGetPlayerNick			= trap_Cvar_Get( "rs_queryGetPlayerNick",			"SELECT `name` FROM `player` WHERE `id` = '%d' LIMIT 1;", CVAR_ARCHIVE );
 	rs_queryGetPlayerSimplified		= trap_Cvar_Get( "rs_queryGetPlayerSimplified",		"SELECT `simplified` FROM `player` WHERE `id` = '%d' LIMIT 1;", CVAR_ARCHIVE );
 	rs_queryUpdatePlayerNick		= trap_Cvar_Get( "rs_queryUpdatePlayerNick",		"UPDATE `player` SET `name` = '%s', `simplified` = '%s' WHERE `id` = %d;", CVAR_ARCHIVE );
@@ -1691,8 +1694,8 @@ void *RS_GetPlayerNick_Thread( void *in )
  * Updates the player current protected nick
  *
  * @param name Name of the player making the request
- * @param player_id Id of the player making the request
  * @param playerNum Num of the player making the request
+ * @param player_id Id of the player making the request
  * @return Success boolean
  */
 qboolean RS_UpdatePlayerNick( char *name, int playerNum, int player_id )
@@ -1790,6 +1793,105 @@ void *RS_UpdatePlayerNick_Thread( void *in )
 
 	free(playerData->name);
  	free(playerData);
+
+	RS_EndMysqlThread();
+
+    return NULL;
+}
+
+/**
+ * Registers an account for the player
+ *
+ * @param account New account name
+ * @param email Email which might be used to reset the password
+ * @param playerNum Num of the player making the request
+ * @param player_id Id of the player making the request
+ * @return Success boolean
+ */
+qboolean RS_RegisterAccount( char *account, char *email, char *password, int playerNum, int player_id )
+{
+    pthread_t thread;
+    int returnCode;
+	struct accountDataStruct *accountData=malloc(sizeof(struct accountDataStruct));
+
+    accountData->account = strdup(account);
+    accountData->email = strdup(email);
+    accountData->password = strdup(password);
+	accountData->playerNum = playerNum;
+	accountData->player_id = player_id;
+
+    returnCode = pthread_create(&thread, &threadAttr, RS_RegisterAccount_Thread, (void *)accountData);
+
+    if (returnCode) {
+
+        G_Printf("THREAD ERROR: return code from pthread_create() is %d\n", returnCode);
+        return qfalse;
+    }
+
+    return qtrue;
+}
+
+/**
+ * Thread that updates the database with the new account
+ *
+ * @param in Input data
+ * @return NULL on success
+ */
+void *RS_RegisterAccount_Thread( void *in )
+{
+	struct accountDataStruct *accountData;
+	char query[MYSQL_QUERY_LENGTH];
+	char account[64];
+	char email[64];
+	char password[64];
+	MYSQL_ROW  row;
+    MYSQL_RES  *mysql_res;
+
+	RS_StartMysqlThread();
+
+    accountData = (struct accountDataStruct*)in;
+
+	Q_strncpyz ( account, accountData->account, sizeof(account) );
+	RS_EscapeString(account);
+
+	Q_strncpyz ( email, accountData->email, sizeof(email) );
+	RS_EscapeString(email);
+
+	Q_strncpyz ( password, accountData->password, sizeof(password) );
+	RS_EscapeString(password);
+
+	// test if the account and email are available and the player does not have an account
+	sprintf(query, rs_queryCheckAccount->string, account, email, accountData->player_id);
+    mysql_real_query(&mysql, query, strlen(query));
+    RS_CheckMysqlThreadError(query);
+    mysql_res = mysql_store_result(&mysql);
+    RS_CheckMysqlThreadError(query);
+    if ((row = mysql_fetch_row(mysql_res)) != NULL)
+    {
+        RS_PushCallbackQueue(RACESOW_CALLBACK_ACCOUNT, accountData->playerNum, atoi(row[0]) == accountData->player_id ? 0 : 1, 0, 0, 0, 0, 0);
+        mysql_free_result(mysql_res);
+        free(accountData->account);
+        free(accountData->email);
+        free(accountData->password);
+        free(accountData);
+        RS_EndMysqlThread();
+        return NULL;
+    }
+
+	mysql_free_result(mysql_res);
+
+	// register
+	sprintf(query, rs_queryRegisterAccount->string, account, email, password, rs_tokenSalt->string, accountData->player_id);
+    mysql_real_query(&mysql, query, strlen(query));
+    RS_CheckMysqlThreadError(query);
+
+	// return confirmation of the new nick to the player
+    RS_PushCallbackQueue(RACESOW_CALLBACK_ACCOUNT, accountData->playerNum, 2, 0, 0, 0, 0, 0);
+
+	free(accountData->account);
+	free(accountData->email);
+	free(accountData->password);
+ 	free(accountData);
 
 	RS_EndMysqlThread();
 

@@ -12,8 +12,9 @@ const uint RACESOW_ADAPTER_RACE = 5;
 const uint RACESOW_ADAPTER_MAPFILTER = 6;
 const uint RACESOW_ADAPTER_MAPLIST = 7;
 const uint RACESOW_ADAPTER_PLAYERNICK = 8;
-const uint RACESOW_ADAPTER_ONELINER = 9;
-const uint RACESOW_ADAPTER_RANKING = 10;
+const uint RACESOW_ADAPTER_ACCOUNT = 9;
+const uint RACESOW_ADAPTER_ONELINER = 10;
+const uint RACESOW_ADAPTER_RANKING = 11;
 
 class Racesow_Adapter_Abstract
 {
@@ -122,6 +123,11 @@ class Racesow_Adapter_Abstract
                     result = RS_PrintQueryCallback( playerNum );
                     player.isWaitingForCommand = false;
                     player.getAuth().nickCallback( arg2, result );
+                    break;
+
+                case RACESOW_ADAPTER_ACCOUNT:
+                    player.isWaitingForCommand = false;
+                    player.accountCallback(arg2);
                     break;
 
                 // why printing that complicated and not just in RS_PopCallbackQueue() ?

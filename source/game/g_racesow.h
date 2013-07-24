@@ -76,6 +76,15 @@ struct playerDataStruct {
 	char *authToken;
 };
 
+struct accountDataStruct {
+
+	char *account;
+    char *email;
+	char *password;
+	unsigned int player_id;
+	unsigned int playerNum;
+};
+
 struct playernickDataStruct {
 
 	char *name;
@@ -167,6 +176,8 @@ qboolean RS_GetPlayerNick( int playerNum, int player_id );
 void *RS_GetPlayerNick_Thread( void *in );
 qboolean RS_UpdatePlayerNick( char *name, int playerNum, int player_id );
 void *RS_UpdatePlayerNick_Thread( void *in );
+qboolean RS_RegisterAccount( char *account, char *email, char *password, int playerNum, int player_id );
+void *RS_RegisterAccount_Thread( void *in );
 qboolean RS_MysqlLoadMaplist( int is_freestyle );
 qboolean RS_MysqlLoadHighscores( int playerNum, int limit, int map_id, char *mapname, pjflag prejumpflag );
 void *RS_MysqlLoadHighscores_Thread( void *in );

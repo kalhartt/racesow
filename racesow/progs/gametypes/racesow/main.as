@@ -620,7 +620,8 @@ void GT_ThinkRules()
         {
             player.printWelcomeMessage = false;
             player.sendMessage( rs_welcomeMessage.string + "\n" );
-            player.sendMessage( rs_registrationInfo.string + "\n" );
+            if ( rs_registrationDisabled.boolean )
+                player.sendMessage( rs_registrationInfo.string + "\n" );
         }
 
         // always clear all before setting

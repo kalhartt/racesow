@@ -172,11 +172,6 @@ const uint RACESOW_AUTH_ADMIN           = (RACESOW_AUTH_REGISTERED | RACESOW_AUT
 	/**
 	 * Register a new server account
 	 *
-	 * You can login using either your authName, your email or any
-	 * of your nicknames plus your password. This requires to avoid
-	 * cross-type duplicates, means you cannot for example register
-	 * an auth-name which has already been taken as nickname or email.
-	 *
 	 * @param String &authName
 	 * @param String &authEmail
 	 * @param String &password
@@ -186,12 +181,33 @@ const uint RACESOW_AUTH_ADMIN           = (RACESOW_AUTH_REGISTERED | RACESOW_AUT
 	bool signUp(String &authName, String &authEmail, String &password, String &confirmation)
 	{
         if (rs_registrationDisabled.boolean) {
-        
-            this.player.sendMessage( S_COLOR_RED + rs_registrationInfo.string );
+            this.player.sendErrorMessage( rs_registrationInfo.string );
+            return false;
+        }
+
+        if (this.player.getId() == 0) {
+            this.player.sendErrorMessage( "You do not have a player id" );
+            return false;
+        }
+
+        if (!this.canBeProtected()) {
+            this.player.sendErrorMessage( "This nickname can not be used to register" );
+            return false;
+        }
+
+        if (password != confirmation) {
+            this.player.sendErrorMessage( "Passwords do not match" );
             return false;
         }
     
-		// TODO:
+        if (password.len() < 8) {
+            this.player.sendErrorMessage( "Password must contain at least 8 characters" );
+            return false;
+        }
+    
+        this.player.isWaitingForCommand = true;
+        RS_RegisterAccount( authName, authEmail, password, this.player.client.playerNum, this.player.getId() );
+
         return true;
 	}
 
@@ -311,6 +327,26 @@ const uint RACESOW_AUTH_ADMIN           = (RACESOW_AUTH_REGISTERED | RACESOW_AUT
             this.player.appear();
         }
 	}
+
+    /**
+     * Check if the nickname can be protected
+     * @return bool
+     */
+    bool canBeProtected()
+    {
+        String simplified = this.player.getName().removeColorTokens().tolower();
+        int index = simplified.len() - 1;
+        if ( simplified[index--] == 41 ) // ')'
+        {
+            while ( index >= 0 && simplified[index] >= 48 && simplified[index] <= 57 ) // '0' ... '9'
+                index--;
+            if ( index >= 0 && index != int(simplified.len()) - 2 && simplified[index] == 40 ) // '('
+                simplified = simplified.substr( 0, index );
+        }
+        if ( simplified == "player" )
+            return false;
+        return true;
+    }
 
 	/**
 	 * Check if the player is authorized to do something

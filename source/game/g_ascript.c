@@ -3173,9 +3173,15 @@ static qboolean asFunc_RS_GetPlayerNick( int playerNum, int player_id )
 }
 
 // RS_UpdatePlayerNick
-static qboolean asFunc_RS_UpdatePlayerNick( asstring_t * name, int playerNum, int player_id )
+static qboolean asFunc_RS_UpdatePlayerNick( asstring_t *name, int playerNum, int player_id )
 {
 	return RS_UpdatePlayerNick(name->buffer, playerNum, player_id);
+}
+
+// RS_RegisterAccount
+static qboolean asFunc_RS_RegisterAccount( asstring_t *account, asstring_t *email, asstring_t *password, int playerNum, int player_id )
+{
+	return RS_RegisterAccount(account->buffer, email->buffer, password->buffer, playerNum, player_id);
 }
 
 // RS_MysqlLoadHighScores
@@ -3555,6 +3561,7 @@ static const asglobfuncs_t asGlobFuncs[] =
 	{ "bool RS_MysqlPlayerDisappear( String &, int, int, int, int, int, int, bool, bool )", asFunc_RS_MysqlPlayerDisappear },
 	{ "bool RS_GetPlayerNick( int, int )", asFunc_RS_GetPlayerNick },
 	{ "bool RS_UpdatePlayerNick( String &, int, int )", asFunc_RS_UpdatePlayerNick },
+	{ "bool RS_RegisterAccount( String &, String &, String &, int, int )", asFunc_RS_RegisterAccount },
 	{ "bool RS_MysqlLoadMap()", asFunc_RS_MysqlLoadMap },
 	{ "bool RS_MysqlInsertRace( int, int, int, int, int, int, int, String &, bool )", asFunc_RS_MysqlInsertRace },
 	{ "bool RS_MysqlLoadHighscores( int, int, int, String &, int)", asFunc_RS_MysqlLoadHighscores },
