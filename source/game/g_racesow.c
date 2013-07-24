@@ -2105,7 +2105,7 @@ void *RS_LoadStats_Thread( void *in )
 
     if (!Q_stricmp(statsRequest->what, "map"))
     {
-        int agMilli, agHour, agMin, btMilli, btMin, btSec, wtMilli, wtMin, wtSec, ptMilli, ptHour, ptMin, avgTries;
+        unsigned int agMilli, agHour, agMin, btMilli, btMin, btSec, wtMilli, wtMin, wtSec, ptMilli, ptHour, ptMin, avgTries;
         agMilli = 0;
         agHour = 0;
         agMin = 0;
