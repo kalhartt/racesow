@@ -944,8 +944,13 @@ class Racesow_Player
 		    Vec3 mins, maxs;
 		    client.getEnt().getSize( mins, maxs );
 		    cTrace tr;
+            uint contentMask;
+            if( ent.client.pmoveFeatures & PMFEAT_GHOSTMOVE == 0 ) // assuming all players either have ghostmove or not
+                contentMask = MASK_PLAYERSOLID;
+            else
+                contentMask = MASK_DEADSOLID;
             if( tr.doTrace( this.client.getEnt().origin, mins, maxs,
-                    this.client.getEnt().origin, 0, MASK_PLAYERSOLID ))
+                    this.client.getEnt().origin, 0, contentMask ))
             {
                 //don't allow players to end noclip inside others or the world
                 this.sendMessage( S_COLOR_WHITE + "WARNING: can't switch noclip back when being in something solid.\n" );
