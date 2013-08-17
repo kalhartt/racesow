@@ -201,11 +201,9 @@ class Racesow_Player_Race : Racesow_Player_Implemented
 		uint newTime = this.checkPoints[id];
 		uint serverBestTime = this.player.race.prejumped ? map.getPrejumpHighScore().getCheckPoint(id) : map.getHighScore().getCheckPoint(id);
 		uint personalBestTime = this.player.getBestCheckPoint(id);
-		bool noDelta = 0 == serverBestTime;
 
-        addCheckpoint( this.lastCheckPoint, noDelta ? 0 : ( newTime - serverBestTime ) );
-        this.player.sendCenteredMessage( "Current: " + TimeToString( newTime )
-			+ ( noDelta ? "" : ("\n" + diffString( serverBestTime, newTime ) )) );
+        this.addCheckpoint( this.lastCheckPoint, serverBestTime == 0 ? 0 : ( newTime - serverBestTime ) );
+        this.player.distributeDiffed( "Current", newTime, personalBestTime, serverBestTime, serverBestTime );
 
         if ( newTime < serverBestTime || serverBestTime == 0 )
         {

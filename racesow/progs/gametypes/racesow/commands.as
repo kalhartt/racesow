@@ -912,6 +912,51 @@ class Command_Practicemode : Racesow_Command
 	}
 }
 
+class Command_DiffRef : Racesow_Command
+{
+	bool validate( Racesow_Player @player, String &args, int argc )
+	{
+        if( argc == 0 )
+        {
+            String message = "Your diffref is currently set to ";
+            switch( player.diffref )
+            {
+                case DIFFREF_AUTO:
+                    message += "AUTO";
+                    break;
+                case DIFFREF_SELF:
+                    message += "SELF";
+                    break;
+                case DIFFREF_SERVER:
+                    message += "SERVER";
+                    break;
+                default:
+                    message += "?";
+                    break;
+            }
+            player.sendMessage( message + "\n" );
+            return false;
+        }
+		return true;
+	}
+
+	bool execute( Racesow_Player @player, String &args, int argc )
+	{
+        String mode = args.getToken( 0 );
+        int diffref;
+        if( mode == "auto" )
+            diffref = DIFFREF_AUTO;
+        else if( mode == "self" )
+            diffref = DIFFREF_SELF;
+        else if( mode == "server" )
+            diffref = DIFFREF_SERVER;
+        else
+            return false;
+        player.setDiffRef( diffref );
+        return true;
+    }
+}
+
 /**
  * Fill the commands array and set the command counter to the correct value
  */
@@ -1156,6 +1201,14 @@ void RS_CreateCommands()
     practicemode.usage = "practicemode\nAllows usage of the position and noclip commands";
     practicemode.modFlag = MODFLAG_RACE;
     @commands[commandCount] = @practicemode;
+    commandCount++;
+
+	Command_DiffRef diffref;
+    diffref.name = "diffref";
+    diffref.description = "Control what time diffs reference from";
+    diffref.usage = "diffref <auto|self|server>";
+    oneliner.modFlag = MODFLAG_RACE;
+    @commands[commandCount] = @diffref;
     commandCount++;
 }
 
