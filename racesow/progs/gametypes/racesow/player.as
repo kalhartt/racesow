@@ -1,6 +1,7 @@
 const int DIFFREF_AUTO = 0;
 const int DIFFREF_SELF = 1;
 const int DIFFREF_SERVER = 2;
+const int DIFFREF_PLAYER = 3;
 
 /**
  * Racesow_Player
@@ -212,9 +213,14 @@ class Racesow_Player
 	String challengerList;
 
     /**
-     * Time diff reference setting
+     * Time diff reference mode
      */
-    int diffref;
+    int diffRef;
+
+    /**
+     * Time diff reference player
+     */
+    Racesow_Player @diffPlayer;
 
 	/**
 	 * Variables for the position function
@@ -288,7 +294,7 @@ class Racesow_Player
 		this.printWelcomeMessage = false;
 		this.highestSpeed = 0;
 		this.state = "";
-        this.diffref = DIFFREF_AUTO;
+        this.diffRef = DIFFREF_AUTO;
 	}
 
 	/**
@@ -313,6 +319,16 @@ class Racesow_Player
         racesowAdapter.playerAppear(@this);
     }
 
+    void removeReferences()
+    {
+        for ( int i = 0; i < maxClients; i++ )
+        {
+            Racesow_Player @other = Racesow_GetPlayerByNumber( i );
+            if( @other != null && other.diffRef == DIFFREF_PLAYER && @other.diffPlayer == @this )
+                other.invalidateDiffPlayer();
+        }
+    }
+
 	void disappear(String nickName, bool threaded)
     {
         racesowAdapter.playerDisappear(@this, nickName, threaded);
@@ -334,14 +350,13 @@ class Racesow_Player
 
         //print general info to player
         this.sendAward( S_COLOR_CYAN + "Race Finished!" );
-        bool noDelta = 0 == bestTime;
 
         if ( this.lastRace.checkPointsString.len() > 0 )
             this.sendMessage( this.lastRace.checkPointsString );
 
         if ( @this.getClient() != null)
 		{
-            this.distributeDiffed( "Time", newTime, bestTime, oldServerBestTime, bestTime );
+            this.distributeDiffed( -1, newTime, bestTime, oldServerBestTime, bestTime );
 
             this.sendMessage(S_COLOR_WHITE + "Race " + S_COLOR_ORANGE + "#"
                     + this.tries + S_COLOR_WHITE + " finished: "
@@ -540,9 +555,25 @@ class Racesow_Player
      * @param int
      * @return void
      */
-    void setDiffRef(int diffref)
+    void setDiffRef(int diffRef)
     {
-        this.diffref = diffref;
+        this.diffRef = diffRef;
+    }
+
+    /**
+     * setDiffPlayer
+     * @param Racesow_Player
+     * @return void
+     */
+    void setDiffPlayer(Racesow_Player @diffPlayer)
+    {
+        @this.diffPlayer = diffPlayer;
+    }
+
+    void invalidateDiffPlayer()
+    {
+        this.diffRef = DIFFREF_AUTO;
+        this.sendErrorMessage( "Your diffRef has been reset to AUTO as the referencing player left" );
     }
 
 	/**
@@ -1231,43 +1262,55 @@ class Racesow_Player
 
 	/**
      * Send the appropriate diff time to the center of the screen of the player
-	 * @param String type
+     * @param int id
 	 * @param uint newTime
 	 * @param uint personalBestTime
 	 * @param uint serverBestTime
 	 * @param uint def
 	 * @return void
 	 */
-    void sendDiffed( String type, uint newTime, uint personalBestTime, uint serverBestTime, uint def )
+    void sendDiffed( int id, uint newTime, uint personalBestTime, uint serverBestTime, uint def )
     {
         if (@this.client == null)
             return;
 
         uint ref = def;
-        if( this.diffref == DIFFREF_SELF )
+        if( this.diffRef == DIFFREF_SELF )
+        {
             ref = personalBestTime;
-        else if( this.diffref == DIFFREF_SERVER )
+        }
+        else if( this.diffRef == DIFFREF_SERVER )
+        {
             ref = serverBestTime;
-        G_CenterPrintMsg( this.client.getEnt(), type + ": " + TimeToString( newTime )
+        }
+        else if( this.diffRef == DIFFREF_PLAYER )
+        {
+            if( id < 0 )
+                ref = this.diffPlayer.getBestTime();
+            else
+                ref = this.diffPlayer.getBestCheckPoint( id );
+        }
+
+        G_CenterPrintMsg( this.client.getEnt(), ( id < 0 ? "Time" : "Current" ) + ": " + TimeToString( newTime )
 			+ ( ref == 0 ? "" : ("\n" + diffString( ref, newTime ) )) );
     }
 
 	/**
      * Send the appropriate diff time to the center of the screen of the player
      * and his spectators
-	 * @param String type
+     * @param int id
 	 * @param uint newTime
 	 * @param uint personalBestTime
 	 * @param uint serverBestTime
 	 * @param uint def
 	 * @return void
 	 */
-    void distributeDiffed( String type, uint newTime, uint personalBestTime, uint serverBestTime, uint def )
+    void distributeDiffed( int id, uint newTime, uint personalBestTime, uint serverBestTime, uint def )
     {
         if (@this.client == null)
             return;
 
-        sendDiffed( type, newTime, personalBestTime, serverBestTime, def );
+        sendDiffed( id, newTime, personalBestTime, serverBestTime, def );
         cTeam @spectators = @G_GetTeam( TEAM_SPECTATOR );
         cEntity @other;
         for ( int i = 0; @spectators.ent( i ) != null; i++ )
@@ -1276,7 +1319,7 @@ class Racesow_Player
             if ( @other.client != null && other.client.chaseActive )
             {
                 if( other.client.chaseTarget == this.client.playerNum + 1 )
-                    Racesow_GetPlayerByClient( other.client ).sendDiffed( type, newTime, personalBestTime, serverBestTime, def );
+                    Racesow_GetPlayerByClient( other.client ).sendDiffed( id, newTime, personalBestTime, serverBestTime, def );
             }
         }
     }

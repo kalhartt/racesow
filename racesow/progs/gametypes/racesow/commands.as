@@ -918,8 +918,8 @@ class Command_DiffRef : Racesow_Command
 	{
         if( argc == 0 )
         {
-            String message = "Your diffref is currently set to ";
-            switch( player.diffref )
+            String message = "Your diffRef is currently set to ";
+            switch( player.diffRef )
             {
                 case DIFFREF_AUTO:
                     message += "AUTO";
@@ -929,6 +929,9 @@ class Command_DiffRef : Racesow_Command
                     break;
                 case DIFFREF_SERVER:
                     message += "SERVER";
+                    break;
+                case DIFFREF_PLAYER:
+                    message += "PLAYER " + player.diffPlayer.client.playerNum;
                     break;
                 default:
                     message += "?";
@@ -943,16 +946,34 @@ class Command_DiffRef : Racesow_Command
 	bool execute( Racesow_Player @player, String &args, int argc )
 	{
         String mode = args.getToken( 0 );
-        int diffref;
+        int diffRef;
         if( mode == "auto" )
-            diffref = DIFFREF_AUTO;
+            diffRef = DIFFREF_AUTO;
         else if( mode == "self" )
-            diffref = DIFFREF_SELF;
+            diffRef = DIFFREF_SELF;
         else if( mode == "server" )
-            diffref = DIFFREF_SERVER;
+            diffRef = DIFFREF_SERVER;
+        else if( mode == "player" )
+            diffRef = DIFFREF_PLAYER;
         else
             return false;
-        player.setDiffRef( diffref );
+        player.setDiffRef( diffRef );
+        if( diffRef == DIFFREF_PLAYER )
+        {
+            if( argc == 1 )
+            {
+                player.setDiffRef( DIFFREF_AUTO );
+                return false;
+            }
+            int id = args.getToken( 1 ).toInt();
+            Racesow_Player @other = Racesow_GetPlayerByNumber( id );
+            if( @other == null || @other.client == null )
+            {
+                player.setDiffRef( DIFFREF_AUTO );
+                return false;
+            }
+            player.setDiffPlayer( other );
+        }
         return true;
     }
 }
@@ -1203,12 +1224,12 @@ void RS_CreateCommands()
     @commands[commandCount] = @practicemode;
     commandCount++;
 
-	Command_DiffRef diffref;
-    diffref.name = "diffref";
-    diffref.description = "Control what time diffs reference from";
-    diffref.usage = "diffref <auto|self|server>";
+	Command_DiffRef diffRef;
+    diffRef.name = "diffRef";
+    diffRef.description = "Control what time diffs reference from";
+    diffRef.usage = "diffRef <auto|self|server|player <id>>";
     oneliner.modFlag = MODFLAG_RACE;
-    @commands[commandCount] = @diffref;
+    @commands[commandCount] = @diffRef;
     commandCount++;
 }
 

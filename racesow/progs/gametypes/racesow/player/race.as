@@ -203,7 +203,7 @@ class Racesow_Player_Race : Racesow_Player_Implemented
 		uint personalBestTime = this.player.getBestCheckPoint(id);
 
         this.addCheckpoint( this.lastCheckPoint, serverBestTime == 0 ? 0 : ( newTime - serverBestTime ) );
-        this.player.distributeDiffed( "Current", newTime, personalBestTime, serverBestTime, serverBestTime );
+        this.player.distributeDiffed( id, newTime, personalBestTime, serverBestTime, serverBestTime );
 
         if ( newTime < serverBestTime || serverBestTime == 0 )
         {

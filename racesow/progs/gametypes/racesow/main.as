@@ -453,6 +453,7 @@ void GT_scoreEvent( cClient @client, String &score_event, String &args )
 		}
 		else if ( score_event == "disconnect" )
 		{
+			player.removeReferences();
 			player.disappear(player.getName(), true);
 			player.reset();
 			RS_ircSendMessage( player.getName().removeColorTokens() + " disconnected" );
