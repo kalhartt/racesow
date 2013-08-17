@@ -2018,7 +2018,7 @@ void *RS_MapFilter_Thread( void *in )
         }
         else
         {
-            Q_strncatz( result, va( "Printing page %d/%d of maps matching %s%s.\n%sUse %smapfilter %s <pagenum> %sto print other pages.\n",
+            Q_strncatz( result, va( "Printing page %d/%d of maps matching %s%s.\n%sUse %smaplist %s <pagenum> %sto print other pages.\n",
                         page,
                         totalPages,
                         S_COLOR_YELLOW,

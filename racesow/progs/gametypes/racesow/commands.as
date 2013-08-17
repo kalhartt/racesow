@@ -122,38 +122,6 @@ class Racesow_Command
     }
 }
 
-class Command_Mapfilter : Racesow_Command
-{
-    bool validate(Racesow_Player @player, String &args, int argc)
-    {
-        if (argc < 1)
-        {
-            player.sendErrorMessage( "You must provide a filter name" );
-            return false;
-        }
-
-        if (player.isWaitingForCommand)
-        {
-            player.sendErrorMessage( "Flood protection. Slow down cowboy, wait for the "
-                    +"results of your previous command");
-            return false;
-        }
-
-        return true;
-    }
-
-    bool execute(Racesow_Player @player, String &args, int argc)
-    {
-        String filter = args.getToken( 0 );
-        int page = 1;
-        if ( argc >= 2 )
-            page = args.getToken( 1 ).toInt();
-
-        player.isWaitingForCommand = true;
-        return RS_MapFilter(player.client.playerNum,filter,page);
-    }
-}
-
 class Command_Gametype : Racesow_Command
 {
     bool execute(Racesow_Player @player, String &args, int argc)
@@ -430,10 +398,25 @@ class Command_Maplist : Racesow_Command
     bool execute(Racesow_Player @player, String &args, int argc)
     {
         int page = 1;
-        if (argc >= 1)
-            page = args.getToken(0).toInt();
+        String filter = "";
 
-        return RS_Maplist(player.client.playerNum,page);
+        if( argc == 1 )
+        {
+            if( args.getToken( 0 ).isNumerical() )
+                page = args.getToken( 0 ).toInt();
+            else
+                filter = args.getToken( 0 );
+        }
+        else if( argc >= 2 )
+        {
+            filter = args.getToken( 0 );
+            page = args.getToken( 1 ).toInt();
+        }
+
+        if( filter == "" )
+            return RS_Maplist(player.client.playerNum,page);
+        player.isWaitingForCommand = true;
+        return RS_MapFilter(player.client.playerNum,filter,page);
     }
 }
 
@@ -1029,17 +1012,10 @@ void RS_CreateCommands()
     @commands[commandCount] = @lastmap;
     commandCount++;
 
-    Command_Mapfilter mapfilter;
-    mapfilter.name = "mapfilter";
-    mapfilter.description = "Search for maps matching a given name";
-    mapfilter.usage = "mapfilter <filter> <pagenum>";
-    @commands[commandCount] = @mapfilter;
-    commandCount++;
-
     Command_Maplist maplist;
     maplist.name = "maplist";
-    maplist.description = "Print the maplist";
-    maplist.usage = "maplist <pagenum>";
+    maplist.description = "Print the maplist, eventually matching a filter";
+    maplist.usage = "maplist <filter> <pagenum>";
     @commands[commandCount] = @maplist;
     commandCount++;
 
