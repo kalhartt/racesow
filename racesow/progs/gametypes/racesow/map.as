@@ -37,7 +37,7 @@ class Racesow_Map
 	/*
 	 * World record time for this map (loaded from database)
 	 */
-	uint worldBest;
+	Racesow_Map_HighScore worldHighScore;
     
 	/**
 	 * Constructor
@@ -88,6 +88,7 @@ class Racesow_Map
         this.logTime = 0;
         this.highScore.reset();
         this.prejumpHighScore.reset();
+        this.worldHighScore.reset();
 	}
 	
 	void PrintMinutesLeft()
@@ -136,12 +137,17 @@ class Racesow_Map
      * Callback from game lib when a map was loaded
      * @return uint
      */
-    void loadCallback(int id, int bestTime)
+    void loadCallback(int id, uint bestTime, String checkpoints)
     {
         this.setId( id );
         if ( rs_loadHighscores.boolean )
         {
-            this.worldBest = bestTime; // save it for AS
+            this.worldHighScore.reset();
+            this.worldHighScore.finishTime = bestTime;
+            for ( int i = 0; i < numCheckpoints; i++ )
+            {
+                this.worldHighScore.setCheckPoint( i, checkpoints.getToken( i ).toInt() );
+            }
         }
     }
     
@@ -161,6 +167,15 @@ class Racesow_Map
 	Racesow_Map_HighScore @getPrejumpHighScore()
 	{
 		return @this.prejumpHighScore;
+	}
+    
+    /**
+	 * Get the database map highscore
+	 * @return Racesow_Map_HighScore
+	 */
+	Racesow_Map_HighScore @getWorldHighScore()
+	{
+		return @this.worldHighScore;
 	}
     
     void startOvertime()

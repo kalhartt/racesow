@@ -91,7 +91,7 @@ class Racesow_Adapter_Abstract
         // handle the loadmap callback differently cause it's not attached to any player
         if ( command == RACESOW_ADAPTER_LOADMAP )
         {
-            map.loadCallback(arg2, arg3);
+            map.loadCallback( arg2, arg3, RS_PrintQueryCallback( CS_GAMECOMMANDS - CS_PLAYERINFOS ) );
         }
         else
         {

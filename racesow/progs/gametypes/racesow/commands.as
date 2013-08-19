@@ -933,6 +933,9 @@ class Command_DiffRef : Racesow_Command
                 case DIFFREF_PLAYER:
                     message += "PLAYER " + player.diffPlayer.client.playerNum;
                     break;
+                case DIFFREF_WORLD:
+                    message += "WORLD";
+                    break;
                 default:
                     message += "?";
                     break;
@@ -955,6 +958,8 @@ class Command_DiffRef : Racesow_Command
             diffRef = DIFFREF_SERVER;
         else if( mode == "player" )
             diffRef = DIFFREF_PLAYER;
+        else if( mode == "world" )
+            diffRef = DIFFREF_WORLD;
         else
             return false;
         player.setDiffRef( diffRef );
@@ -1227,7 +1232,7 @@ void RS_CreateCommands()
 	Command_DiffRef diffRef;
     diffRef.name = "diffRef";
     diffRef.description = "Control what time diffs reference from";
-    diffRef.usage = "diffRef <auto|self|server|player <id>>";
+    diffRef.usage = "diffRef <auto|self|server|world|player <id>>";
     oneliner.modFlag = MODFLAG_RACE;
     @commands[commandCount] = @diffRef;
     commandCount++;

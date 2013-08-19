@@ -2,6 +2,7 @@ const int DIFFREF_AUTO = 0;
 const int DIFFREF_SELF = 1;
 const int DIFFREF_SERVER = 2;
 const int DIFFREF_PLAYER = 3;
+const int DIFFREF_WORLD = 4;
 
 /**
  * Racesow_Player
@@ -415,6 +416,9 @@ class Racesow_Player
                              + S_COLOR_YELLOW + "made a new" + prejumpRec + " "
                              + S_COLOR_GREEN  + rs_networkName.string
                              + S_COLOR_YELLOW + " record: " + TimeToString( newTime ) + "\n");
+
+            if ( !this.lastRace.prejumped )
+                map.getWorldHighScore().fromRace(this.lastRace);
 
             if ( mysqlConnected == 1)
             {
@@ -1289,6 +1293,13 @@ class Racesow_Player
                 ref = this.diffPlayer.getBestTime();
             else
                 ref = this.diffPlayer.getBestCheckPoint( id );
+        }
+        else if( this.diffRef == DIFFREF_WORLD )
+        {
+            if( id < 0 )
+                ref = map.getWorldHighScore().getTime();
+            else
+                ref = map.getWorldHighScore().getCheckPoint( id );
         }
 
         G_CenterPrintMsg( this.client.getEnt(), ( id < 0 ? "Time" : "Current" ) + ": " + TimeToString( newTime )

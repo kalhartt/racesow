@@ -113,7 +113,7 @@ static int qos = 0;
 /**
  * Store the result of different requests from players.
  */
-char *players_query[MAX_CLIENTS]={0};
+char *players_query[MAX_CLIENTS+1]={0};
 
 /**
  * map-list related global variables
@@ -658,7 +658,11 @@ void *RS_MysqlLoadMap_Thread(void *in)
     MYSQL_ROW  row;
     MYSQL_RES  *mysql_res;
 	int map_id=0;
+    int size;
+	char checkpoints[MAX_STRING_CHARS];
 	unsigned int bestTime=0;
+    unsigned int playerId = 0;
+    checkpoints[0] = '\0';
 	RS_StartMysqlThread();
     Q_strncpyz ( name, COM_RemoveColorTokens( level.mapname ), sizeof(name) );
 	RS_EscapeString(name);
@@ -691,16 +695,40 @@ void *RS_MysqlLoadMap_Thread(void *in)
 	{
 		if (row[0] !=NULL && row[1] != NULL)
 		{
-			unsigned int playerId, raceTime;
-            playerId = atoi(row[0]);
+			unsigned int player, raceTime;
+            player = atoi(row[0]);
             raceTime = atoi(row[1]);
             if (bestTime == 0)
+            {
                 bestTime = raceTime;
+                playerId = player;
+            }
 		}
 	}
 	mysql_free_result(mysql_res);
 
-	RS_PushCallbackQueue(RACESOW_CALLBACK_LOADMAP, 0, map_id, bestTime, 0, 0, 0, 0);
+    if (playerId != 0)
+    {
+        //get player checkpoints on this map
+        sprintf(query, rs_queryGetPlayerMapCheckpoints->string, map_id, playerId);
+        mysql_real_query(&mysql, query, strlen(query));
+        RS_CheckMysqlThreadError(query);
+        mysql_res = mysql_store_result(&mysql);
+        RS_CheckMysqlThreadError(query);
+
+        while ( (row = mysql_fetch_row(mysql_res) ) != NULL )
+        {
+            Q_strncatz( checkpoints, va("%s ",row[0]), sizeof( checkpoints ) );
+        }
+
+        mysql_free_result(mysql_res);
+    }
+
+    size = strlen( checkpoints )+1;
+    players_query[MAX_CLIENTS] = malloc( size );
+    Q_strncpyz( players_query[MAX_CLIENTS], checkpoints, size);
+
+    RS_PushCallbackQueue(RACESOW_CALLBACK_LOADMAP, 0, map_id, bestTime, 0, 0, 0, 0);
 
 	// remember this map name
 	strcpy(previousMapName,level.mapname);
