@@ -1163,7 +1163,6 @@ class Racesow_Player
         {
             int index = argsString.getToken( 1 ).toInt();
             Racesow_Player @other = Racesow_GetPlayerByNumber( index );
-            this.sendMessage(other.getName() + "\n");
             if( @other != null && @other.getClient() != null )
                 return this.teleport( other.getClient().getEnt().origin, other.getClient().getEnt().angles, false, false );
             return false;
