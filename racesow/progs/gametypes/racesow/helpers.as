@@ -144,7 +144,7 @@ Racesow_Player @Racesow_GetPlayerByClient( cClient @client )
  */
 Racesow_Player @Racesow_GetPlayerByNumber(int playerNum)
 {
-    if ( playerNum < 0 )
+    if ( playerNum < 0 || playerNum >= maxClients )
         return null;
 
     return @players[ playerNum ];

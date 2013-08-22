@@ -1123,6 +1123,7 @@ void RS_CreateCommands()
             + "position save - Save current position\n"
             + "position speed <speed> - Set saved position speed\n"
             + "position load - Teleport to saved position\n"
+			+ "position player <id> - Teleport to a player\n"
 			+ "position cp <id> - Teleport to a checkpoint (id order may vary)\n"
             + "position set <x> <y> <z> <pitch> <yaw> - Teleport to specified position\n"
             + "position store <id> <name> - Store a position for another session\n"
