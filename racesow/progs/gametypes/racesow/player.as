@@ -1159,6 +1159,21 @@ class Racesow_Player
             }
 			return true;
 		}
+        else if( action == "cp" && argsString.getToken( 1 ) != "" )
+        {
+            int index = argsString.getToken( 1 ).toInt();
+            for( int i = 0; i <= numEntities; i++ )
+            {
+                cEntity @ent = @G_GetEntity( i );
+                if( @ent != null && ent.count == index - 1 && ent.get_classname() == "target_checkpoint" )
+                {
+                    Vec3 origin;
+                    return this.teleport( ent.origin, this.client.getEnt().angles, false, false );
+                }
+            }
+            this.sendMessage( "Undefined checkpoint: " + index + "\n" );
+            return true;
+        }
 		else if( action == "set" && argsString.getToken( 5 ) != "" )
 		{
 			Vec3 origin, angles;
@@ -1210,6 +1225,7 @@ class Racesow_Player
 			msg = "Usage:\nposition save - Save current position\n";
             msg += "position speed <speed> - Set saved position speed\n";
 			msg += "position load - Teleport to saved position\n";
+			msg += "position cp <id> - Teleport to a checkpoint (id order may vary)\n";
 			msg += "position set <x> <y> <z> <pitch> <yaw> - Teleport to specified position\n";
 			msg += "position store <id> <name> - Store a position for another session\n";
 			msg += "position restore <id> - Restore a stored position from another session\n";
