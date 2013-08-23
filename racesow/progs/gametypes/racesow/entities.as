@@ -286,9 +286,7 @@ void gate_and_use( cEntity @self, cEntity @other, cEntity @activator )
             done = false;
     }
     if( done )
-    {
         gate_activate( self, activator );
-    }
 }
 
 void gate_and_setup( cEntity @ent )

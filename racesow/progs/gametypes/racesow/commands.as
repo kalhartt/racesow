@@ -900,9 +900,13 @@ class Command_Practicemode : Racesow_Command
 				player.practicing = false;
 				player.sendAward( S_COLOR_GREEN + "Leaving practice mode" );
 				player.restartRace();
-			} else {
+			}
+            else
+            {
 				player.practicing = true;
 				player.sendAward( S_COLOR_GREEN + "You have entered practice mode" );
+                if( player.client.getEnt().team == TEAM_SPECTATOR )
+                    player.restartRace();
 			}
 			return true;
 		}
