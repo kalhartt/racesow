@@ -212,6 +212,97 @@ void target_delay( cEntity @ent ) {
     }
 }
 
+//=================
+//RS_gate_and
+//===============
+int gate_targeter_count;
+cEntity@[] gate_targeters;
+bool[] gate_targeters_state;
+uint[] gate_targeters_time;
+int[] gate_targeters_start(maxEntities);
+int[] gate_targeters_count(maxEntities);
+
+void add_gate_targeter( cEntity @gate, cEntity @targeter )
+{
+    int num = gate.entNum;
+    if( gate_targeter_count != 0 && gate_targeters_count[num] == 0 )
+        gate_targeters_start[num] = gate_targeter_count;
+    gate_targeters_count[num]++;
+    gate_targeter_count++;
+    gate_targeters.push_back( @targeter );
+    gate_targeters_state.push_back( false );
+    gate_targeters_time.push_back( 0 );
+}
+
+void add_gate_targeters( cEntity @gate )
+{
+    cEntity @targeter = null;
+    do {
+        @targeter = gate.findTargetingEntity( targeter );
+        if( @targeter != null )
+            add_gate_targeter( gate, targeter );
+    } while( @targeter != null );
+}
+
+void gate_and_think( cEntity @ent )
+{
+    if( ent.delay > 0 )
+    {
+        for( int i = 0; i < gate_targeters_count[ent.entNum]; i++ )
+        {
+            int num = gate_targeters_start[ent.entNum] + i;
+            if( levelTime > gate_targeters_time[num] )
+                gate_targeters_state[num] = false;
+        }
+        ent.nextThink = levelTime + 1;
+    }
+}
+
+void gate_and_setup( cEntity @ent )
+{
+    add_gate_targeters( ent );
+    @ent.think = gate_and_think;
+}
+
+void gate_and_use( cEntity @self, cEntity @other, cEntity @activator )
+{
+    bool done = true;
+    if( self.timeStamp != 0 && levelTime < self.timeStamp )
+        return;
+    for( int i = 0; i < gate_targeters_count[self.entNum]; i++ )
+    {
+        int num = gate_targeters_start[self.entNum] + i;
+        if( gate_targeters[num].entNum == other.entNum )
+        {
+            gate_targeters_state[num] = true;
+            if( self.delay > 0 )
+            {
+                gate_targeters_time[num] = levelTime + self.delay * 1000;
+                self.nextThink = levelTime + 1;
+            }
+        }
+        if( !gate_targeters_state[num] )
+            done = false;
+    }
+    if( done )
+    {
+        self.useTargets( @activator );
+        self.timeStamp = levelTime + self.wait * 1000;
+        if( self.spawnFlags & 1 > 0 )
+        {
+            for( int i = 0; i < gate_targeters_count[self.entNum]; i++ )
+                gate_targeters_state[gate_targeters_start[self.entNum] + i] = false;
+        }
+    }
+}
+
+void gate_and( cEntity @ent )
+{
+    @ent.use = gate_and_use;
+    @ent.think = gate_and_setup;
+    ent.nextThink = levelTime + 1;
+}
+
 Cvar rs_plasmaweak_speed( "rs_plasmaweak_speed", "2400", CVAR_ARCHIVE );
 Cvar rs_plasmaweak_knockback( "rs_plasmaweak_knockback", "14", CVAR_ARCHIVE );
 Cvar rs_plasmaweak_splash( "rs_plasmaweak_splash", "45", CVAR_ARCHIVE );
