@@ -1534,6 +1534,23 @@ The path portion value of the "noise" key can be replaced by the implicit folder
 
 //=============================================================================
 
+/*QUAKED target_teleporter (0 .7 .7) (-8 -8 -8) (8 8 8) PLAYERDIR_XY PLAYERDIR_Z BIDIRECTIONAL_XY BIDIRECTIONAL_Z CLAMP_NEGATIVE_ADDS
+Teleporter target.
+-------- KEYS --------
+target: this points to the target_position to which the player will jump.
+speed:
+count:
+-------- SPAWNFLAGS --------
+PLAYERDIR_XY: if set, trigger will apply the horizontal speed in the player's horizontal direction of travel, otherwise it uses the target XY component.
+ADD_XY: if set, trigger will add to the player's horizontal velocity, otherwise it set's the player's horizontal velociy.
+PLAYERDIR_Z: if set, trigger will apply the vertical speed in the player's vertical direction of travel, otherwise it uses the target Z component.
+ADD_Z: if set, trigger will add to the player's vertical velocity, otherwise it set's the player's vectical velociy.
+BIDIRECTIONAL_XY: if set, non-playerdir velocity pads will function in 2 directions based on the target specified.  The chosen direction is based on the current direction of travel.  Applies to horizontal direction.
+BIDIRECTIONAL_Z: if set, non-playerdir velocity pads will function in 2 directions based on the target specified.  The chosen direction is based on the current direction of travel.  Applies to vertical direction.
+CLAMP_NEGATIVE_ADDS: if set, then a velocity pad that adds negative velocity will be clamped to 0, if the resultant velocity would bounce the player in the opposite direction.*/
+
+//=============================================================================
+
 GATE_* ENTITIES
 
 //=============================================================================
