@@ -183,7 +183,8 @@ void target_teleporter_use( cEntity @ent, cEntity @other, cEntity @activator )
 			|| @Racesow_GetPlayerByClient( activator.client ) == null || !TriggerWait(@ent, @activator)
 			|| @ent.enemy == null)
 		return;
-	Racesow_GetPlayerByClient( activator.client ).teleport(ent.enemy.origin, ent.enemy.angles, true, true);
+    if( @other == null || other.classname != "gate_and" || gate_activated_teleporter( other, ent ) )
+        Racesow_GetPlayerByClient( activator.client ).teleport(ent.enemy.origin, ent.enemy.angles, true, true);
 
 }
 
@@ -219,11 +220,12 @@ cEntity@[] gate_targeters;
 bool[] gate_targeters_state;
 uint[] gate_targeters_time;
 
-void add_gate_targeters( cEntity @gate )
+void gate_setup( cEntity @gate )
 {
     gate.count = gate_targeters.size();
     cEntity @targeter = null;
-    do {
+    do
+    {
         @targeter = gate.findTargetingEntity( targeter );
         if( @targeter != null )
         {
@@ -231,7 +233,35 @@ void add_gate_targeters( cEntity @gate )
             gate_targeters_state.push_back( false );
             gate_targeters_time.push_back( 0 );
         }
-    } while( @targeter != null );
+    }
+    while( @targeter != null );
+    gate.ownerNum = 0; // current teleporter
+    gate.maxHealth = 0; // amount of teleporter targets
+    cEntity @target = null;
+    do
+    {
+        @target = gate.findTargetEntity( target );
+        if( @target != null && target.classname == "target_teleporter" )
+            gate.maxHealth++;
+    }
+    while( @target != null );
+    @gate.think = gate_think;
+}
+
+bool gate_activated_teleporter( cEntity @gate, cEntity @activating )
+{
+    cEntity @target = null;
+    int index = -1;
+    do
+    {
+        @target = gate.findTargetEntity( target );
+        if( @target != null && target.classname == "target_teleporter" )
+            index++;
+    }
+    while( @target != null && target.entNum != activating.entNum );
+    if( index == gate.ownerNum )
+        return true;
+    return false;
 }
 
 void gate_think( cEntity @gate )
@@ -266,6 +296,8 @@ void gate_input( cEntity @gate, cEntity @ent )
 void gate_activate( cEntity @gate, cEntity @activator )
 {
     gate.useTargets( @activator );
+    if( gate.maxHealth > 0 )
+        gate.ownerNum = ( gate.ownerNum + 1 ) % gate.maxHealth;
     gate.timeStamp = levelTime + gate.wait * 1000;
     if( gate.spawnFlags & 1 > 0 )
     {
@@ -289,16 +321,10 @@ void gate_and_use( cEntity @self, cEntity @other, cEntity @activator )
         gate_activate( self, activator );
 }
 
-void gate_and_setup( cEntity @ent )
-{
-    add_gate_targeters( ent );
-    @ent.think = gate_think;
-}
-
 void gate_and( cEntity @ent )
 {
     @ent.use = gate_and_use;
-    @ent.think = gate_and_setup;
+    @ent.think = gate_setup;
     ent.nextThink = levelTime + 1;
 }
 
