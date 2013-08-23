@@ -215,32 +215,22 @@ void target_delay( cEntity @ent ) {
 //=================
 //RS_gate_and
 //===============
-int gate_targeter_count;
 cEntity@[] gate_targeters;
 bool[] gate_targeters_state;
 uint[] gate_targeters_time;
-int[] gate_targeters_start(maxEntities);
-int[] gate_targeters_count(maxEntities);
-
-void add_gate_targeter( cEntity @gate, cEntity @targeter )
-{
-    int num = gate.entNum;
-    if( gate_targeter_count != 0 && gate_targeters_count[num] == 0 )
-        gate_targeters_start[num] = gate_targeter_count;
-    gate_targeters_count[num]++;
-    gate_targeter_count++;
-    gate_targeters.push_back( @targeter );
-    gate_targeters_state.push_back( false );
-    gate_targeters_time.push_back( 0 );
-}
 
 void add_gate_targeters( cEntity @gate )
 {
+    gate.count = gate_targeters.size();
     cEntity @targeter = null;
     do {
         @targeter = gate.findTargetingEntity( targeter );
         if( @targeter != null )
-            add_gate_targeter( gate, targeter );
+        {
+            gate_targeters.push_back( @targeter );
+            gate_targeters_state.push_back( false );
+            gate_targeters_time.push_back( 0 );
+        }
     } while( @targeter != null );
 }
 
@@ -248,20 +238,13 @@ void gate_and_think( cEntity @ent )
 {
     if( ent.delay > 0 )
     {
-        for( int i = 0; i < gate_targeters_count[ent.entNum]; i++ )
+        for( uint i = ent.count; i < gate_targeters.size() && gate_targeters[i].target == ent.targetname; i++ )
         {
-            int num = gate_targeters_start[ent.entNum] + i;
-            if( levelTime > gate_targeters_time[num] )
-                gate_targeters_state[num] = false;
+            if( levelTime > gate_targeters_time[i] )
+                gate_targeters_state[i] = false;
         }
         ent.nextThink = levelTime + 1;
     }
-}
-
-void gate_and_setup( cEntity @ent )
-{
-    add_gate_targeters( ent );
-    @ent.think = gate_and_think;
 }
 
 void gate_and_use( cEntity @self, cEntity @other, cEntity @activator )
@@ -269,19 +252,18 @@ void gate_and_use( cEntity @self, cEntity @other, cEntity @activator )
     bool done = true;
     if( self.timeStamp != 0 && levelTime < self.timeStamp )
         return;
-    for( int i = 0; i < gate_targeters_count[self.entNum]; i++ )
+    for( uint i = self.count; i < gate_targeters.size() && gate_targeters[i].target == self.targetname; i++ )
     {
-        int num = gate_targeters_start[self.entNum] + i;
-        if( gate_targeters[num].entNum == other.entNum )
+        if( gate_targeters[i].entNum == other.entNum )
         {
-            gate_targeters_state[num] = true;
+            gate_targeters_state[i] = true;
             if( self.delay > 0 )
             {
-                gate_targeters_time[num] = levelTime + self.delay * 1000;
+                gate_targeters_time[i] = levelTime + self.delay * 1000;
                 self.nextThink = levelTime + 1;
             }
         }
-        if( !gate_targeters_state[num] )
+        if( !gate_targeters_state[i] )
             done = false;
     }
     if( done )
@@ -290,10 +272,16 @@ void gate_and_use( cEntity @self, cEntity @other, cEntity @activator )
         self.timeStamp = levelTime + self.wait * 1000;
         if( self.spawnFlags & 1 > 0 )
         {
-            for( int i = 0; i < gate_targeters_count[self.entNum]; i++ )
-                gate_targeters_state[gate_targeters_start[self.entNum] + i] = false;
+            for( uint i = self.count; i < gate_targeters.size() && gate_targeters[i].target == self.targetname; i++ )
+                gate_targeters_state[i] = false;
         }
     }
+}
+
+void gate_and_setup( cEntity @ent )
+{
+    add_gate_targeters( ent );
+    @ent.think = gate_and_think;
 }
 
 void gate_and( cEntity @ent )
