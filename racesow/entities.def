@@ -1567,6 +1567,18 @@ RESET : &1 the sequence will be reset once completed*/
 
 //=============================================================================
 
+/*QUAKED gate_or (.2 .5 .2) (-8 -8 -8) (8 8 8) RESET
+Logical or gate.
+-------- KEYS --------
+target : the entity that should be activated when one of the inputs triggers.
+targetname : the activating entities of which one needs to be triggered point to this.
+wait : time before parts may be activated again.
+delay : time before a part times out.
+-------- SPAWNFLAGS --------
+RESET : &1 the sequence will be reset once completed*/
+
+//=============================================================================
+
 /*QUAKED gate_reset (.2 .5 .2) (-8 -8 -8) (8 8 8) CHAINED
 Logical gate resetter.
 -------- KEYS --------

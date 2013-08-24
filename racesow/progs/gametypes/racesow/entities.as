@@ -183,7 +183,7 @@ void target_teleporter_use( cEntity @ent, cEntity @other, cEntity @activator )
 			|| @Racesow_GetPlayerByClient( activator.client ) == null || !TriggerWait(@ent, @activator)
 			|| @ent.enemy == null)
 		return;
-    if( other.classname != "gate_and" || gate_activated_teleporter( other, ent ) )
+    if( ( other.classname != "gate_and" && other.classname != "gate_or" ) || gate_activated_teleporter( other, ent ) )
         Racesow_GetPlayerByClient( activator.client ).teleport(ent.enemy.origin, ent.enemy.angles, true, true);
 
 }
@@ -214,7 +214,7 @@ void target_delay( cEntity @ent ) {
 }
 
 //=================
-//RS_gate_and
+//Logic gates
 //===============
 cEntity@[] gate_targeters;
 bool[] gate_targeters_state;
@@ -340,7 +340,7 @@ bool gate_resetter( cEntity @gate, cEntity @reset, cEntity @activator )
             {
                 if( target.classname == "gate_reset" )
                     target.useTargets( @activator );
-                else if( target.classname == "gate_and" )
+                else if( target.classname == "gate_and" || target.classname == "gate_or" )
                     gate_resetter( target, reset, activator );
             }
         } while( @target != null );
@@ -366,6 +366,28 @@ void gate_and_use( cEntity @self, cEntity @other, cEntity @activator )
 void gate_and( cEntity @ent )
 {
     @ent.use = gate_and_use;
+    @ent.think = gate_setup;
+    ent.nextThink = levelTime + 1;
+}
+
+void gate_or_use( cEntity @self, cEntity @other, cEntity @activator )
+{
+    if( gate_resetter( self, other, activator ) || ( self.timeStamp != 0 && levelTime < self.timeStamp ) )
+        return;
+    gate_input( self, other );
+    bool done = false;
+    for( uint i = self.count; i < gate_targeters.size() && gate_targeters[i].target == self.targetname; i++ )
+    {
+        if( gate_targeters_state[i] )
+            done = true;
+    }
+    if( done )
+        gate_activate( self, other, activator );
+}
+
+void gate_or( cEntity @ent )
+{
+    @ent.use = gate_or_use;
     @ent.think = gate_setup;
     ent.nextThink = levelTime + 1;
 }
