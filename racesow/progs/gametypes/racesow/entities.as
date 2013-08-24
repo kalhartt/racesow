@@ -220,6 +220,16 @@ cEntity@[] gate_targeters;
 bool[] gate_targeters_state;
 uint[] gate_targeters_time;
 
+void gate_init( cEntity @gate )
+{
+    gate.ownerNum = 0; // current teleporter
+    for( uint i = 0; i < gate_targeters.size(); i++ )
+    {
+        gate_targeters_state[i] = false;
+        gate_targeters_time[i] = 0;
+    }
+}
+
 void gate_setup( cEntity @gate )
 {
     gate.count = gate_targeters.size();
@@ -227,15 +237,13 @@ void gate_setup( cEntity @gate )
     do
     {
         @targeter = gate.findTargetingEntity( targeter );
-        if( @targeter != null )
+        if( @targeter != null && targeter.classname != "gate_reset" )
         {
             gate_targeters.push_back( @targeter );
             gate_targeters_state.push_back( false );
             gate_targeters_time.push_back( 0 );
         }
-    }
-    while( @targeter != null );
-    gate.ownerNum = 0; // current teleporter
+    } while( @targeter != null );
     gate.maxHealth = 0; // amount of teleporter targets
     cEntity @target = null;
     do
@@ -243,24 +251,26 @@ void gate_setup( cEntity @gate )
         @target = gate.findTargetEntity( target );
         if( @target != null && target.classname == "target_teleporter" )
             gate.maxHealth++;
-    }
-    while( @target != null );
+    } while( @target != null );
+    gate_init( gate );
     @gate.think = gate_think;
 }
 
 bool gate_activated_teleporter( cEntity @gate, cEntity @activating )
 {
     cEntity @target = null;
-    int index = -1;
+    int index = 0;
     do
     {
         @target = gate.findTargetEntity( target );
-        if( @target != null && target.classname == "target_teleporter" )
-            index++;
-    }
-    while( @target != null && target.entNum != activating.entNum );
-    if( index == gate.ownerNum )
-        return true;
+        if( @target != null )
+        {
+            if( target.entNum == activating.entNum )
+                return index == gate.ownerNum;
+            if( target.classname == "target_teleporter" )
+                index++;
+        }
+    } while( @target != null );
     return false;
 }
 
@@ -306,9 +316,33 @@ void gate_activate( cEntity @gate, cEntity @activator )
     }
 }
 
+bool gate_resetter( cEntity @gate, cEntity @reset, cEntity @activator )
+{
+    if( reset.classname != "gate_reset" )
+        return false;
+    gate_init( gate );
+    if( reset.spawnFlags & 1 > 0 )
+    {
+        cEntity @target = null;
+        int index = 0;
+        do
+        {
+            @target = gate.findTargetEntity( target );
+            if( @target != null )
+            {
+                if( target.classname == "gate_reset" )
+                    target.useTargets( @activator );
+                else if( target.classname == "gate_and" )
+                    gate_resetter( target, reset, activator );
+            }
+        } while( @target != null );
+    }
+    return true;
+}
+
 void gate_and_use( cEntity @self, cEntity @other, cEntity @activator )
 {
-    if( self.timeStamp != 0 && levelTime < self.timeStamp )
+    if( gate_resetter( self, other, activator ) || ( self.timeStamp != 0 && levelTime < self.timeStamp ) )
         return;
     gate_input( self, other );
     bool done = true;
@@ -326,6 +360,16 @@ void gate_and( cEntity @ent )
     @ent.use = gate_and_use;
     @ent.think = gate_setup;
     ent.nextThink = levelTime + 1;
+}
+
+void gate_reset_use( cEntity @self, cEntity @other, cEntity @activator )
+{
+	self.useTargets( @activator );
+}
+
+void gate_reset( cEntity @ent )
+{
+    @ent.use = gate_reset_use;
 }
 
 Cvar rs_plasmaweak_speed( "rs_plasmaweak_speed", "2400", CVAR_ARCHIVE );
