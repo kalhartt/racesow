@@ -314,7 +314,7 @@ void gate_activate( cEntity @gate, cEntity @other, cEntity @activator )
         gate.map = other.map;
     gate.useTargets( @activator );
     gate.map = backup;
-    if( gate.maxHealth > 0 )
+    if( gate.maxHealth > 0 && gate.map != "" && other.map != "" )
         gate.ownerNum = ( gate.ownerNum + 1 ) % gate.maxHealth;
     gate.timeStamp = levelTime + gate.wait * 1000;
     if( gate.spawnFlags & 1 > 0 )
