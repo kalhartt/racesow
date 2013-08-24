@@ -1565,6 +1565,8 @@ delay : time before a part times out.
 -------- SPAWNFLAGS --------
 RESET : &1 the sequence will be reset once completed*/
 
+//=============================================================================
+
 /*QUAKED gate_reset (.2 .5 .2) (-8 -8 -8) (8 8 8) CHAINED
 Logical gate resetter.
 -------- KEYS --------
