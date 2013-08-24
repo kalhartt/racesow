@@ -183,7 +183,7 @@ void target_teleporter_use( cEntity @ent, cEntity @other, cEntity @activator )
 			|| @Racesow_GetPlayerByClient( activator.client ) == null || !TriggerWait(@ent, @activator)
 			|| @ent.enemy == null)
 		return;
-    if( @other == null || other.classname != "gate_and" || gate_activated_teleporter( other, ent ) )
+    if( other.classname != "gate_and" || gate_activated_teleporter( other, ent ) )
         Racesow_GetPlayerByClient( activator.client ).teleport(ent.enemy.origin, ent.enemy.angles, true, true);
 
 }
@@ -258,20 +258,24 @@ void gate_setup( cEntity @gate )
 
 bool gate_activated_teleporter( cEntity @gate, cEntity @activating )
 {
-    cEntity @target = null;
-    int index = 0;
-    do
+    if( gate.map == "" )
     {
-        @target = gate.findTargetEntity( target );
-        if( @target != null )
+        cEntity @target = null;
+        int index = 0;
+        do
         {
-            if( target.entNum == activating.entNum )
-                return index == gate.ownerNum;
-            if( target.classname == "target_teleporter" )
-                index++;
-        }
-    } while( @target != null );
-    return false;
+            @target = gate.findTargetEntity( target );
+            if( @target != null )
+            {
+                if( target.entNum == activating.entNum )
+                    return index == gate.ownerNum;
+                if( target.classname == "target_teleporter" )
+                    index++;
+            }
+        } while( @target != null );
+        return false;
+    }
+    return gate.map == activating.map;
 }
 
 void gate_think( cEntity @gate )
@@ -303,9 +307,13 @@ void gate_input( cEntity @gate, cEntity @ent )
     }
 }
 
-void gate_activate( cEntity @gate, cEntity @activator )
+void gate_activate( cEntity @gate, cEntity @other, cEntity @activator )
 {
+    String backup = gate.map;
+    if( other.map != "" )
+        gate.map = other.map;
     gate.useTargets( @activator );
+    gate.map = backup;
     if( gate.maxHealth > 0 )
         gate.ownerNum = ( gate.ownerNum + 1 ) % gate.maxHealth;
     gate.timeStamp = levelTime + gate.wait * 1000;
@@ -352,7 +360,7 @@ void gate_and_use( cEntity @self, cEntity @other, cEntity @activator )
             done = false;
     }
     if( done )
-        gate_activate( self, activator );
+        gate_activate( self, other, activator );
 }
 
 void gate_and( cEntity @ent )
