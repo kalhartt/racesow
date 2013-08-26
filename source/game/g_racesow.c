@@ -2133,7 +2133,8 @@ void *RS_LoadStats_Thread( void *in )
 
     if (!Q_stricmp(statsRequest->what, "map"))
     {
-        unsigned int agMilli, agHour, agMin, btMilli, btMin, btSec, wtMilli, wtMin, wtSec, ptMilli, ptHour, ptMin, avgTries;
+        unsigned long ptMilli, ptHour, ptMin;
+        unsigned int agMilli, agHour, agMin, wtMilli, wtMin, wtSec, btMilli, btMin, btSec, avgTries;
         agMilli = 0;
         agHour = 0;
         agMin = 0;
@@ -2175,7 +2176,7 @@ void *RS_LoadStats_Thread( void *in )
                     }
 
                     if (row[6] != NULL) {
-                        ptMilli = atoi( row[6] );
+                        ptMilli = strtoul( row[6], NULL, 10 );
                         ptHour = ptMilli / 3600000;
                         ptMilli -= ptHour * 3600000;
                         ptMin = ptMilli / 60000 + 1;
@@ -2235,7 +2236,7 @@ void *RS_LoadStats_Thread( void *in )
         RS_CheckMysqlThreadError(query);
         if ((row = mysql_fetch_row(mysql_res)) != NULL)
         {
-            int oHour, oMin, oMilli, rHour, rMin, rMilli;
+            unsigned long oHour, oMin, oMilli, rHour, rMin, rMilli;
             oHour = 0;
             oMin = 0;
             oMilli = 0;
@@ -2247,14 +2248,14 @@ void *RS_LoadStats_Thread( void *in )
             // `points`, `diff_points`, `races`, `race_tries`, `maps`, `playtime`, `racing_time`, `first_seen`,  `last_seen`
 
             if (row[5] != NULL) {
-                oMilli = atoi( row[5] );
+                oMilli = strtoul( row[5], NULL, 10 );
                 oHour = oMilli / 3600000;
                 oMilli -= oHour * 3600000;
                 oMin = oMilli / 60000 + 1;
             }
 
             if (row[6] != NULL) {
-                rMilli = atoi( row[6] );
+                rMilli = strtoul( row[6], NULL, 10 );
                 rHour = rMilli / 3600000;
                 rMilli -= rHour * 3600000;
                 rMin = rMilli / 60000 + 1;
