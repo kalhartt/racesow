@@ -256,10 +256,7 @@ void gate_think( cEntity @gate )
         }
     }
     if( gate.spawnFlags & 1 > 0 && gate.timeStamp != 0 && levelTime >= gate.timeStamp )
-    {
-        for( uint i = gate.count; i < gate_targeters.size() && gate_targeters[i].target == gate.targetname; i++ )
-            gate_targeters_state[i] = false;
-    }
+        gate_init( gate );
     if( levelTime >= gate.timeStamp )
         gate.timeStamp = 0;
     gate.nextThink = levelTime + 1;
