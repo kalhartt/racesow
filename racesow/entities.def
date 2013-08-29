@@ -1555,7 +1555,7 @@ GATE_* ENTITIES
 
 //=============================================================================
 
-/*QUAKED gate_and (.2 .5 .2) (-8 -8 -8) (8 8 8) RESET
+/*QUAKED gate_and (.2 .5 .2) (-8 -8 -8) (8 8 8) RESET NEGATE
 Logical and gate, activates its targets when all of its targeters are triggered.
 Targeters and targets can be bound to eachother by synchronizing their map keys.
 -------- KEYS --------
@@ -1564,11 +1564,12 @@ targetname : the activating entities which all need to be triggered point to thi
 wait : the time before the reset will happen or, if RESET is not set, the time before parts may be activated again.
 delay : time before a part times out.
 -------- SPAWNFLAGS --------
-RESET : &1 the sequence will be reset once completed*/
+RESET : &1 the sequence will be reset once completed
+NEGATE : &2 none of the targeters need to be activated instead*/
 
 //=============================================================================
 
-/*QUAKED gate_or (.2 .5 .2) (-8 -8 -8) (8 8 8) RESET
+/*QUAKED gate_or (.2 .5 .2) (-8 -8 -8) (8 8 8) RESET NEGATE
 Logical or gate, activates its targets when one of its targeters is triggered.
 Targeters and targets can be bound to eachother by synchronizing their map keys.
 -------- KEYS --------
@@ -1577,7 +1578,8 @@ targetname : the activating entities of which one needs to be triggered point to
 wait : the time before the reset will happen or, if RESET is not set, the time before parts may be activated again.
 delay : time before a part times out.
 -------- SPAWNFLAGS --------
-RESET : &1 the sequence will be reset once completed*/
+RESET : &1 the sequence will be reset once completed
+NEGATE : &2 any of the targeters needs to be not activated instead*/
 
 //=============================================================================
 

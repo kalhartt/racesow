@@ -241,7 +241,7 @@ void gate_setup( cEntity @gate )
             gate_targeters_time.push_back( 0 );
         }
     } while( @targeter != null );
-    @gate.think = gate_think;
+    @gate.think = null;
     gate.nextThink = levelTime + 1;
 }
 
@@ -277,12 +277,14 @@ void gate_input( cEntity @gate, cEntity @ent )
     }
 }
 
-void gate_activate( cEntity @gate, cEntity @other, cEntity @activator )
+void gate_activate( cEntity @gate, cEntity @other, cEntity @activator, bool negated )
 {
+    if( ( negated && gate.spawnFlags & 2 == 0 ) || ( !negated && gate.spawnFlags & 2 > 0 ) )
+        return;
     if( gate.spawnFlags & 1 == 0 && gate.timeStamp != 0 && levelTime < gate.timeStamp )
         return;
     String backup = gate.map;
-    if( other.map != "" )
+    if( @other != null && other.map != "" )
         gate.map = other.map;
     cEntity @target = null;
     do
@@ -322,26 +324,55 @@ bool gate_resetter( cEntity @gate, cEntity @reset, cEntity @activator )
     return true;
 }
 
+bool gate_and_check( cEntity @gate )
+{
+    bool done = true;
+    for( uint i = gate.count; i < gate_targeters.size() && gate_targeters[i].target == gate.targetname; i++ )
+    {
+        if( !gate_targeters_state[i] )
+            done = false;
+    }
+    return done;
+}
+
 void gate_and_use( cEntity @self, cEntity @other, cEntity @activator )
 {
     if( gate_resetter( self, other, activator ) )
         return;
     gate_input( self, other );
-    bool done = true;
-    for( uint i = self.count; i < gate_targeters.size() && gate_targeters[i].target == self.targetname; i++ )
-    {
-        if( !gate_targeters_state[i] )
-            done = false;
-    }
-    if( done )
-        gate_activate( self, other, activator );
+    if( gate_and_check( self ) )
+        gate_activate( self, other, activator, false );
+}
+
+void gate_and_think( cEntity @self )
+{
+    gate_think( self );
+    if( !gate_and_check( self ) )
+        gate_activate( self, null, null, true );
+}
+
+void gate_and_setup( cEntity @self )
+{
+    gate_setup( self );
+    @self.think = gate_and_think;
 }
 
 void gate_and( cEntity @ent )
 {
     @ent.use = gate_and_use;
-    @ent.think = gate_setup;
+    @ent.think = gate_and_setup;
     ent.nextThink = levelTime + 1;
+}
+
+bool gate_or_check( cEntity @gate )
+{
+    bool done = false;
+    for( uint i = gate.count; i < gate_targeters.size() && gate_targeters[i].target == gate.targetname; i++ )
+    {
+        if( gate_targeters_state[i] )
+            done = true;
+    }
+    return done;
 }
 
 void gate_or_use( cEntity @self, cEntity @other, cEntity @activator )
@@ -349,20 +380,27 @@ void gate_or_use( cEntity @self, cEntity @other, cEntity @activator )
     if( gate_resetter( self, other, activator ) )
         return;
     gate_input( self, other );
-    bool done = false;
-    for( uint i = self.count; i < gate_targeters.size() && gate_targeters[i].target == self.targetname; i++ )
-    {
-        if( gate_targeters_state[i] )
-            done = true;
-    }
-    if( done )
-        gate_activate( self, other, activator );
+    if( gate_or_check( self ) )
+        gate_activate( self, other, activator, false );
+}
+
+void gate_or_think( cEntity @self )
+{
+    gate_think( self );
+    if( !gate_or_check( self ) )
+        gate_activate( self, null, null, true );
+}
+
+void gate_or_setup( cEntity @self )
+{
+    gate_setup( self );
+    @self.think = gate_or_think;
 }
 
 void gate_or( cEntity @ent )
 {
     @ent.use = gate_or_use;
-    @ent.think = gate_setup;
+    @ent.think = gate_or_setup;
     ent.nextThink = levelTime + 1;
 }
 
