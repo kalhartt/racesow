@@ -1556,7 +1556,8 @@ GATE_* ENTITIES
 //=============================================================================
 
 /*QUAKED gate_and (.2 .5 .2) (-8 -8 -8) (8 8 8) RESET
-Logical and gate.
+Logical and gate, activates its targets when all of its targeters are triggered.
+Targeters and targets can be bound to eachother by synchronizing their map keys.
 -------- KEYS --------
 target : the entity that should be activated when the sequence is completed.
 targetname : the activating entities which all need to be triggered point to this.
@@ -1568,7 +1569,8 @@ RESET : &1 the sequence will be reset once completed*/
 //=============================================================================
 
 /*QUAKED gate_or (.2 .5 .2) (-8 -8 -8) (8 8 8) RESET
-Logical or gate.
+Logical or gate, activates its targets when one of its targeters is triggered.
+Targeters and targets can be bound to eachother by synchronizing their map keys.
 -------- KEYS --------
 target : the entity that should be activated when one of the inputs triggers.
 targetname : the activating entities of which one needs to be triggered point to this.

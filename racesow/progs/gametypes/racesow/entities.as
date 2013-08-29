@@ -183,9 +183,7 @@ void target_teleporter_use( cEntity @ent, cEntity @other, cEntity @activator )
 			|| @Racesow_GetPlayerByClient( activator.client ) == null || !TriggerWait(@ent, @activator)
 			|| @ent.enemy == null)
 		return;
-    if( ( other.classname != "gate_and" && other.classname != "gate_or" ) || gate_activated_teleporter( other, ent ) )
-        Racesow_GetPlayerByClient( activator.client ).teleport(ent.enemy.origin, ent.enemy.angles, true, true);
-
+    Racesow_GetPlayerByClient( activator.client ).teleport(ent.enemy.origin, ent.enemy.angles, true, true);
 }
 
 //=================
@@ -222,7 +220,6 @@ uint[] gate_targeters_time;
 
 void gate_init( cEntity @gate )
 {
-    gate.ownerNum = 0; // current teleporter
     for( uint i = 0; i < gate_targeters.size(); i++ )
     {
         gate_targeters_state[i] = false;
@@ -244,38 +241,7 @@ void gate_setup( cEntity @gate )
             gate_targeters_time.push_back( 0 );
         }
     } while( @targeter != null );
-    gate.maxHealth = 0; // amount of teleporter targets
-    cEntity @target = null;
-    do
-    {
-        @target = gate.findTargetEntity( target );
-        if( @target != null && target.classname == "target_teleporter" )
-            gate.maxHealth++;
-    } while( @target != null );
-    gate_init( gate );
     @gate.think = gate_think;
-}
-
-bool gate_activated_teleporter( cEntity @gate, cEntity @activating )
-{
-    if( gate.map == "" )
-    {
-        cEntity @target = null;
-        int index = 0;
-        do
-        {
-            @target = gate.findTargetEntity( target );
-            if( @target != null )
-            {
-                if( target.entNum == activating.entNum )
-                    return index == gate.ownerNum;
-                if( target.classname == "target_teleporter" )
-                    index++;
-            }
-        } while( @target != null );
-        return false;
-    }
-    return gate.map == activating.map;
 }
 
 void gate_think( cEntity @gate )
@@ -312,10 +278,17 @@ void gate_activate( cEntity @gate, cEntity @other, cEntity @activator )
     String backup = gate.map;
     if( other.map != "" )
         gate.map = other.map;
-    gate.useTargets( @activator );
+    cEntity @target = null;
+    do
+    {
+        @target = gate.findTargetEntity( target );
+        if( @target != null )
+        {
+            if( target.map == "" || target.map == gate.map )
+                __G_CallUse( target, gate, activator );
+        }
+    } while( @target != null );
     gate.map = backup;
-    if( gate.maxHealth > 0 && gate.map != "" && other.map != "" )
-        gate.ownerNum = ( gate.ownerNum + 1 ) % gate.maxHealth;
     gate.timeStamp = levelTime + gate.wait * 1000;
     if( gate.spawnFlags & 1 > 0 )
     {
