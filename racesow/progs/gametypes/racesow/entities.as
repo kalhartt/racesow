@@ -296,7 +296,7 @@ void gate_activate( cEntity @gate, cEntity @other, cEntity @activator, bool nega
             if( negated && target.map != "" )
             {
                 use = true;
-                for( uint i = gate.count; use == true && i < gate_targeters.size() && gate_targeters[i].target == gate.targetname; i++ )
+                for( uint i = gate.count; use && i < gate_targeters.size() && gate_targeters[i].target == gate.targetname; i++ )
                 {
                     if( gate_targeters[i].map == target.map && gate_targeters_state[i] )
                         use = false;
