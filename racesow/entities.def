@@ -1565,7 +1565,7 @@ wait : the time before the reset will happen or, if RESET is not set, the time b
 delay : time before a part times out.
 -------- SPAWNFLAGS --------
 RESET : &1 the sequence will be reset once completed
-NEGATE : &2 none of the targeters need to be activated instead*/
+NEGATE : &2 activation will happen as long as there are untriggered inputs*/
 
 //=============================================================================
 
@@ -1579,7 +1579,7 @@ wait : the time before the reset will happen or, if RESET is not set, the time b
 delay : time before a part times out.
 -------- SPAWNFLAGS --------
 RESET : &1 the sequence will be reset once completed
-NEGATE : &2 any of the targeters needs to be not activated instead*/
+NEGATE : &2 activation will happen as long as no input is triggered*/
 
 //=============================================================================
 
