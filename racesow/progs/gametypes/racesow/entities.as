@@ -292,7 +292,17 @@ void gate_activate( cEntity @gate, cEntity @other, cEntity @activator, bool nega
         @target = gate.findTargetEntity( target );
         if( @target != null )
         {
-            if( target.map == "" || target.map == gate.map )
+            bool use = target.map == "" || target.map == gate.map;
+            if( negated && target.map != "" )
+            {
+                use = true;
+                for( uint i = gate.count; use == true && i < gate_targeters.size() && gate_targeters[i].target == gate.targetname; i++ )
+                {
+                    if( gate_targeters[i].map == target.map && gate_targeters_state[i] )
+                        use = false;
+                }
+            }
+            if( use )
                 __G_CallUse( target, gate, activator );
         }
     } while( @target != null );
