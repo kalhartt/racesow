@@ -242,6 +242,7 @@ void gate_setup( cEntity @gate )
         }
     } while( @targeter != null );
     @gate.think = gate_think;
+    gate.nextThink = levelTime + 1;
 }
 
 void gate_think( cEntity @gate )
@@ -253,28 +254,36 @@ void gate_think( cEntity @gate )
             if( levelTime > gate_targeters_time[i] )
                 gate_targeters_state[i] = false;
         }
-        gate.nextThink = levelTime + 1;
     }
+    if( gate.spawnFlags & 1 > 0 && gate.timeStamp != 0 && levelTime >= gate.timeStamp )
+    {
+        for( uint i = gate.count; i < gate_targeters.size() && gate_targeters[i].target == gate.targetname; i++ )
+            gate_targeters_state[i] = false;
+    }
+    if( levelTime >= gate.timeStamp )
+        gate.timeStamp = 0;
+    gate.nextThink = levelTime + 1;
 }
 
 void gate_input( cEntity @gate, cEntity @ent )
 {
+    if( gate.spawnFlags & 1 == 0 && gate.timeStamp != 0 && levelTime < gate.timeStamp )
+        return;
     for( uint i = gate.count; i < gate_targeters.size() && gate_targeters[i].target == gate.targetname; i++ )
     {
         if( gate_targeters[i].entNum == ent.entNum )
         {
             gate_targeters_state[i] = true;
             if( gate.delay > 0 )
-            {
                 gate_targeters_time[i] = levelTime + gate.delay * 1000;
-                gate.nextThink = levelTime + 1;
-            }
         }
     }
 }
 
 void gate_activate( cEntity @gate, cEntity @other, cEntity @activator )
 {
+    if( gate.spawnFlags & 1 == 0 && gate.timeStamp != 0 && levelTime < gate.timeStamp )
+        return;
     String backup = gate.map;
     if( other.map != "" )
         gate.map = other.map;
@@ -290,11 +299,6 @@ void gate_activate( cEntity @gate, cEntity @other, cEntity @activator )
     } while( @target != null );
     gate.map = backup;
     gate.timeStamp = levelTime + gate.wait * 1000;
-    if( gate.spawnFlags & 1 > 0 )
-    {
-        for( uint i = gate.count; i < gate_targeters.size() && gate_targeters[i].target == gate.targetname; i++ )
-            gate_targeters_state[i] = false;
-    }
 }
 
 bool gate_resetter( cEntity @gate, cEntity @reset, cEntity @activator )
@@ -323,7 +327,7 @@ bool gate_resetter( cEntity @gate, cEntity @reset, cEntity @activator )
 
 void gate_and_use( cEntity @self, cEntity @other, cEntity @activator )
 {
-    if( gate_resetter( self, other, activator ) || ( self.timeStamp != 0 && levelTime < self.timeStamp ) )
+    if( gate_resetter( self, other, activator ) )
         return;
     gate_input( self, other );
     bool done = true;
@@ -345,7 +349,7 @@ void gate_and( cEntity @ent )
 
 void gate_or_use( cEntity @self, cEntity @other, cEntity @activator )
 {
-    if( gate_resetter( self, other, activator ) || ( self.timeStamp != 0 && levelTime < self.timeStamp ) )
+    if( gate_resetter( self, other, activator ) )
         return;
     gate_input( self, other );
     bool done = false;

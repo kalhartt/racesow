@@ -1561,7 +1561,7 @@ Targeters and targets can be bound to eachother by synchronizing their map keys.
 -------- KEYS --------
 target : the entity that should be activated when the sequence is completed.
 targetname : the activating entities which all need to be triggered point to this.
-wait : time before parts may be activated again.
+wait : the time before the reset will happen or, if RESET is not set, the time before parts may be activated again.
 delay : time before a part times out.
 -------- SPAWNFLAGS --------
 RESET : &1 the sequence will be reset once completed*/
@@ -1574,7 +1574,7 @@ Targeters and targets can be bound to eachother by synchronizing their map keys.
 -------- KEYS --------
 target : the entity that should be activated when one of the inputs triggers.
 targetname : the activating entities of which one needs to be triggered point to this.
-wait : time before parts may be activated again.
+wait : the time before the reset will happen or, if RESET is not set, the time before parts may be activated again.
 delay : time before a part times out.
 -------- SPAWNFLAGS --------
 RESET : &1 the sequence will be reset once completed*/
