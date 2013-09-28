@@ -48,7 +48,7 @@ CREATE TABLE `map` (
   `pj_oneliner` varchar(101) DEFAULT NULL,
   `mapper_id` mediumint(8) unsigned DEFAULT NULL,
   `freestyle` tinyint(1) NOT NULL DEFAULT '0',
-  `status` enum('enabled','disabled','new','true','false') NOT NULL DEFAULT 'new',
+  `status` enum('enabled','disabled') NOT NULL DEFAULT 'enabled',
   `races` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `playtime` bigint(20) unsigned NOT NULL DEFAULT '0',
   `rating` float unsigned DEFAULT NULL,
