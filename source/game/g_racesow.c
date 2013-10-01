@@ -2545,14 +2545,14 @@ void *RS_MysqlLoadHighscores_Thread( void* in ) {
 			{
 				if ( strlen(row[0]) > 0 )
 				{
-						Q_strncpyz(oneliner, va("\"%s\"", row[0]), sizeof(oneliner));
+						Q_strncpyz(oneliner, row[0], sizeof(oneliner));
 				}
 			}
 			if (row[1] !=NULL)
 			{
                 if ( strlen(row[1]) > 0 )
                 {
-                        Q_strncpyz(pjoneliner, va("\"%s\"", row[1]), sizeof(pjoneliner));
+                        Q_strncpyz(pjoneliner, row[1], sizeof(pjoneliner));
                 }
 			}
 	    }
@@ -2613,6 +2613,8 @@ void *RS_MysqlLoadHighscores_Thread( void* in ) {
                 if (prejumped && pjBest == 0)
                     pjBest = position;
 
+                qboolean show_pj = ( position == cleanBest && *oneliner ) || ( position == pjBest && *pjoneliner );
+
                 // convert time into MM:SS:mmm
                 milli = atoi( row[0] );
                 min = milli / 60000;
@@ -2637,7 +2639,7 @@ void *RS_MysqlLoadHighscores_Thread( void* in ) {
                 last_position = draw_position;
                 Q_strncpyz( last_time, va( "%d:%d.%d", min, sec, milli ), sizeof(last_time) );
 
-				Q_strncatz( highscores, va( "%s%3d. %s%6s  %s[%s]  %s %s  %s(%s) %s%s%s\n", S_COLOR_WHITE, draw_position, prejumped?S_COLOR_RED:S_COLOR_GREEN, draw_time, S_COLOR_YELLOW, diff_time, S_COLOR_WHITE, row[1], S_COLOR_WHITE, row[2], S_COLOR_YELLOW, ( position == pjBest ? pjoneliner : "" ), ( position == cleanBest ? oneliner : "" ) ), sizeof(highscores) );
+				Q_strncatz( highscores, va( "%s%3d. %s%6s  %s[%s]  %s %s  %s(%s) %s%s%s%s\n", S_COLOR_WHITE, draw_position, prejumped?S_COLOR_RED:S_COLOR_GREEN, draw_time, S_COLOR_YELLOW, diff_time, S_COLOR_WHITE, row[1], S_COLOR_WHITE, row[2], ( show_pj ? S_COLOR_YELLOW "\"" : "" ), ( position == pjBest ? pjoneliner : "" ), ( position == cleanBest ? oneliner : "" ), ( show_pj ? S_COLOR_YELLOW "\"" : "" ) ), sizeof(highscores) );
 			}
         }
 
