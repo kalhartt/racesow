@@ -1161,6 +1161,13 @@ class Racesow_Player
 		}
         else if( action == "player" && argsString.getToken( 1 ) != "" )
         {
+            if( this.positionLastcmd + 10000 > realTime )
+            {
+                this.sendErrorMessage( "Position player is spam protected, please wait 10 seconds." );
+                return true;
+            }
+            this.positionLastcmd = realTime;
+
             int index = argsString.getToken( 1 ).toInt();
             Racesow_Player @other = Racesow_GetPlayerByNumber( index );
             if( @other != null && @other.getClient() != null )
