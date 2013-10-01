@@ -1425,7 +1425,18 @@ SOLID : Particles will bounce on walls
 GRAVITY : Particles will be affected by gravity
 LIGHT : enable light on the particles
 EXPAND_EFFECT : The particle expands during its lifetime
-SHRINK_EFFECT : The particle shrinks during its lifetime
+SHRINK_EFFECT : The particle shrinks during its lifetime*/
+
+//=============================================================================
+
+/*QUAKED misc_turret (.2 .2 .2) (-16 -16 -16) (16 16 24)
+Turret
+-------- KEYS --------
+health : default 250
+delay : Refire delay in seconds (default 0.2)
+style : Fire mode
+mass : default 450
+dmg : default 150*/
 
 //=============================================================================
 

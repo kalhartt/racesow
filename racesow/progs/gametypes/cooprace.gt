@@ -3,6 +3,7 @@
 
 generic/items.as;
 generic/matchstates.as;
+generic/turret.as;
 
 legacy/quake1_items.as;
 legacy/quake2_items.as;
