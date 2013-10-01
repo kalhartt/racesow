@@ -703,7 +703,8 @@ class Command_Position : Racesow_Command
 {
 	bool validate(Racesow_Player @player, String &args, int argc)
 	{
-		if ( gametypeFlag == MODFLAG_RACE && !player.practicing && argc != 0 )
+		if ( gametypeFlag == MODFLAG_RACE && argc != 0 && !player.practicing
+                && args.getToken( 0 ) != "save" && args.getToken( 0 ) != "speed" )
 			return false;
 			
 		return true;
