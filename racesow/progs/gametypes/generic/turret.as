@@ -622,9 +622,4 @@ void misc_turret( cEntity @ent )
                 turret.fireMode = ent.style;
         }
     }
-
-    // free the original entity. It won't be used anymore
-    ent.freeEntity();
 }
-
-
