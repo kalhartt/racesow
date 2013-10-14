@@ -186,6 +186,8 @@ class cTurret
         body.mass = 450;
         body.takeDamage = DAMAGE_YES;
         body.nextThink = levelTime + 1;
+        @body.think = turret_body_think;
+        @body.die = turret_body_die;
         body.linkEntity();
 
         // the count field will be used to store the index of the cTurret object
@@ -227,6 +229,7 @@ class cTurret
         flash.origin = gun.origin;
         flash.angles = this.idleAngles;
         flash.takeDamage = DAMAGE_NO;
+        @flash.think = turret_flash_think;
         flash.linkEntity();
         @this.flashEnt = @flash;
 
