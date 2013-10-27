@@ -69,6 +69,7 @@ class cTurret
     int fireMode;		// ammo item values define the projectile it will shoot
     int range;		// distance at which enemies are located
     int spread;
+    int count;
     int damage;
     int knockback;
     int stun;
@@ -90,6 +91,7 @@ class cTurret
         this.scanDelay = 500;
         this.range = 750;
         this.spread = 75;
+        this.count = 25;
         this.damage = 10;
         this.knockback = 7;
         this.stun = 0;
@@ -427,6 +429,10 @@ class cTurret
             {
             case AMMO_BULLETS:
                 G_FireBullet( gun.origin, currentAngles, this.range, this.spread, this.damage, this.knockback, this.stun, body );
+                break;
+
+            case AMMO_SHELLS:
+                G_FireRiotgun( gun.origin, currentAngles, this.range, this.spread, this.count, this.damage, this.knockback, this.stun, body );
                 break;
 
             case AMMO_INSTAS:
