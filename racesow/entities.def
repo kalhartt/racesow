@@ -1429,14 +1429,17 @@ SHRINK_EFFECT : The particle shrinks during its lifetime*/
 
 //=============================================================================
 
-/*QUAKED misc_turret (.2 .2 .2) (-16 -16 -16) (16 16 24)
+/*QUAKED misc_turret (.2 .2 .2) (-16 -16 -16) (16 16 24) FLOAT
 Turret
 -------- KEYS --------
+targetname : trigger or spawn entity to respawn the turret points to this.
 health : default 250
 delay : Refire delay in seconds (default 0.2)
 style : Fire mode
 mass : default 450
-dmg : default 150*/
+dmg : default 150
+-------- SPAWNFLAGS --------
+FLOAT : do not drop to the floor*/
 
 //=============================================================================
 

@@ -561,6 +561,40 @@ cTurret @ClientDropTurret( cClient @client )
     return @turret;
 }
 
+void misc_turret_spawn( cEntity @ent, cTurret @turret )
+{
+    turret.Free();
+
+    int team = G_SpawnTempValue( "gameteam" ).toInt();
+
+    // try spawning the turret
+    if ( turret.Spawn( ent.origin, ent.angles.y, team ) )
+    {
+        // set up with some values assigned from the map
+        if ( ent.health > 0 )
+            turret.bodyEnt.health = ent.health;
+
+        if ( ent.mass > 0 )
+            turret.bodyEnt.mass = ent.mass;
+
+        if ( ent.damage > 0 )
+            turret.damage = ent.damage;
+
+        if ( ent.delay > 0.0f )
+            turret.refireDelay = ent.delay * 1000;
+
+        if ( ent.style > 0 )
+            turret.fireMode = ent.style;
+    }
+}
+
+void misc_turret_use( cEntity @self, cEntity @other, cEntity @activator )
+{
+    if ( self.count < 0 )
+        return;
+    misc_turret_spawn( self, @gtTurrets[self.count] );
+}
+
 // spawn a turret from the map
 void misc_turret( cEntity @ent )
 {
@@ -601,6 +635,7 @@ void misc_turret( cEntity @ent )
         if ( gtTurrets[i].inuse == false )
         {
             @turret = @gtTurrets[i];
+            ent.count = i;
             break;
         }
     }
@@ -609,26 +644,7 @@ void misc_turret( cEntity @ent )
         G_Print( "GT: misc_turret: MAX_TURRETS reached. Can't spawn turret.\n" );
     else
     {
-        int team = G_SpawnTempValue( "gameteam" ).toInt();
-
-        // try spawning the turret
-        if ( turret.Spawn( ent.origin, ent.angles.y, team ) )
-        {
-            // set up with some values assigned from the map
-            if ( ent.health > 0 )
-                turret.bodyEnt.health = ent.health;
-
-            if ( ent.mass > 0 )
-                turret.bodyEnt.mass = ent.mass;
-
-            if ( ent.damage > 0 )
-                turret.damage = ent.damage;
-
-            if ( ent.delay > 0.0f )
-                turret.refireDelay = ent.delay * 1000;
-
-            if ( ent.style > 0 )
-                turret.fireMode = ent.style;
-        }
+        @ent.use = misc_turret_use;
+        misc_turret_spawn( ent, turret );
     }
 }
