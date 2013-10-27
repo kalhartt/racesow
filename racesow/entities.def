@@ -1432,6 +1432,7 @@ SHRINK_EFFECT : The particle shrinks during its lifetime*/
 /*QUAKED misc_turret (.2 .2 .2) (-16 -16 -16) (16 16 24) FLOAT
 Turret
 -------- KEYS --------
+target : fragging the turret will trigger any entity with this as targetname.
 targetname : trigger or spawn entity to respawn the turret points to this.
 health : default 250
 delay : Refire delay in seconds (default 0.2)

@@ -51,6 +51,8 @@ class cTurret
     cEntity @gunEnt; 	// full aiming gun model
     cEntity @flashEnt; // muzzleflash
 
+    cEntity @spawner;
+
     cEntity @enemy;	// located target
 
     float gunOffset;	// height of the gun relative to the rotator
@@ -101,6 +103,7 @@ class cTurret
         this.projectileSpeed = 1175; //  set up as for AMMO_ROCKETS
         this.splashRadius = 150; // set up as for AMMO_ROCKETS
         this.returnToIdle = false;
+        @this.spawner = null;
     }
 
     void Precache()
@@ -253,6 +256,8 @@ class cTurret
             body.explosionEffect( 500 );
             body.splashDamage( body, 200, 100, 70, 0, MOD_EXPLOSIVE );
         }
+        if ( @spawner != null )
+            spawner.useTargets( attacker );
 
         this.Free();
     }
@@ -570,6 +575,8 @@ void misc_turret_spawn( cEntity @ent, cTurret @turret )
     // try spawning the turret
     if ( turret.Spawn( ent.origin, ent.angles.y, team ) )
     {
+        @turret.spawner = @ent;
+
         // set up with some values assigned from the map
         if ( ent.health > 0 )
             turret.bodyEnt.health = ent.health;
