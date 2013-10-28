@@ -163,7 +163,7 @@ class Command_RaceRestart : Racesow_Command
     bool execute(Racesow_Player @player, String &args, int argc)
     {
         player.restartRace();
-		    return true;
+        return true;
     }
 }
 
@@ -725,19 +725,12 @@ class Command_Join : Racesow_Command
             player.sendErrorMessage( "You can't join: You are join locked");
             return false;
         }
-
-        if( map.inOvertime )
-        {
-            player.sendErrorMessage( "You can't join during overtime period" );
-            return false;
-        }
         return true;
     }
 
     bool execute(Racesow_Player @player, String &args, int argc)
     {
-        player.client.team = TEAM_PLAYERS;
-        player.client.respawn( false );
+        player.restartRace();
         return true;
     }
 }
