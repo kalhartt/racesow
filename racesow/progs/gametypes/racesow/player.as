@@ -1464,7 +1464,7 @@ class Racesow_Player
 	{
         int playerNum = this.client.playerNum;
         if( message.length() > 0)
-            G_PrintMsg( null, S_COLOR_RED + "Kicked "+ this.getName() + S_COLOR_RED + " Reason: " + message + "\n" );
+            G_PrintMsg( null, S_COLOR_RED + "Kicked " + S_COLOR_WHITE + this.getName() + S_COLOR_RED + " Reason: " + message + "\n" );
         this.reset();
         G_CmdExecute( "kick " + playerNum );
 	}
