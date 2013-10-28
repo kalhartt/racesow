@@ -20,6 +20,12 @@ class Racesow_Player
 	bool isSpawned;
 
 	/**
+	 * Is the player in noclip mode?
+	 * @var bool
+	 */
+    bool inNoclip;
+
+	/**
 	 * Is the player practising? has the player completed the map in practicemode?
 	 * @var bool
 	 */
@@ -266,6 +272,7 @@ class Racesow_Player
 		this.completedInPracticemode = false;
 		this.idleTime = 0;
 		this.isSpawned = true;
+		this.inNoclip = false;
 		this.isJoinlocked = false;
         this.inOvertime = false;
 		this.isVotemuted = false;
@@ -615,6 +622,10 @@ class Racesow_Player
 	void onSpawn()
 	{
 	    this.isSpawned = true;
+        if( this.client.getEnt().team == TEAM_SPECTATOR )
+            this.inNoclip = false;
+        if( this.practicing && this.inNoclip && this.client.getEnt().moveType != MOVETYPE_NOCLIP )
+            this.noclip();
 
 	    if ( this.demo.isStopping() )
 	    	this.demo.stopNow();
@@ -1011,12 +1022,14 @@ class Racesow_Player
 			ent.moveType = MOVETYPE_PLAYER;
 			ent.solid = SOLID_YES;
 			this.client.selectWeapon( this.noclipWeapon );
+            this.inNoclip = false;
 		}
 		else
 		{
 			ent.moveType = MOVETYPE_NOCLIP;
             ent.solid = SOLID_NOT;//don't get hit by projectiles/splash damage; don't block
 			this.noclipWeapon = client.weapon;
+            this.inNoclip = true;
 		}
 
 		return true;

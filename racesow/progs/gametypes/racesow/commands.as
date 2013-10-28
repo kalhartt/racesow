@@ -898,6 +898,7 @@ class Command_Practicemode : Racesow_Command
             else
             {
 				player.practicing = true;
+                player.inNoclip = false;
 				player.sendAward( S_COLOR_GREEN + "You have entered practice mode" );
                 if( player.client.getEnt().team == TEAM_SPECTATOR )
                     player.restartRace();
