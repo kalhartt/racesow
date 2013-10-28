@@ -57,7 +57,7 @@ static qboolean G_Chase_IsValidTarget( edict_t *ent, edict_t *target, qboolean t
 static int G_Chase_FindFollowPOV( edict_t *ent )
 {
 	int i, j;
-	int quad, warshell, regen, scorelead, scorezero;
+	int quad, warshell, regen, scorelead;
 	int maxteam;
 	int flags[GS_MAX_TEAMS];
 	int newctfpov, newpoweruppov;
@@ -93,7 +93,7 @@ static int G_Chase_FindFollowPOV( edict_t *ent )
 	score_max = 999999999;
     if( !level.gametype.isRace )
         score_max *= -1;
-	quad = warshell = regen = scorelead = scorezero = -1;
+	quad = warshell = regen = scorelead = -1;
 	memset( flags, -1, sizeof( flags ) );
 	newctfpov = newpoweruppov = -1;
 	maxteam = 0;
@@ -131,21 +131,12 @@ static int G_Chase_FindFollowPOV( edict_t *ent )
 		}
 
 		// find the scoring leader
-		if( ( !level.gametype.isRace && target->r.client->level.stats.score > score_max ) || ( level.gametype.isRace && target->r.client->level.stats.score < score_max ) )
+		if( ( !level.gametype.isRace && target->r.client->level.stats.score > score_max ) || ( level.gametype.isRace && target->r.client->level.stats.score < score_max ) || ( target->r.client->level.stats.score == score_max && ENTNUM( target ) == ent->r.client->resp.chase.target ) )
 		{
-            if( level.gametype.isRace && target->r.client->level.stats.score == 0 )
-            {
-                scorezero = ENTNUM( target );
-            }
-            else
-            {
-                score_max = target->r.client->level.stats.score;
-                scorelead = ENTNUM( target );
-            }
+            score_max = target->r.client->level.stats.score;
+            scorelead = ENTNUM( target );
 		}
 	}
-    if( scorelead == -1 )
-        scorelead = scorezero;
 
 	// do some categorization
 
