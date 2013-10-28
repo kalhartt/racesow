@@ -131,9 +131,9 @@ static int G_Chase_FindFollowPOV( edict_t *ent )
 		}
 
 		// find the scoring leader
-		if( ( !level.gametype.isRace && target->r.client->ps.stats[STAT_SCORE] > score_max ) || ( level.gametype.isRace && target->r.client->ps.stats[STAT_SCORE] < score_max ) )
+		if( ( !level.gametype.isRace && target->r.client->level.stats.score > score_max ) || ( level.gametype.isRace && target->r.client->level.stats.score < score_max ) )
 		{
-            if( level.gametype.isRace && target->r.client->ps.stats[STAT_SCORE] == 0 )
+            if( level.gametype.isRace && target->r.client->level.stats.score == 0 )
             {
                 scorezero = ENTNUM( target );
             }
