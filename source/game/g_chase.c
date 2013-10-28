@@ -139,7 +139,7 @@ static int G_Chase_FindFollowPOV( edict_t *ent )
             }
             else
             {
-                score_max = target->r.client->ps.stats[STAT_SCORE];
+                score_max = target->r.client->level.stats.score;
                 scorelead = ENTNUM( target );
             }
 		}
