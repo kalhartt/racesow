@@ -923,8 +923,8 @@ class Command_DiffRef : Racesow_Command
                 case DIFFREF_AUTO:
                     message += "AUTO";
                     break;
-                case DIFFREF_SELF:
-                    message += "SELF";
+                case DIFFREF_PERSONAL:
+                    message += "PERSONAL";
                     break;
                 case DIFFREF_SERVER:
                     message += "SERVER";
@@ -951,8 +951,8 @@ class Command_DiffRef : Racesow_Command
         int diffRef;
         if( mode == "auto" )
             diffRef = DIFFREF_AUTO;
-        else if( mode == "self" )
-            diffRef = DIFFREF_SELF;
+        else if( mode == "personal" )
+            diffRef = DIFFREF_PERSONAL;
         else if( mode == "server" )
             diffRef = DIFFREF_SERVER;
         else if( mode == "player" )
@@ -1233,7 +1233,7 @@ void RS_CreateCommands()
 	Command_DiffRef diffRef;
     diffRef.name = "diffRef";
     diffRef.description = "Control what time diffs reference from";
-    diffRef.usage = "diffRef <auto|self|server|world|player <id>>";
+    diffRef.usage = "diffRef <auto|personal|server|world|player <id>>";
     oneliner.modFlag = MODFLAG_RACE;
     @commands[commandCount] = @diffRef;
     commandCount++;

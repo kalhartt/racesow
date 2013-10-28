@@ -1,5 +1,5 @@
 const int DIFFREF_AUTO = 0;
-const int DIFFREF_SELF = 1;
+const int DIFFREF_PERSONAL = 1;
 const int DIFFREF_SERVER = 2;
 const int DIFFREF_PLAYER = 3;
 const int DIFFREF_WORLD = 4;
@@ -1321,7 +1321,7 @@ class Racesow_Player
             return;
 
         uint ref = def;
-        if( this.diffRef == DIFFREF_SELF )
+        if( this.diffRef == DIFFREF_PERSONAL )
         {
             ref = personalBestTime;
         }
