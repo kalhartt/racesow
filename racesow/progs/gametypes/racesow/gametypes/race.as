@@ -126,10 +126,7 @@ class Racesow_Gametype_Race : Racesow_Gametype
 
             client.setHUDStat( STAT_TIME_BEST, player.getBestTime() / 100 );
             client.setHUDStat( STAT_TIME_RECORD, map.getHighScore().getTime() / 100 );
-            if ( isUsingRacesowClient(client) )
-            {
-                client.setHUDStat( STAT_TIME_ALPHA, map.getWorldHighScore().getTime() / 100 );
-            }
+            client.setHUDStat( STAT_TIME_ALPHA, map.getWorldHighScore().getTime() / 100 );
             addFastcapHUDStats( @client );
             if ( client.getEnt().health > client.getEnt().maxHealth )
                 client.getEnt().health -= ( frameTime * 0.001f );
