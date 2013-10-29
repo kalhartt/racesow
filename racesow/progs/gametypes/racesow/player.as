@@ -828,6 +828,9 @@ class Racesow_Player
   		this.isSpawned = true;
         this.completedInPracticemode = false;
 
+        if( this.client.getEnt().team == TEAM_SPECTATOR )
+            this.inNoclip = false;
+
   		if ( this.practicing && this.positionSaved )
   		{
   			this.teleport( this.positionOrigin, this.positionAngles, false, false, false );
@@ -847,7 +850,7 @@ class Racesow_Player
                 a.z = 0;
                 a.normalize();
                 a *= this.positionSpeed;
-                if( ent.moveType != MOVETYPE_NOCLIP )
+                if( ent.moveType != MOVETYPE_NOCLIP && !this.inNoclip )
                     ent.set_velocity(a);
             }
   		}
@@ -858,8 +861,6 @@ class Racesow_Player
   			this.sendMessage( this.race.checkPointsString );
   		}
 
-        if( this.client.getEnt().team == TEAM_SPECTATOR )
-            this.inNoclip = false;
         if( this.practicing && this.inNoclip && this.client.getEnt().moveType != MOVETYPE_NOCLIP )
             this.noclip();
 
