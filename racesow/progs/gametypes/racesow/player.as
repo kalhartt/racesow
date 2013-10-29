@@ -622,10 +622,6 @@ class Racesow_Player
 	void onSpawn()
 	{
 	    this.isSpawned = true;
-        if( this.client.getEnt().team == TEAM_SPECTATOR )
-            this.inNoclip = false;
-        if( this.practicing && this.inNoclip && this.client.getEnt().moveType != MOVETYPE_NOCLIP )
-            this.noclip();
 
 	    if ( this.demo.isStopping() )
 	    	this.demo.stopNow();
@@ -831,6 +827,11 @@ class Racesow_Player
     {
   		this.isSpawned = true;
         this.completedInPracticemode = false;
+
+        if( this.client.getEnt().team == TEAM_SPECTATOR )
+            this.inNoclip = false;
+        if( this.practicing && this.inNoclip && this.client.getEnt().moveType != MOVETYPE_NOCLIP )
+            this.noclip();
 
   		if ( this.practicing && this.positionSaved )
   		{
