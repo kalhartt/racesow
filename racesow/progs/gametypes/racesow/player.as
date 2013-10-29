@@ -828,11 +828,6 @@ class Racesow_Player
   		this.isSpawned = true;
         this.completedInPracticemode = false;
 
-        if( this.client.getEnt().team == TEAM_SPECTATOR )
-            this.inNoclip = false;
-        if( this.practicing && this.inNoclip && this.client.getEnt().moveType != MOVETYPE_NOCLIP )
-            this.noclip();
-
   		if ( this.practicing && this.positionSaved )
   		{
   			this.teleport( this.positionOrigin, this.positionAngles, false, false );
@@ -862,6 +857,11 @@ class Racesow_Player
   			this.racingTimeSinceLastRace += this.race.getCurrentTime();
   			this.sendMessage( this.race.checkPointsString );
   		}
+
+        if( this.client.getEnt().team == TEAM_SPECTATOR )
+            this.inNoclip = false;
+        if( this.practicing && this.inNoclip && this.client.getEnt().moveType != MOVETYPE_NOCLIP )
+            this.noclip();
 
   		@this.race = null;
   		//remove all projectiles.
