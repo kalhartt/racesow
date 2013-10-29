@@ -851,7 +851,8 @@ class Racesow_Player
                 a.z = 0;
                 a.normalize();
                 a *= this.positionSpeed;
-                ent.set_velocity(a);
+                if( ent.moveType != MOVETYPE_NOCLIP )
+                    ent.set_velocity(a);
             }
   		}
         else if ( this.isRacing() )
