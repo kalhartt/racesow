@@ -325,7 +325,7 @@ bool GT_Command( cClient @client, String &cmdString, String &argsString, int arg
 			origin.z = positionValues.getToken(3).toFloat();
 			angles.x = positionValues.getToken(4).toFloat();
 			angles.y = positionValues.getToken(5).toFloat();
-			player.teleport( origin, angles, false, false );
+			player.teleport( origin, angles, false, false, false );
 		}
   }
 

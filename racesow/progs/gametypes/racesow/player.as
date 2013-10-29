@@ -830,7 +830,7 @@ class Racesow_Player
 
   		if ( this.practicing && this.positionSaved )
   		{
-  			this.teleport( this.positionOrigin, this.positionAngles, false, false );
+  			this.teleport( this.positionOrigin, this.positionAngles, false, false, false );
             for( int i = WEAP_NONE + 1; i < WEAP_TOTAL; i++ )
             {
                 if( this.positionWeapons[i] )
@@ -1060,7 +1060,7 @@ class Racesow_Player
 	 * teleport the player
 	 * @return bool
 	 */
-	bool teleport( Vec3 origin, Vec3 angles, bool keepVelocity, bool kill )
+	bool teleport( Vec3 origin, Vec3 angles, bool keepVelocity, bool kill, bool effects )
 	{
 		cEntity@ ent = @this.client.getEnt();
 		if( @ent == null )
@@ -1094,13 +1094,13 @@ class Racesow_Player
 				}
 			}
 		}
-		if( ent.team != TEAM_SPECTATOR )
+		if( effects && ent.team != TEAM_SPECTATOR )
             ent.teleportEffect( true );
 		if(!keepVelocity)
 			ent.velocity = Vec3(0,0,0);
 		ent.origin = origin;
 		ent.angles = angles;
-		if( ent.team != TEAM_SPECTATOR )
+		if( effects && ent.team != TEAM_SPECTATOR )
 			ent.teleportEffect( false );
 		return true;
 	}
@@ -1151,7 +1151,7 @@ class Racesow_Player
                 return false;
             this.positionLastcmd = realTime;
 
-			if( this.teleport( this.positionOrigin, this.positionAngles, false, false ) )
+			if( this.teleport( this.positionOrigin, this.positionAngles, false, false, false ) )
             {
                 for( int i = WEAP_NONE + 1; i < WEAP_TOTAL; i++ )
                 {
@@ -1186,7 +1186,7 @@ class Racesow_Player
             int index = argsString.getToken( 1 ).toInt();
             Racesow_Player @other = Racesow_GetPlayerByNumber( index );
             if( @other != null && @other.getClient() != null )
-                return this.teleport( other.getClient().getEnt().origin, other.getClient().getEnt().angles, false, false );
+                return this.teleport( other.getClient().getEnt().origin, other.getClient().getEnt().angles, false, false, false );
             return false;
         }
         else if( action == "cp" && argsString.getToken( 1 ) != "" )
@@ -1196,7 +1196,7 @@ class Racesow_Player
             {
                 cEntity @ent = @G_GetEntity( i );
                 if( @ent != null && ent.count == index - 1 && ent.get_classname() == "target_checkpoint" )
-                    return this.teleport( ent.origin, this.client.getEnt().angles, false, false );
+                    return this.teleport( ent.origin, this.client.getEnt().angles, false, false, false );
             }
             this.sendMessage( "Undefined checkpoint: " + index + "\n" );
             return true;
@@ -1211,7 +1211,7 @@ class Racesow_Player
 			angles.x = argsString.getToken( 4 ).toFloat();
 			angles.y = argsString.getToken( 5 ).toFloat();
 
-			return this.teleport( origin, angles, false, false );
+			return this.teleport( origin, angles, false, false, false );
 		}
 		else if( action == "store" && argsString.getToken( 2 ) != "" )
 		{

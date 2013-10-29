@@ -183,7 +183,7 @@ void target_teleporter_use( cEntity @ent, cEntity @other, cEntity @activator )
 			|| @Racesow_GetPlayerByClient( activator.client ) == null || !TriggerWait(@ent, @activator)
 			|| @ent.enemy == null)
 		return;
-    Racesow_GetPlayerByClient( activator.client ).teleport(ent.enemy.origin, ent.enemy.angles, true, true);
+    Racesow_GetPlayerByClient( activator.client ).teleport(ent.enemy.origin, ent.enemy.angles, true, true, true);
 }
 
 //=================
