@@ -566,11 +566,9 @@ cTurret @ClientDropTurret( cClient @client )
     return @turret;
 }
 
-void misc_turret_spawn( cEntity @ent, cTurret @turret )
+void misc_turret_spawn( cEntity @ent, cTurret @turret, int team )
 {
     turret.Free();
-
-    int team = G_SpawnTempValue( "gameteam" ).toInt();
 
     // try spawning the turret
     if ( turret.Spawn( ent.origin, ent.angles.y, team ) )
@@ -599,7 +597,7 @@ void misc_turret_use( cEntity @self, cEntity @other, cEntity @activator )
 {
     if ( self.count < 0 )
         return;
-    misc_turret_spawn( self, @gtTurrets[self.count] );
+    misc_turret_spawn( self, @gtTurrets[self.count], self.team );
 }
 
 // spawn a turret from the map
@@ -652,6 +650,6 @@ void misc_turret( cEntity @ent )
     else
     {
         @ent.use = misc_turret_use;
-        misc_turret_spawn( ent, turret );
+        misc_turret_spawn( ent, turret, G_SpawnTempValue( "gameteam" ).toInt() );
     }
 }
