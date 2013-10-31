@@ -135,9 +135,10 @@ static int G_Chase_FindFollowPOV( edict_t *ent )
                 || ( level.gametype.isRace && target->r.client->level.stats.score < score_max )
                 || ( target->r.client->level.stats.score == score_max && ENTNUM( target ) == ent->r.client->resp.chase.target ) )
 		{
-            if( level.gametype.isRace && target->r.client->level.stats.score == 0 && ( scorezero == -1 || ENTNUM( target ) == ent->r.client->resp.chase.target ) )
+            if( level.gametype.isRace && target->r.client->level.stats.score == 0 )
             {
-                scorezero = ENTNUM( target );
+                if( scorezero == -1 || ENTNUM( target ) == ent->r.client->resp.chase.target )
+                    scorezero = ENTNUM( target );
             }
             else
             {
