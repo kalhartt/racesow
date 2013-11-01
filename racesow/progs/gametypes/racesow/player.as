@@ -1464,10 +1464,8 @@ class Racesow_Player
 	 */
 	bool privSay( String message, cClient @target )
 	{
-	    this.sendMessage( S_COLOR_RED + "(Private message to " + S_COLOR_WHITE + target.name
-	            + S_COLOR_RED + " ) " + S_COLOR_WHITE + ": " + message + "\n");
-	    sendMessage( S_COLOR_RED + "(Private message from " + S_COLOR_WHITE + client.name
-	            + S_COLOR_RED + " ) " + S_COLOR_WHITE + ": " + message + "\n", @target );
+	    this.sendMessage( target.name + S_COLOR_RED + " >>> " + S_COLOR_WHITE + message + "\n");
+	    sendMessage( client.name + S_COLOR_RED + " <<< " + S_COLOR_WHITE + message + "\n", @target );
 		return true;
 	}
 
