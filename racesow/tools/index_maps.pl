@@ -6,18 +6,22 @@ use warnings;
 use autodie;
 use Getopt::Long;
 use File::Find;
+use File::Copy 'copy';
+use File::Basename;
 
 use Archive::Zip;
 
 my $dir = $ENV{'HOME'} . '/.warsow-1.0/basewsw/';
 my $disable_unused = 0;
 my $remove_unused = 0;
+my $thumbnails;
 my $bad_list;
 my $freestyle_list;
 
 GetOptions(
     "remove-unused" => \$remove_unused,
     "disable-unused" => \$disable_unused,
+    "thumbnails=s" => \$thumbnails,
     "bad-list=s" => \$bad_list,
     "freestyle-list=s" => \$freestyle_list
 ) or exit 1;
@@ -77,7 +81,7 @@ sub analyze {
     my @maps = ();
     for my $pk3(keys %{$files}) {
         for my $file(@{$files->{$pk3}}) {
-            if ($file =~ /([^\/\.]*)\.bsp$/ && !contains($1, @maps)) {
+            if ($file =~ /^maps\/([^\/\.]*)\.bsp$/i && !contains($1, @maps)) {
                 my $name = sanitize($1);
                 push @maps, $name;
                 my $longname = '';
@@ -118,6 +122,8 @@ sub analyze {
                 }
                 my $reference = sanitize($pk3);
                 print "INSERT INTO `map` SET `name`='$name', `status`='$status', `file`='$reference', `longname`='$longname', `weapons`='" . (join '', @weapons) . "', `created`=NOW() ON DUPLICATE KEY UPDATE `status`='$status', `file`='$reference', `longname`='$longname', `weapons`='" . (join '', @weapons) . "';\n";
+            } elsif (defined $thumbnails && $file =~ /^levelshots\/[^\/\.]*\.(?:tga|jpg)$/i) {
+                copy_file($dir . $pk3, $file, $thumbnails);
             }
         }
     }
@@ -208,6 +214,17 @@ sub read_file {
         close $fh;
     }
     return $result;
+}
+
+sub copy_file {
+    my($base, $file, $destination) = @_;
+    if (is_pak($base)) {
+        my $zip = Archive::Zip->new();
+        $zip->read($base);
+        $zip->extractMember($file, $destination . basename($file));
+    } else {
+        copy($base . $file, $destination . basename($file));
+    }
 }
 
 sub contains {
