@@ -479,7 +479,7 @@ const uint RACESOW_AUTH_ADMIN           = (RACESOW_AUTH_REGISTERED | RACESOW_AUT
             }
             else if (hasLogin)
             {
-                msg = S_COLOR_WHITE + this.player.getName() + S_COLOR_RED + " failed to authenticate as '"+ this.authenticationName +"'";
+                msg = S_COLOR_WHITE + this.player.getName() + S_COLOR_RED + " failed to authenticate as '"+ this.authenticationName + S_COLOR_RED +"'";
             }
                 
             if (this.restoreBackup())
