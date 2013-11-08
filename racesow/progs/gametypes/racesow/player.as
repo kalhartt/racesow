@@ -1476,6 +1476,8 @@ class Racesow_Player
 	 */
 	void kick( String message )
 	{
+        if( @this.client == null )
+            return;
         int playerNum = this.client.playerNum;
         if( message.length() > 0)
             G_PrintMsg( null, S_COLOR_RED + "Kicked " + S_COLOR_WHITE + this.getName() + S_COLOR_RED + " Reason: " + message + "\n" );
