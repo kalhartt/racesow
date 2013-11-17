@@ -168,7 +168,12 @@ class Racesow_Gametype_Race : Racesow_Gametype
     
     void scoreEvent( cClient @client, String &score_event, String &args )
     {
-        
+        Racesow_Player @player = Racesow_GetPlayerByClient( client );
+        if ( @player != null )
+        {
+            if ( score_event == "enterGame" && !player.isJoinlocked )
+                player.restartRace();
+        }
     }
     
     String @ScoreboardMessage( uint maxlen )
