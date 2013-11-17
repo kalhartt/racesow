@@ -171,7 +171,7 @@ class Racesow_Gametype_Race : Racesow_Gametype
         Racesow_Player @player = Racesow_GetPlayerByClient( client );
         if ( @player != null )
         {
-            if ( score_event == "enterGame" && !player.isJoinlocked )
+            if ( score_event == "enterGame" && !player.isJoinlocked && !client.tv )
                 player.restartRace();
         }
     }
