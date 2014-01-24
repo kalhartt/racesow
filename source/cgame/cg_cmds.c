@@ -396,8 +396,22 @@ static const char *CG_SC_RaceDemoName( unsigned int raceTime )
 {
 	unsigned int hour, min, sec, milli;
 
+	const char *cleanplayername, *cleanplayername2;
 	static char name[MAX_STRING_CHARS];
 	char mapname[MAX_CONFIGSTRING_CHARS];
+
+	if( cg.view.POVent <= 0 )
+	{
+		cleanplayername2 = "";
+	}
+	else
+	{
+		// remove color tokens from player names (doh)
+		cleanplayername = COM_RemoveColorTokens( cgs.clientInfo[cg.view.POVent-1].name );
+
+		// remove junk chars from player names for files
+		cleanplayername2 = COM_RemoveJunkChars( cleanplayername );
+	}
 
 	milli = raceTime;
 
@@ -413,10 +427,9 @@ static const char *CG_SC_RaceDemoName( unsigned int raceTime )
 	Q_strlwr( mapname );
 
 	// make file path
-	// "gametype/map/map_time_random"
-	Q_snprintfz( name, sizeof( name ), "%s/%s/%s_%02u-%02u-%02u-%003u_%04i",
+	Q_snprintfz( name, sizeof( name ), rs_autoDemoName->string,
+		cleanplayername2,
 		gs.gametypeName,
-		mapname,
 		mapname, hour, min, sec, milli,	(int)brandom( 0, 9999 )
 		);
 
