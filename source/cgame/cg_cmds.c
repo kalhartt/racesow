@@ -367,7 +367,15 @@ static const char *CG_SC_AutoRecordName( void )
 static qboolean CG_SC_RaceDemoRename( const char *src, const char *dst )
 {
 	char *baseDirectory = "demos"; //hardcoded string
-	int file;
+	int file, size;
+
+	// Check if src exists first
+	size = trap_FS_FOpenFile( va( "%s/%s", baseDirectory, src ), &file, FS_READ );
+	trap_FS_FCloseFile( file );
+	if ( size == -1 )
+	{
+		return qfalse;
+	}
 
 	if ( !trap_FS_MoveFile( va( "%s/%s", baseDirectory, src ), va( "%s/%s%s", baseDirectory, dst, APP_DEMO_EXTENSION_STR ) ) )
 	{
