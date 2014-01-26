@@ -1437,12 +1437,6 @@ void W_Fire_Instagun( edict_t *self, vec3_t start, vec3_t angles, float damage, 
 
 				G_FreeEdict( inflictor );
 			}
-			//racesow: shottable buttons
-			if( game.edicts[tr.ent].movetype == MOVETYPE_NONE
-				|| game.edicts[tr.ent].movetype == MOVETYPE_PUSH )
-			{
-				G_Damage( &game.edicts[tr.ent], self, self, dir, dir, tr.endpos, damage, knockback, stun, dmgflags, mod );
-			}
 			break;
 		}
 
