@@ -885,7 +885,7 @@ class Command_Practicemode : Racesow_Command
                     leave = true;
                 else
                     leave = false;
-                if ( leave ^^ player.practicing )
+                if ( leave && player.practicing )
                     return true;
             }
 
