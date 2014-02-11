@@ -1301,6 +1301,7 @@ static void PM_CheckWallJump( void )
 					module_PredictedEvent( pm->playerState->POVnum, EV_WALLJUMP, DirToByte( normal ) );
 
 					// racesow
+					pm->playerState->pmove.pm_time = 80;
 					// increment count for prejump check
 					RS_IncrementWallJumps(pm->playerState->playerNum);
 					// !racesow
