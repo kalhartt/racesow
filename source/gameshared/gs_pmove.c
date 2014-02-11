@@ -958,7 +958,7 @@ static void PM_CategorizePosition( void )
 			if( !( pm->playerState->pmove.pm_flags & PMF_ON_GROUND ) )
 			{ // just hit the ground
 				pm->playerState->pmove.pm_flags |= PMF_ON_GROUND;
-				pm->playerState->pmove.pm_time = 150; // racesow
+				pm->playerState->pmove.pm_time = 80; // racesow
 			}
 		}
 
