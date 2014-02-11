@@ -362,7 +362,11 @@ static int PM_SlideMove( void )
 
 	if( pm->playerState->pmove.pm_time )
 	{
-		VectorCopy( old_velocity, pml.velocity );
+		// racesow - Only copy horizontal velocity
+		pml.velocity[0] = old_velocity[0];
+		pml.velocity[1] = old_velocity[1];
+		// VectorCopy( old_velocity, pml.velocity );
+		// !racesow
 	}
 
 	return blockedmask;
